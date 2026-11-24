@@ -98,6 +98,18 @@ section
 variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]
   {B : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} {h : IsPlaceOver B w}
 
+/-- Off the zero-monodromy locus of the target, this guarded compatibility relation
+requires only equality of dimensions. -/
+theorem Aw.iff_dim_of_not_mono0 {x y : WD h} (hy : ¬ y.mono0) :
+    Aw x y ↔ x.lpDim = y.lpDim := by
+  refine ⟨fun k => k.dim, fun hd => ⟨hd, ?_, ?_, ?_⟩⟩
+  · intro hu
+    exact (hy (WD.unr_mono0 _ hu)).elim
+  · intro hn
+    exact (hy hn.2.1).elim
+  · intro hn
+    exact (hy hn.2.1).elim
+
 theorem inePol_of_unr {y : WD h} (u : y.unr) {σ : G E Ω} (hσ : σ ∈ Ine (F := E) B) : y.inePol σ = (X - 1) ^ y.lpDim := by
   obtain ⟨n, a, rfl⟩ := y.exists_rep
   rw [WD.unr_mk] at u
@@ -106,11 +118,7 @@ theorem inePol_of_unr {y : WD h} (u : y.unr) {σ : G E Ω} (hσ : σ ∈ Ine (F 
 theorem NcW.of_unr {y : WD h} (u : y.unr) : NcW y := by
   refine ⟨fun σ hσ => inePol_of_unr u (GlobalTheory.TameEig.wild_mem_Ine B σ hσ), WD.unr_mono0 _ u, fun γ hγ _ z hz => ?_⟩
   rw [inePol_of_unr u hγ] at hz
-  have h1 : ((X - 1 : ℂ[X]) ^ y.lpDim).IsRoot z := (rootMultiplicity_pos'.1 (lt_of_lt_of_le (thr_pos w) hz)).2
-  have h2 : z - 1 = 0 := by
-    simp only [IsRoot, eval_pow, eval_sub, eval_X, eval_one] at h1
-    exact pow_eq_zero_iff (by rintro e; rw [e] at h1; simp at h1) |>.1 h1
-  rw [sub_eq_zero.1 h2, one_pow]
+  rw [eq_one_of_rootMultiplicity_X_sub_one_pow_pos (lt_of_lt_of_le (thr_pos w) hz), one_pow]
 end
 
 variable {R : Ranks} {H : Host R} {what₂ : Rows.Data R} {N : NData R H what₂} {A : NAut N}

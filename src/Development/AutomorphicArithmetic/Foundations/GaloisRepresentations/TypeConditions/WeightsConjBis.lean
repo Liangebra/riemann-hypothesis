@@ -68,6 +68,16 @@ structure AwayB (x y : WD h) : Prop where
 
   tame0 : IsQpBig w y.lpDim → TmW y → Sqf y → y.mono0 → x.mono0 ∧ ∀ g : ↥(Weil h), deg g = 0 → x.charPol g = y.charPol g
 
+/-- Off the zero-monodromy locus of the target, the two guarded fields of `AwayB`
+are vacuous, leaving only equality of dimensions. -/
+theorem AwayB.iff_dim_of_not_mono0 {x y : WD h} (hy : ¬ y.mono0) :
+    AwayB x y ↔ x.lpDim = y.lpDim := by
+  refine ⟨fun k => k.dim, fun hd => ⟨hd, ?_, ?_⟩⟩
+  · intro _ hm
+    exact (hy hm).elim
+  · intro _ _ _ hm
+    exact (hy hm).elim
+
 theorem Away.big {x y : WD h} (k : Away x y) : AwayB x y := ⟨k.dim, k.tor, fun q => k.tame0 q.isQp⟩
 end Local
 

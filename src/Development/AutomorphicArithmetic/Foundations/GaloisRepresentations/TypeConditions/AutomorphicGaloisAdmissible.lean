@@ -69,15 +69,32 @@ structure RelW {w : PlE H} (x y : A.LP w) : Prop where
 
 variable {N A}
 
+/-- The transported local relation has the same dimension-only restriction away from
+zero monodromy. -/
+theorem RelW.iff_dim_of_not_mono0 {w : PlE H} {x y : A.LP w} (hy : ¬ A.mono0 y) :
+    RelW N A x y ↔ A.lpDim x = A.lpDim y := by
+  refine ⟨fun k => k.dim, fun hd => ⟨hd, ?_, ?_, ?_⟩⟩
+  · intro hu
+    exact (hy (A.unr_mono0 y hu)).elim
+  · intro hn
+    exact (hy hn.2.1).elim
+  · intro hn
+    exact (hy hn.2.1).elim
+
 theorem Tm.of_unr {w : PlE H} {y : A.LP w} (h : A.unr y) : Tm N A y := fun σ hσ _ => ((A.unr_iff_ine y).1 h).2 σ hσ
 
-theorem Sqf.of_unr {w : PlE H} {y : A.LP w} (h : A.unr y) : Sqf N A y := fun γ hγ z hz => by
-  rw [((A.unr_iff_ine y).1 h).2 γ hγ.1] at hz
-  have h1 : ((X - 1 : ℂ[X]) ^ A.lpDim y).IsRoot z := (rootMultiplicity_pos'.1 (lt_of_lt_of_le (thr_pos w) hz)).2
+/-- A root of positive multiplicity in a power of `X - 1` is equal to one. -/
+theorem eq_one_of_rootMultiplicity_X_sub_one_pow_pos {n : ℕ} {z : ℂ}
+    (hz : 0 < ((X - 1 : ℂ[X]) ^ n).rootMultiplicity z) : z = 1 := by
+  have h1 : ((X - 1 : ℂ[X]) ^ n).IsRoot z := (rootMultiplicity_pos'.1 hz).2
   have h2 : z - 1 = 0 := by
     simp only [IsRoot, eval_pow, eval_sub, eval_X, eval_one] at h1
     exact pow_eq_zero_iff (by rintro e; rw [e] at h1; simp at h1) |>.1 h1
-  rw [sub_eq_zero.1 h2, one_pow]
+  exact sub_eq_zero.1 h2
+
+theorem Sqf.of_unr {w : PlE H} {y : A.LP w} (h : A.unr y) : Sqf N A y := fun γ hγ z hz => by
+  rw [((A.unr_iff_ine y).1 h).2 γ hγ.1] at hz
+  rw [eq_one_of_rootMultiplicity_X_sub_one_pow_pos (lt_of_lt_of_le (thr_pos w) hz), one_pow]
 
 theorem Nc.of_unr {w : PlE H} {y : A.LP w} (h : A.unr y) : Nc N A y := ⟨.of_unr h, A.unr_mono0 y h, .of_unr h⟩
 
