@@ -1,0 +1,90 @@
+{
+  "subject": [
+    {
+      "type": "pdf",
+      "uri": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+      "version": "Second edition, 2006-07-01",
+      "title": "I.5.1, printed p. 67: global Euler characteristic formula",
+      "location": {
+        "page": 75,
+        "rect": [
+          0.19,
+          0.25,
+          0.62,
+          0.105
+        ]
+      },
+      "citation": {
+        "id": "milne2006",
+        "type": "book",
+        "title": "Arithmetic Duality Theorems",
+        "author": [
+          {
+            "family": "Milne",
+            "given": "J. S."
+          }
+        ],
+        "edition": "2",
+        "publisher": "BookSurge, LLC",
+        "issued": {
+          "date-parts": [
+            [
+              2006
+            ]
+          ]
+        },
+        "ISBN": "1-4196-4274-X"
+      }
+    },
+    {
+      "type": "pdf",
+      "uri": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+      "version": "Second edition, 2006-07-01",
+      "title": "Footnote 13: normalized real and complex absolute values",
+      "location": {
+        "page": 75,
+        "rect": [
+          0.19,
+          0.698,
+          0.62,
+          0.1
+        ]
+      },
+      "citation": {
+        "id": "milne2006",
+        "type": "book",
+        "title": "Arithmetic Duality Theorems",
+        "author": [
+          {
+            "family": "Milne",
+            "given": "J. S."
+          }
+        ],
+        "edition": "2",
+        "publisher": "BookSurge, LLC",
+        "issued": {
+          "date-parts": [
+            [
+              2006
+            ]
+          ]
+        },
+        "ISBN": "1-4196-4274-X"
+      }
+    }
+  ],
+  "object": [
+    {
+      "type": "lean",
+      "uri": "https://github.com/leanprover-community/riemann-hypothesis",
+      "version": "d27f71347abceb76cd37dc8a5fccbe556ec2be90",
+      "location": {
+        "module": "ReciprocityTheory.Hypotheses.GalCoh",
+        "declaration": "ReciprocityTheory.Gal.GlobalEulerChar"
+      }
+    }
+  ],
+  "relation": "narrowMatch",
+  "kind": "theorem",
+  "note": "For finite l-primary coefficients M with #M=m, the source uses ordinary H0 at infinite places, not modified Tate H0. At a complex place the numerator is m and the normalized absolute value is m^2; at a real place the denominator is m and the numerator is the fixed subgroup of complex conjugation. Thus the product is archH0Card/m^[F:Q], and clearing the denominator and #H1 gives exactly GlobalEulerCharAt. Lean quantifies over a finite S containing all places above l, continuous action on a discrete finite Z/l^r-module with r>0, and choices of complex conjugation at real places; GlobalEulerChar wraps that predicate. The book covers a broader setting. No independently elaborated comparison or fresh compiled dependency graph is claimed. This work was assisted by ChatGPT."
+}

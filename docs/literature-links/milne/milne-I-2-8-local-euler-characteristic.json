@@ -1,0 +1,54 @@
+{
+  "subject": [
+    {
+      "type": "pdf",
+      "uri": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+      "version": "Second edition, 2006-07-01",
+      "title": "I.2.8, printed p. 31: local Euler characteristic formula",
+      "location": {
+        "page": 39,
+        "rect": [
+          0.19,
+          0.444,
+          0.64,
+          0.105
+        ]
+      },
+      "citation": {
+        "id": "milne2006",
+        "type": "book",
+        "title": "Arithmetic Duality Theorems",
+        "author": [
+          {
+            "family": "Milne",
+            "given": "J. S."
+          }
+        ],
+        "edition": "2",
+        "publisher": "BookSurge, LLC",
+        "issued": {
+          "date-parts": [
+            [
+              2006
+            ]
+          ]
+        },
+        "ISBN": "1-4196-4274-X"
+      }
+    }
+  ],
+  "object": [
+    {
+      "type": "lean",
+      "uri": "https://github.com/leanprover-community/riemann-hypothesis",
+      "version": "d27f71347abceb76cd37dc8a5fccbe556ec2be90",
+      "location": {
+        "module": "Formalism.GaloisCohomology.LocalTateDualityK",
+        "declaration": "Formalism.GaloisCohomology.LocalEulerCharK"
+      }
+    }
+  ],
+  "relation": "narrowMatch",
+  "kind": "theorem",
+  "note": "The source gives chi(G,M) = (R:mR)^(-1), m = #M, for finite coefficients of order prime to char(K). For a finite extension K/Q_l and its integer ring R, (R:mR) = m^[K:Q_l], since R is a free Z_l-module of that rank and m is an l-power for a finite Z/l^r-module. Cross multiplication gives the Lean formula #H1 = #H0 * #H2 * (#M)^[K:Q_l]. Lean restricts to l-primary discrete finite modules with continuous action and r>0. Finiteness of the cohomology is separately stated by LocalFinitenessK; Nat.card is used in this declaration. The local Galois group and cochains were compared in the audit; no independently elaborated equivalence or current kernel dependency extraction is asserted. The preceding printed vanishing sentence appears inconsistent with the H2 factor and is not part of this annotation. This work was assisted by ChatGPT."
+}

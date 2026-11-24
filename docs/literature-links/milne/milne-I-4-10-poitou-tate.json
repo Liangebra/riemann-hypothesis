@@ -1,0 +1,90 @@
+{
+  "subject": [
+    {
+      "type": "pdf",
+      "uri": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+      "version": "Second edition, 2006-07-01",
+      "title": "I.4.10, printed p. 56: hypotheses",
+      "location": {
+        "page": 64,
+        "rect": [
+          0.19,
+          0.801,
+          0.63,
+          0.04
+        ]
+      },
+      "citation": {
+        "id": "milne2006",
+        "type": "book",
+        "title": "Arithmetic Duality Theorems",
+        "author": [
+          {
+            "family": "Milne",
+            "given": "J. S."
+          }
+        ],
+        "edition": "2",
+        "publisher": "BookSurge, LLC",
+        "issued": {
+          "date-parts": [
+            [
+              2006
+            ]
+          ]
+        },
+        "ISBN": "1-4196-4274-X"
+      }
+    },
+    {
+      "type": "pdf",
+      "uri": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+      "version": "Second edition, 2006-07-01",
+      "title": "I.4.10(a)-(c) and the nine-term exact sequence, printed p. 57",
+      "location": {
+        "page": 65,
+        "rect": [
+          0.19,
+          0.17,
+          0.63,
+          0.405
+        ]
+      },
+      "citation": {
+        "id": "milne2006",
+        "type": "book",
+        "title": "Arithmetic Duality Theorems",
+        "author": [
+          {
+            "family": "Milne",
+            "given": "J. S."
+          }
+        ],
+        "edition": "2",
+        "publisher": "BookSurge, LLC",
+        "issued": {
+          "date-parts": [
+            [
+              2006
+            ]
+          ]
+        },
+        "ISBN": "1-4196-4274-X"
+      }
+    }
+  ],
+  "object": [
+    {
+      "type": "lean",
+      "uri": "https://github.com/leanprover-community/riemann-hypothesis",
+      "version": "d27f71347abceb76cd37dc8a5fccbe556ec2be90",
+      "location": {
+        "module": "Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNormalised",
+        "declaration": "GlobalTheory.Published.PoitouTateNormalised"
+      }
+    }
+  ],
+  "relation": "closeMatch",
+  "kind": "theorem",
+  "note": "The source gives canonical perfect Sha pairing, the local-to-global exactness and the higher-degree real-place comparison. Lean restricts to finite l-primary coefficients, r>0, l odd or F totally complex, and finite S containing primes above l. The archimedean modified Tate contributions disappear under these restrictions, and the real-place higher groups vanish. The twisted R-linear dual uses a cyclotomic character identified through the chosen primitive root; the formal conclusion supplies a normalized local invariant family and NineTermExact, ShaDual, and higher subsingleton groups. The audit located a signed transport of the pairing arrows (-,+,-) and a negative classical invariant in the normalization comparison. The project interface asserts existence of the connecting maps and duality isomorphisms rather than all canonical topological data of the source; it also exposes an explicit normalization condition. These distinctions preclude an exactMatch; the full arithmetic bridge and extension-natural exact compact trace remain subject to specialist review. Static source-level actual consumers were located, not a newly compiled dependency cone. This work was assisted by ChatGPT."
+}
