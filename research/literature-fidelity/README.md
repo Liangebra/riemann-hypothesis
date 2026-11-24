@@ -8,6 +8,7 @@ Independent working records related to upstream issue #39. This branch is not in
 - [Pilot 02: global cohomology and Selmer duality](pilot-02-global-galois.md)
 - [Structured review records, global](pilot-02.json)
 - [Pilot 02 follow-up: primary sources and actual Greenberg–Wiles proof structure](pilot-02-followup.md)
+- [GC-009: arithmetic Frobenius and the normalization sign](pilot-02-normalization-sign.md)
 
 The JSON is an internal review ledger, not an official Literature Links annotation file. Candidate relations are not final or mechanically validated. Future records must distinguish source inspection, conventional mathematical derivation, current kernel dependency evidence, Lean validation, and specialist review.
 
