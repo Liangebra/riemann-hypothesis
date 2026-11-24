@@ -19,6 +19,7 @@ Independent working records related to upstream issue #39. This branch is not in
 - [Poitou–Tate: continuous mathematical reconstruction of the audited proof](pilot-02-poitou-tate-readable-proof.md)
 - [Pilot 03: actual Poitou–Tate consumers in the final nonvanishing proof](pilot-03-main-consumption.md)
 - [Pilot 03: finite-to-integral Tate twist length comparison and Sha saturation](pilot-03-integral-tate-limit.md)
+- [Pilot 03: uniform Lemma K exponents and cyclotomic tower rank quantifiers](pilot-03-uniform-lemma-k-towers.md)
 
 The JSON is an internal review ledger, not an official Literature Links annotation file. Candidate relations are not final or mechanically validated. Future records must distinguish source inspection, conventional mathematical derivation, current kernel dependency evidence, Lean validation, and specialist review.
 
