@@ -117,7 +117,19 @@
         "Verify current Main reachability and actual hypothesis consumption",
         "Check decomposition-group/local-completion bridge for local restriction statements",
         "Independent review; no compiled bridge or official Literature Links validation"
-      ]
+      ],
+      "proof_source": {
+        "path": "src/Development/AutomorphicArithmetic/ThetaCorrespondence/GaloisRepresentations/GreenbergWiles.lean",
+        "lines": [
+          805,
+          865
+        ],
+        "evidence": "read the provider's body, including exactness, counting, local degrees, and final arithmetic"
+      },
+      "supplementary_source": {
+        "url": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+        "locator": "I.4.10, I.5.1, I.2.8, I.2.3; derivation in pilot-02-followup.md"
+      }
     },
     {
       "id": "GC-007",
@@ -137,8 +149,8 @@
         ]
       },
       "source": {
-        "url": "https://www.asmith-math.org/CRMnotes.pdf",
-        "locator": "Theorem 1.3, p.3–4; local unramified orthogonality clause"
+        "url": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+        "locator": "I.2.6, printed p.30, PDF p.38"
       },
       "candidate_relation": "narrowMatch",
       "status": "source-compared",
@@ -156,7 +168,11 @@
         "Verify current Main reachability and actual hypothesis consumption",
         "Check decomposition-group/local-completion bridge for local restriction statements",
         "Independent review; no compiled bridge or official Literature Links validation"
-      ]
+      ],
+      "supplementary_source": {
+        "url": "https://www.asmith-math.org/CRMnotes.pdf",
+        "locator": "Theorem 1.3, p.3–4; local unramified orthogonality clause"
+      }
     },
     {
       "id": "GC-008",
@@ -184,6 +200,41 @@
         "Verify current Main reachability and actual hypothesis consumption",
         "Check decomposition-group/local-completion bridge for local restriction statements",
         "Independent review; no compiled bridge or official Literature Links validation"
+      ]
+    },
+    {
+      "id": "GC-009",
+      "declaration": "GlobalTheory.Published.PoitouTateNormalised",
+      "lean": {
+        "repository": "leanprover-community/riemann-hypothesis",
+        "revision": "a28ad7ec8b9f5ff4ec448fe210d3ac57aacfffe1",
+        "path": "src/Development/AbelianVarietyTheory/PublishedTheorems/GaloisCohomology₂/PoitouTateNormalised.lean",
+        "module": "Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNormalised",
+        "lines": [
+          54,
+          71
+        ]
+      },
+      "source": {
+        "url": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+        "locator": "I.4.10(a–c), printed pp.56–57, PDF pp.64–65"
+      },
+      "status": "source-compared; normalization pending",
+      "candidate_relation": "narrowMatch",
+      "reason": "The nine-term exact sequence specializes to finite l-primary modules when l is odd or F is totally complex. The two connecting maps and abstract Sha isomorphisms are existential. The normalization of the local invariant on a specific Kummer/Frobenius cup must be checked separately before final verdict.",
+      "provider": {
+        "name": "PositivityTheory.Lit1.PTN.poitouTateNormalised_holds",
+        "assembly_path": "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+        "lines": [
+          1341,
+          1342
+        ]
+      },
+      "remaining": [
+        "Check the precise normalization sign relative to classical reciprocity conventions and the project IsFrob definition",
+        "Verify the decomposition-group/completion bridge",
+        "Check current Main reachability and consumption",
+        "Independent review / official Literature Links validation"
       ]
     }
   ]
