@@ -11,6 +11,7 @@ Independent working records related to upstream issue #39. This branch is not in
 - [GC-009: arithmetic Frobenius and the normalization sign](pilot-02-normalization-sign.md)
 - [Pilot 02: actual local/global bridge and signed nine-term transport](pilot-02-provider-bridge.md)
 - [Pilot 02: GroundTheory compact duality, arithmetic base pairing and dévissage](pilot-02-ground-poitou-tate.md)
+- [Pilot 02: primary S-unit Brauer injection, cyclotomic splitting and class field existence](pilot-02-brauer-class-field.md)
 
 The JSON is an internal review ledger, not an official Literature Links annotation file. Candidate relations are not final or mechanically validated. Future records must distinguish source inspection, conventional mathematical derivation, current kernel dependency evidence, Lean validation, and specialist review.
 
