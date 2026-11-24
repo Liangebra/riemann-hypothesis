@@ -18,7 +18,7 @@
       "candidate_relation": "narrowMatch",
       "status": "source-compared",
       "remaining": [
-        "Check actual provider and dependency on current five Main targets",
+        "Check reachability and consumption from current five Main targets",
         "Independent Lean bridge / specialist review"
       ],
       "reason": "The local Euler characteristic formula gives the cardinality identity since the ring of integers is free over Z_l of rank [K:Q_l]. Finite Z/l^r-modules have l-power order; the classical theorem also covers other finite coefficients and local fields.",
@@ -27,6 +27,15 @@
         "revision": "a28ad7ec8b9f5ff4ec448fe210d3ac57aacfffe1",
         "module": "Formalism.GaloisCohomology.LocalTateDualityK",
         "path": "src/Formalism/GaloisCohomology/LocalTateDualityK.lean"
+      },
+      "provider": {
+        "name": "CompanionTheory.LocalTateOrthogonality.Gcoh.top_euler",
+        "assembly_path": "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+        "lines": [
+          1451,
+          1452
+        ],
+        "evidence": "direct source-level wrapper; no fresh dependency export"
       }
     },
     {
@@ -48,7 +57,7 @@
       "status": "source-compared",
       "remaining": [
         "Confirm published reference Serre II §5.2 and exact theorem number",
-        "Check actual provider and dependency on current five Main targets",
+        "Check reachability and consumption from current five Main targets",
         "Independent Lean bridge / specialist review"
       ],
       "reason": "The source-level continuous cocycle quotients are the standard inhomogeneous complex, with finiteness in degrees 0–2 and vanishing in degrees >=3. Milne p.31 has an apparent typo saying zero for degrees >=2; do not use that inequality as a citation.",
@@ -57,6 +66,15 @@
         "revision": "a28ad7ec8b9f5ff4ec448fe210d3ac57aacfffe1",
         "module": "Formalism.GaloisCohomology.LocalTateDualityK",
         "path": "src/Formalism/GaloisCohomology/LocalTateDualityK.lean"
+      },
+      "provider": {
+        "name": "CompanionTheory.LocalTateOrthogonality.Gcoh.top_locfin",
+        "assembly_path": "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+        "lines": [
+          1453,
+          1454
+        ],
+        "evidence": "direct source-level wrapper; no fresh dependency export"
       }
     },
     {
@@ -79,9 +97,9 @@
       "candidate_relation": "narrowMatch",
       "status": "source-compared",
       "remaining": [
-        "Verify CycKSpec or the relevant theorem identifying cycK with action on roots of unity",
-        "Check actual provider and dependency on current five Main targets",
-        "Independent Lean bridge / specialist review"
+        "Check reachability and consumption from current five Main targets",
+        "Independent Lean bridge / specialist review",
+        "Check exact cochain cup formula and independently elaborate cyclotomic bridge"
       ],
       "reason": "Finite l-power torsion coefficients and the twisted R-linear dual identify with Cartier dual after choosing a primitive l^r-th root. Kummer sequence and the local invariant identify H^2 of the twist with R. The declaration asserts existence, not canonicality, of the linear isomorphism and bijectivity of induced cup-product maps.",
       "lean": {
@@ -89,6 +107,24 @@
         "revision": "a28ad7ec8b9f5ff4ec448fe210d3ac57aacfffe1",
         "module": "Formalism.GaloisCohomology.LocalTateDualityK",
         "path": "src/Formalism/GaloisCohomology/LocalTateDualityK.lean"
+      },
+      "provider": {
+        "name": "CompanionTheory.LocalTateOrthogonality.Gcoh.top_tate",
+        "assembly_path": "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
+        "lines": [
+          1455,
+          1456
+        ],
+        "evidence": "direct source-level wrapper; no fresh dependency export"
+      },
+      "cyclotomic_evidence": {
+        "revision": "31ce06eaadf4a200c0e1407c5f10953cf606b8f8",
+        "path": "Mathlib/NumberTheory/Cyclotomic/CyclotomicCharacter.lean",
+        "lines": [
+          321,
+          324
+        ],
+        "theorem": "cyclotomicCharacter.spec"
       }
     }
   ]
