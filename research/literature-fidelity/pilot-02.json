@@ -219,9 +219,9 @@
         "url": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
         "locator": "I.4.10(a–c), printed pp.56–57, PDF pp.64–65"
       },
-      "status": "source-compared; normalization pending",
+      "status": "source-compared; normalization sign derived conventionally; formal transport pending",
       "candidate_relation": "narrowMatch",
-      "reason": "The nine-term exact sequence specializes to finite l-primary modules when l is odd or F is totally complex. The two connecting maps and abstract Sha isomorphisms are existential. The normalization of the local invariant on a specific Kummer/Frobenius cup must be checked separately before final verdict.",
+      "reason": "The nine-term exact sequence specializes to finite l-primary modules when l is odd or F is totally complex. The two connecting maps and abstract Sha isomorphisms are existential. Source IsFrob is arithmetic Frobenius. The explicit Kummer-first cocycle has classical invariant -1/n by a coboundary computation, so the project's prescribed normalization is the negative of the classical invariant in Z/n. Uniform negation preserves exactness. See pilot-02-normalization-sign.md; transport to project cohomology is not yet verified.",
       "provider": {
         "name": "PositivityTheory.Lit1.PTN.poitouTateNormalised_holds",
         "assembly_path": "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
@@ -231,9 +231,9 @@
         ]
       },
       "remaining": [
-        "Check the precise normalization sign relative to classical reciprocity conventions and the project IsFrob definition",
-        "Verify the decomposition-group/completion bridge",
-        "Check current Main reachability and consumption",
+        "Verify the decomposition-group/completion bridge and inertia/Frobenius compatibility",
+        "Verify cochain and coefficient transport, and a Lean lemma for uniform negation of local invariants",
+        "Inspect proof provider and current Main reachability and consumption",
         "Independent review / official Literature Links validation"
       ]
     }
