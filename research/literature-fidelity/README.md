@@ -21,6 +21,7 @@ Independent working records related to upstream issue #39. This branch is not in
 - [Pilot 03: finite-to-integral Tate twist length comparison and Sha saturation](pilot-03-integral-tate-limit.md)
 - [Pilot 03: uniform Lemma K exponents and cyclotomic tower rank quantifiers](pilot-03-uniform-lemma-k-towers.md)
 - [Pilot 03: dyadic tower uniformity, descent, determinant growth and common windows](pilot-03-dyadic-tower-window.md)
+- [Pilot 03: geometric torsion counting and Ferrero–Washington rank mechanism](pilot-03-geometric-torsion-fw.md)
 - [Pilot 03: uniform two-adic rank, cyclotomic descent and determinant growth](pilot-03-tower-rank-descent-determinant.md)
 
 The JSON is an internal review ledger, not an official Literature Links annotation file. Candidate relations are not final or mechanically validated. Future records must distinguish source inspection, conventional mathematical derivation, current kernel dependency evidence, Lean validation, and specialist review.
