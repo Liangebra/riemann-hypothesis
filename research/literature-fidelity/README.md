@@ -28,4 +28,13 @@ Independent working records related to upstream issue #39. This branch is not in
 
 The JSON is an internal review ledger, not an official Literature Links annotation file. Candidate relations are not final or mechanically validated. Future records must distinguish source inspection, conventional mathematical derivation, current kernel dependency evidence, Lean validation, and specialist review.
 
+## Submission candidates (2026-11-24)
+
+The audit notes and internal ledgers remain working evidence, not a proposed upstream directory. The first isolated, upstream-based candidates are:
+
+- [Milne literature links](https://github.com/Liangebra/riemann-hypothesis/tree/research/literature-links-milne): three Literature Links v1.0.2-format annotations for local/global Euler characteristic and Poitou–Tate; schema-constraint and PDF-location checks, no official CLI run or specialist certification.
+- [Landau kernel integrability refactor](https://github.com/leanprover-community/riemann-hypothesis/compare/main...Liangebra:refactor/reuse-landau-kernel-integrability): reuse the exponential-moment integrability proof in the normalized kernel, then reuse that lemma for the window estimate; preserve the formal theorem statements and clump dependencies. No new Lean build or benchmark claimed.
+
+Per [#383](https://github.com/leanprover-community/riemann-hypothesis/issues/383), do not submit the whole research directory or unsolicited documentation-only PRs while maintainers prioritize build performance. Keep candidate attribution records and proof refactors separate; the location of the final annotations remains subject to maintainer agreement.
+
 This work was assisted by ChatGPT.
