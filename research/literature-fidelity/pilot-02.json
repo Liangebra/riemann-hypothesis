@@ -219,9 +219,9 @@
         "url": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
         "locator": "I.4.10(a–c), printed pp.56–57, PDF pp.64–65"
       },
-      "status": "source-compared; local and signed transport, ground-theory arithmetic base pairing, devissage, exact-sequence and Sha deduction inspected",
+      "status": "source-compared; local/compact duality and primary Brauer/class-field provider paths inspected",
       "candidate_relation": "narrowMatch",
-      "reason": "The nine-term exact sequence specializes to finite l-primary modules when l is odd or F is totally complex, with existential connecting maps and abstract Sha isomorphisms. The source supplies a topological Dec/local completion equivalence, ordinary continuous cochain definitions, and actual invariant comparison invCmp' with the negative classical invariant. The provider proves the signed arrow transport (-,+,-) relative to primal-first cup products. See pilot-02-provider-bridge.md, source snapshot 05ed7183bb92fecff317e7857d0ce6be9d01f88f. No new compilation. GroundTheory proof route inspected at 03553614b46e09b38af71ac1a9857cbfb5f9c150: compact trace via reciprocity, both base pairing kernels via class field characters and compact Kummer, coinduction and degree induction, and deduction of nine-term exactness and Sha perfectness. See pilot-02-ground-poitou-tate.md.",
+      "reason": "The nine-term exact sequence specializes to finite l-primary modules when l is odd or F is totally complex, with existential connecting maps and abstract Sha isomorphisms. The source supplies a topological Dec/local completion equivalence, ordinary continuous cochain definitions, and actual invariant comparison invCmp' with the negative classical invariant. The provider proves the signed arrow transport (-,+,-) relative to primal-first cup products. See pilot-02-provider-bridge.md, source snapshot 05ed7183bb92fecff317e7857d0ce6be9d01f88f. No new compilation. GroundTheory proof route inspected at 03553614b46e09b38af71ac1a9857cbfb5f9c150: compact trace via reciprocity, both base pairing kernels via class field characters and compact Kummer, coinduction and degree induction, and deduction of nine-term exactness and Sha perfectness. See pilot-02-ground-poitou-tate.md. Further source inspection at 2fe54dae5a956978e1f1b07a791031fbab7c266a: primary S-unit injection via prime-to-l divisor capitulation and inflation, Kummer unramifiedness via the different, restricted cyclotomic splitting with exact local-degree divisibility, Brauer localization injection via idele class H1 vanishing, and class field norm-group existence via Kummer and norm limitation. See pilot-02-brauer-class-field.md.",
       "provider": {
         "name": "PositivityTheory.Lit1.PTN.poitouTateNormalised_holds",
         "assembly_path": "src/Development/AutomorphicArithmetic/ThetaCorrespondence/ThetaPairLifts/ThirdPlaceSeries/EveryCharacterOfLiteratureOfVWin.lean",
@@ -231,7 +231,8 @@
         ]
       },
       "remaining": [
-        "Inspect deeper global class field and Brauer providers, compact Kummer cup formula, and open-subgroup Mackey/corestriction trace bridge",
+        "Inspect cyclic class formation and idele cohomology comparison, cyclotomic stabilizer/logarithm lemmas, and global reciprocity/norm index providers",
+        "Inspect compact Kummer cup formula and open-subgroup Mackey/corestriction trace bridge",
         "Inspect cohomological dimension, finiteness, compact cone and H_c^4 vanishing",
         "Check full inertia transport for other local interfaces and all-degree cohomology comparison",
         "Verify current Main kernel reachability and actual hypothesis consumption",
