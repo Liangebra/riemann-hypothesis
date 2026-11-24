@@ -1,0 +1,95 @@
+{
+  "schema": "internal-review-ledger-v1",
+  "revision": "a28ad7ec8b9f5ff4ec448fe210d3ac57aacfffe1",
+  "records": [
+    {
+      "id": "GC-001",
+      "declaration": "Formalism.GaloisCohomology.LocalEulerCharK",
+      "lines": [
+        90,
+        94
+      ],
+      "source": {
+        "url": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+        "edition": 2,
+        "year": 2006,
+        "locator": "I.2.8, printed p.31, PDF page 39"
+      },
+      "candidate_relation": "narrowMatch",
+      "status": "source-compared",
+      "remaining": [
+        "Check actual provider and dependency on current five Main targets",
+        "Independent Lean bridge / specialist review"
+      ],
+      "reason": "The local Euler characteristic formula gives the cardinality identity since the ring of integers is free over Z_l of rank [K:Q_l]. Finite Z/l^r-modules have l-power order; the classical theorem also covers other finite coefficients and local fields.",
+      "lean": {
+        "repository": "leanprover-community/riemann-hypothesis",
+        "revision": "a28ad7ec8b9f5ff4ec448fe210d3ac57aacfffe1",
+        "module": "Formalism.GaloisCohomology.LocalTateDualityK",
+        "path": "src/Formalism/GaloisCohomology/LocalTateDualityK.lean"
+      }
+    },
+    {
+      "id": "GC-002",
+      "declaration": "Formalism.GaloisCohomology.LocalFinitenessK",
+      "lines": [
+        74,
+        79
+      ],
+      "source": {
+        "url": "https://math.ucla.edu/~sharifi/notes/iwasawa-app-a.html",
+        "locator": "Appendix A, Remark A.0.2 and Theorem A.0.3"
+      },
+      "supplementary_source": {
+        "url": "https://math.stanford.edu/~conrad/BSDseminar/Notes/L4.pdf",
+        "locator": "discussion of local duality and cohomological dimension"
+      },
+      "candidate_relation": "narrowMatch",
+      "status": "source-compared",
+      "remaining": [
+        "Confirm published reference Serre II §5.2 and exact theorem number",
+        "Check actual provider and dependency on current five Main targets",
+        "Independent Lean bridge / specialist review"
+      ],
+      "reason": "The source-level continuous cocycle quotients are the standard inhomogeneous complex, with finiteness in degrees 0–2 and vanishing in degrees >=3. Milne p.31 has an apparent typo saying zero for degrees >=2; do not use that inequality as a citation.",
+      "lean": {
+        "repository": "leanprover-community/riemann-hypothesis",
+        "revision": "a28ad7ec8b9f5ff4ec448fe210d3ac57aacfffe1",
+        "module": "Formalism.GaloisCohomology.LocalTateDualityK",
+        "path": "src/Formalism/GaloisCohomology/LocalTateDualityK.lean"
+      }
+    },
+    {
+      "id": "GC-003",
+      "declaration": "Formalism.GaloisCohomology.LocalTateDualityK",
+      "lines": [
+        80,
+        89
+      ],
+      "source": {
+        "url": "https://wstein.org/edu/2010/582e/refs/milne-arithmetic_duality_theorems.pdf",
+        "edition": 2,
+        "year": 2006,
+        "locator": "I.2.3, printed p.28, PDF page 36; I.2.5(b), printed p.29"
+      },
+      "supplementary_source": {
+        "url": "https://math.ucla.edu/~sharifi/notes/iwasawa-app-a.html",
+        "locator": "Appendix A, Lemma A.0.1 and Theorem A.0.3"
+      },
+      "candidate_relation": "narrowMatch",
+      "status": "source-compared",
+      "remaining": [
+        "Verify CycKSpec or the relevant theorem identifying cycK with action on roots of unity",
+        "Check actual provider and dependency on current five Main targets",
+        "Independent Lean bridge / specialist review"
+      ],
+      "reason": "Finite l-power torsion coefficients and the twisted R-linear dual identify with Cartier dual after choosing a primitive l^r-th root. Kummer sequence and the local invariant identify H^2 of the twist with R. The declaration asserts existence, not canonicality, of the linear isomorphism and bijectivity of induced cup-product maps.",
+      "lean": {
+        "repository": "leanprover-community/riemann-hypothesis",
+        "revision": "a28ad7ec8b9f5ff4ec448fe210d3ac57aacfffe1",
+        "module": "Formalism.GaloisCohomology.LocalTateDualityK",
+        "path": "src/Formalism/GaloisCohomology/LocalTateDualityK.lean"
+      }
+    }
+  ]
+}
