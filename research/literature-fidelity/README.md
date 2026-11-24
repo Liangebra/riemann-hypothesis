@@ -15,6 +15,8 @@ Independent working records related to upstream issue #39. This branch is not in
 - [Pilot 02: cohomological dimension, finiteness and compact-support truncation](pilot-02-dimension-finiteness.md)
 - [Pilot 02: compact Mackey-Shapiro, corestriction and trace normalization](pilot-02-mackey-trace.md)
 - [Pilot 02: exact local invariant transfer and compact Kummer cup evaluation](pilot-02-kummer-cup.md)
+- [LF-GC009-NAT-01: exact compact trace mathematical proof specification](pilot-02-exact-trace-spec.md)
+- [Poitou–Tate: continuous mathematical reconstruction of the audited proof](pilot-02-poitou-tate-readable-proof.md)
 
 The JSON is an internal review ledger, not an official Literature Links annotation file. Candidate relations are not final or mechanically validated. Future records must distinguish source inspection, conventional mathematical derivation, current kernel dependency evidence, Lean validation, and specialist review.
 
