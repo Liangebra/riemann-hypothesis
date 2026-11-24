@@ -13,6 +13,7 @@ Independent working records related to upstream issue #39. This branch is not in
 - [Pilot 02: GroundTheory compact duality, arithmetic base pairing and dévissage](pilot-02-ground-poitou-tate.md)
 - [Pilot 02: primary S-unit Brauer injection, cyclotomic splitting and class field existence](pilot-02-brauer-class-field.md)
 - [Pilot 02: cohomological dimension, finiteness and compact-support truncation](pilot-02-dimension-finiteness.md)
+- [Pilot 02: compact Mackey-Shapiro, corestriction and trace normalization](pilot-02-mackey-trace.md)
 
 The JSON is an internal review ledger, not an official Literature Links annotation file. Candidate relations are not final or mechanically validated. Future records must distinguish source inspection, conventional mathematical derivation, current kernel dependency evidence, Lean validation, and specialist review.
 
