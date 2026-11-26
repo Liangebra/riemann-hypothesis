@@ -78,8 +78,8 @@ def targetLattice : TwistedLattice D.targetForms D.MFoldTwist where
   IsAllowed (l : ℕ) (ϑ : D.MFoldTwist) := l.Coprime ϑ.normQ
   lattice (_ : D.MFoldTwist) (ι : PrimePadicIso) := integralForms ι.place
   norm_inner_le_one {ϑ} ι _ φ hφ φ' hφ' := by
-    -- Pair integrality at conjugate places. The class stabilizers are trivial, so no
-    -- stabilizer denominators have to be cleared in the inner product.
+    -- The place of `ῑ` is that of `ι` composed with complex conjugation.
+    -- The class stabilizers are trivial, so no stabilizer denominators have to be cleared.
     have hφ_conj : φ ∈ integralForms ⟨ι.place.ιₚ.comp (starRingEnd ℂ)⟩ := hφ
     have h_card (g : Gf D.E (D.Y D.m)) : Nat.card (classAut stdRatPoints
         (levelOf (D.levelPlaces ϑ.toTameChar).placeAt (lastResidueLevel ϑ.toTameChar)) g) ∣ 1 := by
