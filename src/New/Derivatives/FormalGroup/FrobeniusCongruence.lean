@@ -232,7 +232,8 @@ lemma exists_rescale_theta_eq_pow_mul_one_add_smul (hp : chiK d p ≠ 1) :
         taylorVia ιₚ C.θ ^ primeNorm d p * (1 + ιₚ (piPrime d p) • H) := by
   set π : ℂ_[p] := ιₚ (piPrime d p)
   set x : ℂ_[p]⟦X⟧ := taylorVia ιₚ C.translatedX
-  obtain ⟨R, h_degree_bound, h_theta_factorization⟩ : ∃ R : Polynomial ℂ_[p], 2 * R.natDegree < primeNorm d p ∧
+  obtain ⟨R, h_degree_bound, h_theta_factorization⟩ : ∃ R : Polynomial ℂ_[p],
+      2 * R.natDegree < primeNorm d p ∧
       rescale π (taylorVia ιₚ C.θ) = taylorVia ιₚ C.θ ^ primeNorm d p * R.aeval x :=
     C.exists_rescale_theta_eq_pow_mul_aeval hp
   have hx : x ∈ C.integralSeriesRing := C.taylorVia_translatedX_mem_integralSeriesRing
@@ -272,7 +273,8 @@ lemma exists_negLogTheta_frobenius_congruence (hp : chiK d p ≠ 1) :
     C.exists_rescale_theta_eq_pow_mul_one_add_smul hp
   have hπ : π ≠ 0 := (map_ne_zero ιₚ).2 (piPrime_ne_zero d)
   let G : ℂ_[p]⟦X⟧ := π⁻¹ • ((primeNorm d p : ℂ_[p]) • C.negLogTheta - rescale π C.negLogTheta)
-  have h_log_factorization : π • G = (primeNorm d p : ℂ_[p]) • C.negLogTheta - rescale π C.negLogTheta :=
+  have h_log_factorization :
+      π • G = (primeNorm d p : ℂ_[p]) • C.negLogTheta - rescale π C.negLogTheta :=
     smul_inv_smul₀ hπ _
   have h_log_constant_zero : constantCoeff G = 0 := by
     rw [constantCoeff_smul, constantCoeff_smul_sub_rescale C.constantCoeff_negLogTheta, smul_zero]
@@ -396,7 +398,8 @@ lemma norm_coeff_pow_taylorVia_translatedX_lt_one (hp : chiK d p = -1) {m : ℕ}
     set c₀ : ℂ_[p] := coeff (p - 1) (taylorVia ιₚ C.translatedX ^ n)
     set c₁ : ℂ_[p] := coeff (p - 1) (taylorVia ιₚ C.translatedX ^ (n + 1))
     set c₂ : ℂ_[p] := coeff (p - 1) (taylorVia ιₚ C.translatedX ^ (n + 2))
-    have h_recursion_small : ‖(4 * n + 6) * c₂ + (n + 1) * ιₚ C.a₁ ^ 2 * c₁ + (4 * n + 2) * c₀‖ < 1 :=
+    have h_recursion_small :
+        ‖(4 * n + 6) * c₂ + (n + 1) * ιₚ C.a₁ ^ 2 * c₁ + (4 * n + 2) * c₀‖ < 1 :=
       C.norm_coeff_pow_taylorVia_translatedX_recursion_lt_one hp n
     -- `4 n + 6 = 2 (2 n + 3)` with `p` odd and `2 n + 3 < p`.
     have h_coprime : p.Coprime (2 * (2 * n + 3)) :=
