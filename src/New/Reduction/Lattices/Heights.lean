@@ -17,6 +17,11 @@ A height for families of complex numbers indexed by the pairs `ι` of a prime `l
   formula (`New.log_product_formula`) for the norm of `H`. `New.HeightLe.neg_le_of_norm_map_le` is
   the form for a number `z ≠ 0`.
 
+The family can vary with `ι`, but the multiplier is a single complex number. For the constant
+family `1`, the uniform local bound forces that multiplier to be algebraic. Taking its field
+norm reduces the argument to the rational product formula. For a constant nonzero family `z`,
+apply this result to `z⁻¹ * z`; the archimedean bound on `z` supplies the height of `z⁻¹`.
+
 ## Relation to the literature
 
 The multiplier H, and so the bound at infinity, does not depend on ι, while y ι may; so each prime
@@ -200,7 +205,8 @@ lemma nonneg_of_one (h_one : HeightLe c 1) : 0 ≤ c := by
   have h_padic (l : ℕ) [hl : Fact l.Prime] (ι : ℂ ≃+* PadicAlgCl l) :
       ‖ι H‖ ≤ exp (e l * log l) := by
     simpa [rpow_def_of_pos, hl.out.pos, mul_comm] using he ⟨⟨l, hl.out⟩, ι⟩
-  -- `H` is algebraic, because its `2`-adic size is bounded uniformly in `ι`.
+  -- We have not assumed `H` algebraic. Uniform boundedness over all embeddings at just the
+  -- prime `2` is enough to obtain algebraicity before taking the field norm.
   have h_alg : IsAlgebraic ℚ H := isAlgebraic_of_norm_complexToCp_le (by simpa using h_padic 2)
   have : FiniteDimensional ℚ ℚ⟮H⟯ := adjoin.finiteDimensional h_alg.isIntegral
   let q : ℚ := Algebra.norm ℚ (gen ℚ H)
