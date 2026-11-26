@@ -13,7 +13,8 @@ controlled as relations are added.
 
 * `New.obeying R B`: the functions with values in `Bⁿ` killed by all relations in `R`. For
   `New.cocycleRelations ρ` these are the cocycles (`New.mem_obeying_cocycleRelations`).
-* `New.relLength S T`: the length of `S / (S ⊓ T)`, with its monotonicity and additivity rules.
+* `New.relLength S T`: the length of `S / (S ⊓ T)`, with its monotonicity, additivity and triangle
+  inequality (`New.relLength_triangle`).
 * `New.length_obeying_relationsOn_le`: the relations `New.relationsOn Z` of a finitely generated `Z`
   cut out a module of length at most `rank Z * length B`.
 * `New.length_ker_le_addVal_det`, `New.exists_matrix_addVal_det_le_length`: lengths compared with
@@ -193,6 +194,19 @@ lemma relLength_eq_zero : relLength S T = 0 ↔ S ≤ T := by simp [relLength, l
 
 lemma length_mono (h_le : S ≤ T) : length A S ≤ length A T := by
   grw [length_submodule, length_submodule, h_le]
+
+/-- Relative length satisfies the triangle inequality, without any containment assumptions.
+In the quotient by U, split the image of S along its intersection with the image of T.
+This bounds the first piece by the length of S modulo T and the second by the length of
+T modulo U. The inequality holds also for infinite lengths. -/
+lemma relLength_triangle (S T U : Submodule A M) :
+    relLength S U ≤ relLength S T + relLength T U :=
+  let π : M →ₗ[A] M ⧸ U := U.mkQ
+  calc relLength S U = relLength (S.map π) (T.map π) + length A ↥(S.map π ⊓ T.map π) := by
+        rw [relLength_eq_length_map_mkQ, relLength_add_length_inf]
+    _ ≤ relLength S ((T.map π).comap π) + relLength T U := by
+        grw [length_mono inf_le_right, relLength_comap, relLength_eq_length_map_mkQ T]
+    _ ≤ relLength S T + relLength T U := by grw [relLength_mono le_rfl (le_comap_map π T)]
 
 /-- A submodule contained in the image of `S` under a linear map has length at most that of `S`. -/
 lemma length_le_of_le_map (S : Submodule A M) (h_le : T' ≤ Submodule.map f S) :
@@ -379,13 +393,7 @@ variable {p : ℕ}
 `L` has length at most `m + n` modulo `L''`. -/
 lemma relLength_trans (h_left : relLength L L' ≤ m) (h_right : relLength L' L'' ≤ n) :
     relLength L L'' ≤ ↑(m + n) :=
-  -- Work modulo `L''` and filter the image of `L` by the image of `L'`.
-  let π : V →ₗ[ℤ_[p]] V ⧸ L'' := L''.mkQ
-  calc relLength L L'' = relLength (L.map π) (L'.map π) + length ℤ_[p] ↥(L.map π ⊓ L'.map π) := by
-        rw [relLength_eq_length_map_mkQ, relLength_add_length_inf]
-    _ ≤ relLength L ((L'.map π).comap π) + relLength L' L'' := by
-        grw [length_mono inf_le_right, relLength_comap, relLength_eq_length_map_mkQ L']
-    _ ≤ relLength L L' + relLength L' L'' := by grw [relLength_mono le_rfl (le_comap_map π L')]
+  calc relLength L L'' ≤ relLength L L' + relLength L' L'' := relLength_triangle L L' L''
     _ ≤ ↑(m + n) := by grw [h_left, h_right, Nat.cast_add]
 
 /-- Let `T` be a submodule with `p T ≤ L'`. If any `m + 1` elements `x j` of `T` have a combination
