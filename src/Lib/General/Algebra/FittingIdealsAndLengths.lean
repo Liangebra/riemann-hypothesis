@@ -383,6 +383,77 @@ section RelativeLength
 
 open Module Submodule Cardinal
 
+namespace New
+
+variable {O V : Type*} [CommRing O] [AddCommGroup V] [Module O V]
+  {a : O} {L L' : Submodule O V} {m : ℕ}
+
+/-- If the image of `T` modulo `L'` is annihilated by a generator `a` of a maximal
+ideal, its length is its dimension over the residue field. A dependence relation
+with a coefficient equal to 1 among every `m + 1` vectors bounds that dimension by `m`. -/
+lemma relLength_le_of_maximal_smul_mem {T : Submodule O V}
+    (h_max : (Ideal.span {a}).IsMaximal)
+    (h_kill : ∀ x ∈ T, a • x ∈ L')
+    (h_rel : ∀ x : Fin (m + 1) → T, ∃ (b : Fin (m + 1) → O) (j : Fin (m + 1)),
+      b j = 1 ∧ ∑ i : Fin (m + 1), b i • (x i : V) ∈ L') :
+    relLength T L' ≤ m := by
+  -- The quotient is a vector space over `O / (a)`, so its length is its dimension, and any
+  -- `m + 1` classes in it are linearly dependent.
+  let P : Ideal O := Ideal.span {a}
+  have h_torsion : IsTorsionBy O (T ⧸ L'.submoduleOf T) a :=
+    (isTorsionBy_quotient_iff _ _).2 fun x ↦ h_kill x x.2
+  let : Module (O ⧸ P) (T ⧸ L'.submoduleOf T) := h_torsion.module
+  have : P.IsMaximal := h_max
+  let := Ideal.Quotient.field P
+  have h_dim : relLength T L' = toENat (Module.rank (O ⧸ P) (T ⧸ L'.submoduleOf T)) := by
+    rw [relLength, length_eq_of_surjective (R := O ⧸ P) Ideal.Quotient.mk_surjective,
+      length_eq_rank]
+  rw [h_dim, ← not_lt, ← ENat.natCast_add_one_le_iff, ← Nat.cast_add_one, natCast_le_toENat,
+    le_rank_iff]
+  rintro ⟨x, h_indep⟩
+  obtain ⟨y, rfl⟩ : ∃ y : Fin (m + 1) → T, (L'.submoduleOf T).mkQ ∘ y = x :=
+    (mkQ_surjective _).comp_left x
+  obtain ⟨b, j, hb, h_sum⟩ := h_rel y
+  have h_relation : ∑ i, Ideal.Quotient.mk P (b i) • (L'.submoduleOf T).mkQ (y i) = 0 := by
+    change ∑ i, (L'.submoduleOf T).mkQ (b i • y i) = 0
+    rw [← map_sum, mkQ_apply, Quotient.mk_eq_zero]
+    exact_mod_cast h_sum
+  -- Independence would force `b j = 1` to vanish in the residue field
+  have h_coeff : Ideal.Quotient.mk P (b j) = 0 :=
+    Fintype.linearIndependent_iff.1 h_indep (fun i ↦ Ideal.Quotient.mk P (b i)) h_relation j
+  simp [hb] at h_coeff
+
+/-- Suppose `a` generates a maximal ideal, `a^t L` is contained in `L'`, and any
+`m + 1` vectors of `L` annihilated by `a` modulo `L'` satisfy a relation modulo
+`L'` with one coefficient equal to 1. The filtration by powers of `a` bounds the
+relative length by `t * m`. No DVR hypothesis is needed. -/
+lemma relLength_le_of_power_relations (h_max : (Ideal.span {a}).IsMaximal)
+    (t : ℕ) (h_kill : ∀ x ∈ L, a ^ t • x ∈ L')
+    (h_rel : ∀ x : Fin (m + 1) → V,
+      (∀ j : Fin (m + 1), x j ∈ L ∧ a • x j ∈ L') →
+      ∃ (b : Fin (m + 1) → O) (j : Fin (m + 1)), b j = 1 ∧ ∑ i : Fin (m + 1), b i • x i ∈ L') :
+    relLength L L' ≤ ↑(t * m) := by
+  induction t generalizing L' with
+  | zero => simpa [IsConcreteLE.le_iff] using h_kill
+  | succ t ih =>
+    -- Filter by `T = {x ∈ L | a • x ∈ L'}`. The hypotheses hold for `T` in place of `L'` with the
+    -- exponent `t`: for the relation among the `x j` apply `h_rel` to the `a • x j`.
+    let T : Submodule O V := L ⊓ L'.comap (LinearMap.lsmul O V a)
+    have h_mem (x : V) : x ∈ T ↔ x ∈ L ∧ a • x ∈ L' := Iff.rfl
+    have h_top : relLength L T ≤ ↑(t * m) := by
+      refine ih (fun x hx ↦ (h_mem _).2 ⟨smul_mem L _ hx, ?_⟩) fun x hx ↦ ?_
+      · simpa [pow_succ', mul_smul] using h_kill x hx
+      · obtain ⟨b, j, hb, h_sum⟩ := h_rel _ fun j ↦ (h_mem _).1 (hx j).2
+        refine ⟨b, j, hb, (h_mem _).2 ⟨sum_smul_mem L b fun i _ ↦ (hx i).1, ?_⟩⟩
+        simpa [Finset.smul_sum, ← mul_smul, mul_comm] using h_sum
+    have h_bottom : relLength T L' ≤ m :=
+      relLength_le_of_maximal_smul_mem h_max (fun x hx ↦ ((h_mem x).1 hx).2) fun x ↦
+        h_rel (fun i ↦ x i) fun i ↦ (h_mem _).1 (x i).2
+    simpa [add_one_mul, Nat.cast_add] using
+      (relLength_triangle L T L').trans (add_le_add h_top h_bottom)
+
+end New
+
 namespace New.Lift
 
 variable {p : ℕ}
@@ -404,31 +475,7 @@ lemma relLength_le_of_prime_smul_mem {T : Submodule ℤ_[p] V}
     (h_rel : ∀ x : Fin (m + 1) → T, ∃ (a : Fin (m + 1) → ℤ_[p]) (j : Fin (m + 1)),
       a j = 1 ∧ ∑ i : Fin (m + 1), a i • (x i : V) ∈ L') :
     relLength T L' ≤ m := by
-  -- The quotient is a vector space over `ℤ_[p] / p`, so its length is its dimension, and any
-  -- `m + 1` classes in it are linearly dependent.
-  let P : Ideal ℤ_[p] := Ideal.span {(p : ℤ_[p])}
-  have h_torsion : IsTorsionBy ℤ_[p] (T ⧸ L'.submoduleOf T) p :=
-    (isTorsionBy_quotient_iff _ _).2 fun x ↦ h_kill x x.2
-  let : Module (ℤ_[p] ⧸ P) (T ⧸ L'.submoduleOf T) := h_torsion.module
-  have : P.IsMaximal := PadicInt.prime_p.isMaximal_span_singleton
-  let := Ideal.Quotient.field P
-  have h_dim : relLength T L' = toENat (Module.rank (ℤ_[p] ⧸ P) (T ⧸ L'.submoduleOf T)) := by
-    rw [relLength, length_eq_of_surjective (R := ℤ_[p] ⧸ P) Ideal.Quotient.mk_surjective,
-      length_eq_rank]
-  rw [h_dim, ← not_lt, ← ENat.natCast_add_one_le_iff, ← Nat.cast_add_one, natCast_le_toENat,
-    le_rank_iff]
-  rintro ⟨x, h_indep⟩
-  obtain ⟨y, rfl⟩ : ∃ y : Fin (m + 1) → T, (L'.submoduleOf T).mkQ ∘ y = x :=
-    (mkQ_surjective _).comp_left x
-  obtain ⟨a, j, haj, h_sum⟩ := h_rel y
-  have h_relation : ∑ i, Ideal.Quotient.mk P (a i) • (L'.submoduleOf T).mkQ (y i) = 0 := by
-    change ∑ i, (L'.submoduleOf T).mkQ (a i • y i) = 0
-    rw [← map_sum, mkQ_apply, Quotient.mk_eq_zero]
-    exact_mod_cast h_sum
-  -- independence would force `a j = 1` to vanish modulo `p`
-  have h_coeff : Ideal.Quotient.mk P (a j) = 0 :=
-    Fintype.linearIndependent_iff.1 h_indep (fun i ↦ Ideal.Quotient.mk P (a i)) h_relation j
-  simp [haj] at h_coeff
+  exact relLength_le_of_maximal_smul_mem PadicInt.prime_p.isMaximal_span_singleton h_kill h_rel
 
 /-- Suppose `p ^ t L ≤ L'`, and that any `m + 1` elements `x j` of `L` with `p x j ∈ L'` have a
 combination `∑ a j • x j` in `L'` with some coefficient `a j = 1`. Then `L / (L ⊓ L')` has length
@@ -438,23 +485,8 @@ lemma relLength_le_of_relations (t : ℕ) (h_kill : ∀ x ∈ L, p ^ t • x ∈
       (∀ j : Fin (m + 1), x j ∈ L ∧ (p : ℤ_[p]) • x j ∈ L') →
       ∃ (a : Fin (m + 1) → ℤ_[p]) (j : Fin (m + 1)), a j = 1 ∧ ∑ i : Fin (m + 1), a i • x i ∈ L') :
     relLength L L' ≤ ↑(t * m) := by
-  induction t generalizing L' with
-  | zero => simpa [IsConcreteLE.le_iff] using h_kill
-  | succ t ih =>
-    -- Filter by `T = {x ∈ L | p • x ∈ L'}`. The hypotheses hold for `T` in place of `L'` with the
-    -- exponent `t`: for the relation among the `x j` apply `h_rel` to the `p • x j`.
-    let T : Submodule ℤ_[p] V := L ⊓ L'.comap (LinearMap.lsmul ℤ_[p] V p)
-    have h_mem (x : V) : x ∈ T ↔ x ∈ L ∧ (p : ℤ_[p]) • x ∈ L' := Iff.rfl
-    have h_top : relLength L T ≤ ↑(t * m) := by
-      refine ih (fun x hx ↦ (h_mem _).2 ⟨nsmul_mem hx _, ?_⟩) fun x hx ↦ ?_
-      · simpa [pow_succ', mul_smul, Nat.cast_smul_eq_nsmul] using h_kill x hx
-      · obtain ⟨a, j, haj, h_sum⟩ := h_rel _ fun j ↦ (h_mem _).1 (hx j).2
-        refine ⟨a, j, haj, (h_mem _).2 ⟨sum_smul_mem L a fun i _ ↦ (hx i).1, ?_⟩⟩
-        simpa [Finset.smul_sum, ← mul_smul, mul_comm] using h_sum
-    have h_bottom : relLength T L' ≤ m :=
-      relLength_le_of_prime_smul_mem (fun x hx ↦ ((h_mem x).1 hx).2) fun x ↦
-        h_rel (fun i ↦ x i) fun i ↦ (h_mem _).1 (x i).2
-    simpa [add_one_mul] using relLength_trans h_top h_bottom
+  exact relLength_le_of_power_relations PadicInt.prime_p.isMaximal_span_singleton t
+    (fun x hx ↦ by simpa only [← Nat.cast_pow, Nat.cast_smul_eq_nsmul] using h_kill x hx) h_rel
 
 end New.Lift
 
