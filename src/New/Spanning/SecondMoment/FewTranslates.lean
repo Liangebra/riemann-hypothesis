@@ -422,14 +422,16 @@ lemma IsSpread.exists_codim_le (h_spread : IsSpread B (3 / 2 * ε)) (F : Submodu
   have h_dimension_identity : (finrank ℂ ↥(F ⊔ range (B s)) : ℝ) + finrank ℂ (F.comap (B s)) =
       finrank ℂ F + finrank ℂ V := by exact_mod_cast finrank_sup_range_add_finrank_comap (B s) F
   -- The image adds at least `(1/2 - 3/32) (1 - α) dim V ≥ (2/5) (1 - α) dim V` dimensions.
-  have h_preimage_estimate : ((1 + α) / 2 + 3 / 2 * ε) * finrank ℂ V ≤ (1 - 2 / 5 * (1 - α)) * finrank ℂ V := by
+  have h_preimage_estimate :
+      ((1 + α) / 2 + 3 / 2 * ε) * finrank ℂ V ≤ (1 - 2 / 5 * (1 - α)) * finrank ℂ V := by
     gcongr
     linarith
   have h_preimage_bound : (finrank ℂ (F.comap (B s)) : ℝ) ≤
       (1 - 2 / 5 * (1 - α)) * finrank ℂ V :=
     hs.trans h_preimage_estimate
   -- Subtract the preimage dimension from `dim V` to get the gain in the span.
-  have h_codim_expansion : (1 - 2 * finrank ℂ V / (5 * finrank ℂ W)) * (finrank ℂ W - finrank ℂ F : ℝ) =
+  have h_codim_expansion :
+      (1 - 2 * finrank ℂ V / (5 * finrank ℂ W)) * (finrank ℂ W - finrank ℂ F : ℝ) =
       finrank ℂ W - finrank ℂ F - 2 / 5 * (1 - α) * finrank ℂ V := by
     rw [hα]
     field
