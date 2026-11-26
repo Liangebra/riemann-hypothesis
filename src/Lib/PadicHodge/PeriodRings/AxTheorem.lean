@@ -1,6 +1,7 @@
 import Lib.ClassField.Places.ProfiniteGalois
 import Lib.General.Algebra.AbsIntegrallyClosed
 import Lib.General.Algebra.AdicCompletion
+import TauCeti.Topology.Algebra.Valued.NormedValued
 
 /-!
 # Tilting, Fontaine's θ, the ring O_C and Ax's theorem on Galois invariants in ℂ_p
@@ -298,18 +299,9 @@ instance : Away (p : OC) ℂ_[p] := by
   simpa [norm_p_eq_inv] using h_norm_le
 
 /-- `O_C` is `p`-adically complete. -/
-instance : IsAdicComplete (span {(p : OC)}) OC := by
-  -- The topology of `OC` is `p`-adic: the closed ball of radius `‖p‖ ^ n` is the ideal `(p ^ n)`.
-  have h_ball (n : ℕ) : closedBall (0 : OC) (‖(p : ℂ_[p])‖ ^ n) =
-      ((span {(p : OC)} ^ n : Ideal OC) : Set OC) := by
-    ext z
-    simp [span_singleton_pow, mem_span_singleton, valRingCp.dvd_iff_norm_le]
-  have h_adic : IsAdic (span {(p : OC)}) := by
-    refine IsTopologicalAddGroup.ext ⟨⟩ inferInstance ((nhds_basis_closedBall_pow
-      (by simp [NeZero.ne]) (norm_p_lt_one (F := ℂ_[p]))).eq_of_same_basis ?_)
-    simpa only [h_ball] using hasBasis_nhds_zero_adic (span {(p : OC)})
-  -- `OC` is closed in the complete field `ℂ_p`.
-  exact h_adic.isAdicComplete_iff.mpr ⟨valRingCp.isClosed.completeSpace_coe, inferInstance⟩
+instance : IsAdicComplete (span {(p : OC)}) OC :=
+  (Valuation.integer.integers (NormedField.valuation (K := ℂ_[p]))).isAdicComplete_span_singleton
+    (by change ‖(p : ℂ_[p])‖ < 1; exact norm_p_lt_one)
 
 /-- `O_C` is absolutely integrally closed: every monic polynomial of positive degree over `O_C`
 has a root in `O_C`. -/

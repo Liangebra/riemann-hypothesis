@@ -640,6 +640,38 @@ lemma PadicTest.mem_nearZeros_of_rTensor_eq_zero (M : ModuleCat OFlat) (x : Tilt
 
 end
 
+/-- The support statement behind `tiltTheory`. Let `J = PadicTest.tiltNearZeros c I`, so the maps of
+tests killing `I` are those whose tilt factors, uniquely, through the perfect algebra `R♭ ⧸ J`.
+Then restriction of cohomology to these maps is onto as soon as `R♭ ⊗ M → (R♭ ⧸ J) ⊗ M` is, and a
+section that dies along these maps has image zero in `(R♭ ⧸ J) ⊗ M`. It is a separate lemma so that
+`tiltTheory` stays small for the kernel. -/
+private lemma tiltTheory_supp {p : ℕ} (Ω : Type) [CommRing Ω] [InvertsPrime Ω p]
+    [Algebra Ω ℂ_[p]] (M : ModuleCat OFlat)
+    (ac : IsAcyclicOnPerfect (moduleCoeff (tensorCoeff M))) (c : PadicTest)
+    (I : Ideal c.GenericRing) :
+    let J : Ideal (TiltRing c) := c.nearZeros I fun f ↦ ker (tilt.map f).hom
+    let q : tilt.obj c ⟶ CommAlgCat.of OFlat (c.TiltRing ⧸ J) := CommAlgCat.ofHom (mkₐ OFlat J)
+    (Function.Surjective ((moduleCoeff (tensorCoeff M)).map q) → ∀ n : ℕ,
+      Function.Surjective (H.map (tilt ⋙ moduleCoeff (tensorCoeff M))
+        (freeAb.map (killingMaps (ringOf (genericTestOver Ω)) I).ι) n)) ∧
+    ∀ x : (tilt ⋙ moduleCoeff (tensorCoeff M)).obj c,
+      (∀ (d : PadicTest) (f : c ⟶ d), ⟨f⟩ ∈ (killingMaps (ringOf (genericTestOver Ω)) I) d →
+        (tilt ⋙ moduleCoeff (tensorCoeff M)).map f x = 0) →
+      (moduleCoeff (tensorCoeff M)).map q x = 0 := by
+  intro J q
+  refine surjective_and_map_eq_zero_of_quotient_sieve tilt
+    (R := killingMaps (ringOf (genericTestOver Ω)) I) q
+    (fun {d} f hf ↦ by
+      have h_kill : ∀ y ∈ J, (tilt.map f).hom y = 0 := fun y ⟨a, ha, hy⟩ ↦
+        hy d f (by simp [show mapGeneric f a = 0 from le_comap_of_map_le hf.le ha])
+      refine ⟨ofHom (liftₐ _ (tilt.map f).hom h_kill), rfl, fun g hg ↦ ?_⟩
+      ext ⟨y⟩
+      exact ConcreteCategory.congr_hom hg y)
+    (fun f g hg ↦ (map_eq_bot_iff_le_ker _).2 <| c.le_ker_of_tiltNearZeros_le_ker I f fun y hy ↦
+      RingHom.mem_ker.mpr <| (ConcreteCategory.congr_hom hg y).symm.trans
+        (mk_ker.ge.trans (ker_le_comap (K := ker g.hom) _) hy))
+    (@ac (CommAlgCat.of OFlat (c.TiltRing ⧸ J)) (c.perfectRing_quotient_tiltNearZeros I))
+
 /-- The theory (`New.Variety.Theory`, for the prime `ℓ = p`) on `p`-adic tests along `R ↦ R[1/p]`
 (`New.Variety.genericTestOver`), with coefficients `R ↦ R♭ ⊗_{O♭} M`. It needs `p` invertible in
 `Ω`, and every perfect `O♭`-algebra acyclic for these coefficients (`ac`,
@@ -652,24 +684,7 @@ ideal containing `I`. -/
 def tiltTheory {p : ℕ} (Ω : Type) [CommRing Ω] [InvertsPrime Ω p] [Algebra Ω ℂ_[p]]
     (M : ModuleCat OFlat) (ac : IsAcyclicOnPerfect (moduleCoeff (tensorCoeff M))) :
     Theory (genericTestOver Ω) :=
-  let J (c : PadicTest) (I : Ideal c.GenericRing) : Ideal (TiltRing c) :=
-    c.nearZeros I fun f ↦ ker (tilt.map f).hom
-  -- The maps that kill `I` are those whose tilt factors, uniquely, through the perfect algebra
-  -- `TiltRing c ⧸ J c I`.
-  have h_supp (c : PadicTest) (I : Ideal c.GenericRing) :=
-    surjective_and_map_eq_zero_of_quotient_sieve tilt
-      (R := killingMaps (ringOf (genericTestOver Ω)) I)
-      (CommAlgCat.ofHom (mkₐ OFlat (J c I)))
-      (fun {d} f hf ↦ by
-        have h_kill : ∀ y ∈ J c I, (tilt.map f).hom y = 0 := fun y ⟨a, ha, hy⟩ ↦
-          hy d f (by simp [show mapGeneric f a = 0 from le_comap_of_map_le hf.le ha])
-        refine ⟨ofHom (liftₐ _ (tilt.map f).hom h_kill), rfl, fun g hg ↦ ?_⟩
-        ext ⟨y⟩
-        exact ConcreteCategory.congr_hom hg y)
-      (fun f g hg ↦ (map_eq_bot_iff_le_ker _).2 <| c.le_ker_of_tiltNearZeros_le_ker I f fun y hy ↦
-        RingHom.mem_ker.mpr <| (ConcreteCategory.congr_hom hg y).symm.trans
-          (mk_ker.ge.trans (ker_le_comap (K := ker g.hom) _) hy))
-      (@ac (CommAlgCat.of OFlat (c.TiltRing ⧸ J c I)) (c.perfectRing_quotient_tiltNearZeros I))
+  have h_supp := tiltTheory_supp Ω M ac
   { functor := tilt ⋙ moduleCoeff (tensorCoeff M)
     prime_smul_eq_zero c x := ULift.down_injective (show p • x.down = 0 by
       simp [natCast_eq_zero_of_algebra_oFlat, ← Nat.cast_smul_eq_nsmul OFlat])

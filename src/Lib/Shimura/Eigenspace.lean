@@ -573,13 +573,8 @@ lemma New.Variety.Model.aeval_heckePoly_eq_zero_of_isEigenQuotient {E : Type} [F
   have Z_smooth := X.smooth
   have Z_proper := X.proper
   have W_projective := X.projective
-  have W_reduced := X.isReduced
-  have W_smooth i := (X.covering i).smoothOfRelativeDimension_baseChange X.dimension
   have R_noetherian : IsNoetherianRing R := isNoetherianRing M R inferInstance
   have Z_charted_int : IsCharted X.base R := ⟨(hasAtlas_algPointsOf X.dimension).exists_isCharting⟩
-  have Z_charted : IsCharted X.base Ω := ⟨(hasAtlas_algPointsOf X.dimension).exists_isCharting⟩
-  have W_charted i : IsCharted (X.cover i) Ω :=
-    ⟨(hasAtlas_algPointsOf X.dimension).exists_isCharting⟩
   obtain ⟨hF_gal, hF_span, hF_hecke, -⟩ := h_eig
   -- the residue characteristic `t` with `N w = t ^ f`, and the congruence relation above `A`
   obtain ⟨t, f, -, ht_mem, ht_prime, hq⟩ := w.val.val.asIdeal.exists_prime_and_absNorm_eq_pow
@@ -660,10 +655,7 @@ lemma New.Variety.Model.isKilledBy_heckePoly_of_isEigenQuotient {E : Type} [Fiel
   have Z_charted : IsCharted X.base Ω := ⟨(hasAtlas_algPointsOf X.dimension).exists_isCharting⟩
   have W_charted i : IsCharted (X.cover i) Ω :=
     ⟨(hasAtlas_algPointsOf X.dimension).exists_isCharting⟩
-  -- the residue characteristic `t` with `N w = t ^ f`, and the congruence relation above `A`
-  obtain ⟨t, f, -, ht_mem, ht_prime, hq⟩ := w.val.val.asIdeal.exists_prime_and_absNorm_eq_pow
-  have t_prime : Fact t.Prime := ⟨ht_prime⟩
-  have ht_val : A.valuation t < 1 := hA.valuation_natCast_lt_one_iff.mpr ht_mem
+  -- the congruence relation above `A`
   have h_cong := X.congruence _ w.prop _ (algebraMap R Ω ⁻¹' A.nonunits) (fun c ↦ (hA c).mpr) (hl w)
   rw [heckePoly]
   norm_cast at h_cong ⊢
@@ -708,13 +700,9 @@ lemma New.Variety.Model.exists_galois_rep {E : Type} [Field E] [CMBase E] {a d�
   have Z_smooth := X.smooth
   have Z_proper := X.proper
   have W_projective := X.projective
-  have W_reduced := X.isReduced
-  have W_smooth i := (X.covering i).smoothOfRelativeDimension_baseChange X.dimension
   have R_noetherian : IsNoetherianRing R := isNoetherianRing M R inferInstance
   have Z_charted_int : IsCharted X.base R := ⟨(hasAtlas_algPointsOf X.dimension).exists_isCharting⟩
   have Z_charted : IsCharted X.base Ω := ⟨(hasAtlas_algPointsOf X.dimension).exists_isCharting⟩
-  have W_charted i : IsCharted (X.cover i) Ω :=
-    ⟨(hasAtlas_algPointsOf X.dimension).exists_isCharting⟩
   -- pull-back along the leg `u₁ = X.leg i ⟦1⟧` is injective with image containing the invariants
   choose h_inj h_descent using fun n i ↦ transfer (X.covering i) ℓ n
   -- a level `l w` that carries all the Hecke legs `u_U` at `w`, for subspaces `U` over the residue

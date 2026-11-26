@@ -734,7 +734,11 @@ theorem IsSteep.exists_volume_le_mul_norm_integral_dsCoeff [Nonempty n] {B β : 
     simp [j, mul_comm]
   have h_ball : {g : USign ε | ‖(g : Matrix n n ℂ) - 1‖ ≤ 1} ⊆ Large := fun g hg ↦
     ⟨(norm_conj_inl_le w hg).trans (by linarith),
-      norm_le_add_one_of_norm_sub_one_le (by linarith) hg⟩
+      by
+        change ‖(g : Matrix n n ℂ)‖ ≤ β + 1
+        refine (norm_le_norm_add_norm_sub' _ 1).trans ?_
+        rw [norm_one]
+        exact add_le_add (by linarith) hg⟩
   refine ⟨w⁻¹, by rwa [U.norm_inv], ENNReal.toReal_le_of_le_ofReal (by positivity) ?_⟩
   simpa only [h_integrand, inv_inv] using (measure_mono h_ball).trans h_period
 

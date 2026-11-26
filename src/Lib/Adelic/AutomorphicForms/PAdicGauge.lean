@@ -365,11 +365,8 @@ form an element of `H`. -/
 lemma maxCompactAt_le_levelOf {ι : Type*} {u : ι → FinPlace E} {w : FinPlace E}
     {H : Subgroup ((i : ι) → GL n (ResField (u i)))} (hw : w ∉ (Set.range u).conjClosure) :
     maxCompactAt n w ≤ levelOf u H :=
-  le_trans (b := stdLevel E n ⊓ Gf.trivialOn n (.range u)) (fun k hk ↦ by
-    -- no `u i` is `w` or its conjugate, so `k` is trivial at every `u i`
-    have h_ne (i : ι) : u i ≠ w ∧ star (u i) ≠ w :=
-      ⟨fun h_eq ↦ hw (.inl ⟨i, h_eq⟩), fun h_eq ↦ hw (.inr ⟨i, by simp [← h_eq]⟩)⟩
-    simp_all [Subgroup.mem_inf]) inf_trivialOn_le_levelOf
+  (inf_le_inf_left _ ((Gf.supportedOn_mono (Set.singleton_subset_iff.2 hw)).trans_eq
+    Gf.supportedOn_compl)).trans inf_trivialOn_le_levelOf
 
 /-- The algebra map sending the variable (τ, i, h) to the sum of the variables (τ, i, a) over
 the indices a with sign s(a) = c and ord(a) = h. -/

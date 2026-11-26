@@ -1,4 +1,5 @@
 import Lib.Analytic.ZeroSymmetry
+import TauCeti.NumberTheory.DirichletCharacter.GaussSum
 
 /-!
 # Gauss sums of primitive characters and the Pólya–Vinogradov bound
@@ -27,15 +28,11 @@ variable {q : ℕ} [NeZero q] {χ : DirichletCharacter ℂ q}
 /-- The Gauss sum of a primitive Dirichlet character mod `q`, taken with the standard additive
 character `x ↦ exp (2 π i x / q)` of `ZMod q`, has absolute value `√q`. -/
 lemma norm_gaussSum_of_isPrimitive (hχ : χ.IsPrimitive) : ‖gaussSum χ stdAddChar‖ = √q := by
-  -- Fourier inversion at `-1`: the Gauss sum times its complex conjugate is `q`.
-  have h_dft : dft (χ : ZMod q → ℂ) = fun k : ZMod q ↦ χ⁻¹ (-k) * gaussSum χ stdAddChar :=
-    funext hχ.fourierTransform_eq_inv_mul_gaussSum
-  have h_inversion : dft (dft (χ : ZMod q → ℂ)) (-1) = q := by simp [dft_dft]
-  have h_conj : star (gaussSum χ stdAddChar) * gaussSum χ stdAddChar = q := by
-    rw [← h_inversion, h_dft, dft_mul_const, dft_comp_neg, star_gaussSum_eq]
-    simp [fourierTransform_eq_gaussSum_mulShift, ← AddChar.inv_mulShift]
+  have h_prod := gaussSum_mul_gaussSum_inv_eq_card_of_isPrimitive hχ (isPrimitive_stdAddChar q)
+  have h_conj : gaussSum χ⁻¹ stdAddChar⁻¹ = star (gaussSum χ stdAddChar) := by
+    rw [star_gaussSum_eq, AddChar.inv_mulShift, ← Units.coe_neg_one, gaussSum_mulShift_eq, inv_inv]
   have h_sq : ‖gaussSum χ stdAddChar‖ * ‖gaussSum χ stdAddChar‖ = q := by
-    simpa using congrArg norm h_conj
+    simpa [h_conj] using congrArg norm h_prod
   rw [← h_sq, Real.sqrt_mul_self (norm_nonneg _)]
 
 /-- The chord from `1` to the root of unity `stdAddChar k = exp (2 π i x)`, where `x = k / q` lies
