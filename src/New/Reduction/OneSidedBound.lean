@@ -147,10 +147,12 @@ lemma eventually_primeRemainder_natCast_le (P : Parameters) {ε : ℝ} (hε : 0 
   have h_logB_pos : 0 < D.logB := Data.HasLogBound.pos D
   have h_remainder_decay : (x : ℝ) ^ (-2 : ℝ) ≤ (x : ℝ) ^ (-1 / 2 + 6 * ε) :=
     rpow_le_rpow_of_exponent_le hx_ge (by linarith)
-  have h_weighted_remainder_decay : (x : ℝ) ^ ε * (x : ℝ) ^ (-2 : ℝ) ≤ (x : ℝ) ^ (-1 / 2 + 6 * ε) := by
+  have h_weighted_remainder_decay :
+      (x : ℝ) ^ ε * (x : ℝ) ^ (-2 : ℝ) ≤ (x : ℝ) ^ (-1 / 2 + 6 * ε) := by
     rw [← rpow_add hx_pos]
     exact rpow_le_rpow_of_exponent_le hx_ge (by linarith)
-  have h_main_exponent : ((x : ℝ) ^ ε) ^ 6 / (x : ℝ) ^ (1 / 2 : ℝ) = (x : ℝ) ^ (-1 / 2 + 6 * ε) := by
+  have h_main_exponent :
+      ((x : ℝ) ^ ε) ^ 6 / (x : ℝ) ^ (1 / 2 : ℝ) = (x : ℝ) ^ (-1 / 2 + 6 * ε) := by
     rw [← rpow_mul_natCast hx_pos.le, ← rpow_sub hx_pos]
     ring_nf
   calc primeRemainder P.d P.q₀ x = primeRemainder P.d P.q₀ D.x := by rw [hx_eq]
@@ -267,7 +269,8 @@ theorem grh : DirichletLNonvanishingRightOfHalf := by
     rw [h_criterion_exponent]
     exact eventually_primeRemainder_le_mul_rpow (dvd_mul_right 18480 q) hd (sub_pos.2 hβ)
   have h_induced_nonvanishing : (χ.changeLevel (dvd_mul_left q 18480)).LFunction ρ ≠ 0 :=
-    LFunction_ne_zero_of_primeRemainder_le (by omega) (by omega) hd₀_cop hβ h_criterion_bound _ hρ_ne hβρ
+    LFunction_ne_zero_of_primeRemainder_le (by omega) (by omega) hd₀_cop hβ
+      h_criterion_bound _ hρ_ne hβρ
   -- Inducing multiplies `L(s, χ)` by finitely many factors `1 - χ(p) p ^ (-s)`.
   rw [LFunction_changeLevel _ χ h_pole] at h_induced_nonvanishing
   exact left_ne_zero_of_mul h_induced_nonvanishing
