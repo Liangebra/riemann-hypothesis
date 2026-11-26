@@ -439,7 +439,7 @@ theorem exists_colengthDvd_gaugeLe_compositeLift {P : Parameters} {D : Data P} {
   · -- `p < x₁` is not exceptional: the loss pays for the collisions on all integral source forms.
     rw [allowedLoss, ite_eq_left h_mem]
     have h_nonsplit : D.IsSmallNonsplit p := mem_smallNonsplitPrimes_iff_isSmallNonsplit.1 h_mem
-    have h_paid : D.m * D.collisionSum p ∅ ≤ D.loss p :=
+    have h_collision_budget : D.m * D.collisionSum p ∅ ≤ D.loss p :=
       mul_collisionSum_le_loss h_nonsplit h_exc
     refine ⟨0, D.integralSourceForms, mod_cast by positivity, .of_le le_rfl,
       fun ϑ Ψ hΨ hQ φ hφ _ ↦ ?_⟩
@@ -453,29 +453,30 @@ theorem exists_colengthDvd_gaugeLe_compositeLift {P : Parameters} {D : Data P} {
     rw [allowedLoss, ite_eq_left h_mem]
     obtain ⟨Λ, hΛ⟩ : ∃ Λ : Finset (FinPlace D.E), D.IsFullMark Λ :=
       D.exists_isFullMark (mem_smallNonsplitPrimes_iff_isSmallNonsplit.1 h_mem).1 h_exc
-    obtain ⟨-, l, hl, h_index⟩ : IsOntoUpToColength ↑p D.integralSourceForms (D.collisionExponent p)
+    -- Trade collision loss in valuation for the colength of this submodule.
+    obtain ⟨-, l, hl, h_colength⟩ : IsOntoUpToColength ↑p D.integralSourceForms (D.collisionExponent p)
         ((Λ.attach.toList.map hΛ.scaledHeckeOperator).prod ^ D.m)
           (D.loss p * finrank ℂ D.SourceForm) :=
       hΛ.isOntoUpToColength_prod_scaledHeckeOperator_pow
-    have h_le : D.loss p * finrank ℂ D.SourceForm ≤ 2 * D.loss p * finrank ℂ D.SourceForm := by
+    have h_colength_budget : D.loss p * finrank ℂ D.SourceForm ≤ 2 * D.loss p * finrank ℂ D.SourceForm := by
       gcongr
       linarith
-    exact ⟨l, _, hl.trans h_le, h_index, fun ϑ Ψ hΨ hQ φ hφ _ ↦
+    exact ⟨l, _, hl.trans h_colength_budget, h_colength, fun ϑ Ψ hΨ hQ φ hφ _ ↦
       hΨ.gaugeLe_compositeLift_of_isFullMark hQ hΛ hφ⟩
   · -- `p = N`: the module consists of the source forms in `upIntegralForms`, and `x₁ ≤ N` makes the
     -- gain zero.
     rw [allowedLoss, ite_eq_right h_mem, ite_eq_left hN]
     subst hN
-    obtain ⟨l, hl, h_index⟩ : ∃ l : ℕ, l ≤ D.m * D.f * D.b * finrank ℂ D.SourceForm ∧
+    obtain ⟨l, hl, h_colength⟩ : ∃ l : ℕ, l ≤ D.m * D.f * D.b * finrank ℂ D.SourceForm ∧
         ColengthDvd (integralFormsAt D.SourceForm 1) D.upIntegralForms (D.N ^ l) :=
       D.exists_colengthDvd_upIntegralForms_pow
-    have h_le :
+    have h_colength_budget :
         D.m * D.f * D.b * finrank ℂ D.SourceForm ≤ 2 * D.m * D.f * D.b * finrank ℂ
           D.SourceForm := by
       gcongr
       linarith
     refine ⟨l, D.upIntegralForms.comap (D.SourceForm.subtype.restrictScalars embValRing),
-      hl.trans h_le, h_index.comap _ le_rfl fun _ _ ↦ mem_comap.2,
+      hl.trans h_colength_budget, h_colength.comap _ le_rfl fun _ _ ↦ mem_comap.2,
       fun ϑ Ψ hΨ _ φ hφ h_ram ↦ ?_⟩
     rw [D.gain_eq_zero (.inr D.le_of_hasLogBound), sub_zero]
     exact D.gaugeLe_compositeLift_at_N hΨ h_ram hφ

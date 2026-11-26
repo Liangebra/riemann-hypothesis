@@ -1101,7 +1101,7 @@ lemma exists_colengthDvd_range_pairingMap_mul_edgeRestriction {N k n : ℕ} {W O
   -- depend only on the origin, for the edges and for the dual edges. Between them lie few further
   -- generators, and the colengths add along `d'ᵀ * (pairingMap u b Q' * Q) * d`.
   let D : ℕ := ⌊T.divisorConstant k n r * Fintype.card (Exponents N k n)⌋₊
-  have hD : (D : ℝ) ≤ T.divisorConstant k n r * Fintype.card (Exponents N k n) :=
+  have h_end_budget : (D : ℝ) ≤ T.divisorConstant k n r * Fintype.card (Exponents N k n) :=
     Nat.floor_le (mul_nonneg (T.divisorConstant_nonneg k n r) (Nat.cast_nonneg _))
   obtain ⟨Q, R, d, hQ : Q.mulVecLin.range = T.originFunctions n r src g, hR : R * Q = 1,
       hQd : Q * d = T.edgeRestriction n r src g,
@@ -1109,14 +1109,16 @@ lemma exists_colengthDvd_range_pairingMap_mul_edgeRestriction {N k n : ℕ} {W O
   obtain ⟨Q', R', d', hQ' : Q'.mulVecLin.range = T.originFunctions n r src' g', hR' : R' * Q' = 1,
       hQd' : Q' * d' = T.edgeRestriction n r src' g',
       hd' : d'.det ∣ T.sqrtPrime ^ (Fintype.card V * D)⟩ := h_large.exists_basis_det_dvd hp h_dual
-  have h_ends : d'ᵀ.det * d.det ∣ (T.p : O) ^ (Fintype.card V * D) := by
+  have h_end_det_dvd : d'ᵀ.det * d.det ∣ (T.p : O) ^ (Fintype.card V * D) := by
     rw [det_transpose, ← T.sqrtPrime_sq, ← pow_mul, two_mul, pow_add]
     exact mul_dvd_mul hd' hd
-  obtain ⟨s, hs : (#s : ℝ) ≤ θ * (Fintype.card V * Fintype.card (Exponents N k n)), hs_span⟩ :=
+  -- The defect count and near inverse give at most θ times the dimension extra generators.
+  -- Each such generator will cost at most m in the truncated colength.
+  obtain ⟨s, hs : (#s : ℝ) ≤ θ * (Fintype.card V * Fintype.card (Exponents N k n)), h_extra_generators_span⟩ :=
     hC.exists_finset_smul_top_le_range_sup_span hp h_large.two_le_rank hb u hR hR'
       (fun ψ hψ ↦ mem_valuedIn.2 (T.apply_mem_allEdgesForms h_origin (hQ.le hψ)))
       (fun ψ hψ ↦ mem_valuedIn.2 (T.apply_mem_allEdgesForms h_dual (hQ'.le hψ))) h_card
-  have h_loss : (c₂ : ℝ) ≤ 2 * T.divisorConstant k n r := by
+  have h_middle_budget : (c₂ : ℝ) ≤ 2 * T.divisorConstant k n r := by
     simpa [c₂] using h_large.mul_multinomialExponent_le_divisorConstant
   refine ⟨Fintype.card V * D + (c₂ * Fintype.card (V × Exponents N k n) + m * #s), ?_, ?_⟩
   · push_cast [Fintype.card_prod]
@@ -1127,20 +1129,20 @@ lemma exists_colengthDvd_range_pairingMap_mul_edgeRestriction {N k n : ℕ} {W O
               m * (θ * (Fintype.card V * Fintype.card (Exponents N k n)))) := by gcongr
       _ = (3 * T.divisorConstant k n r + θ * m) *
             (Fintype.card V * Fintype.card (Exponents N k n)) := by ring
-  · have h_factor :
+  · have h_edge_factorization :
         pairingMap u b (T.edgeRestriction n r src' g') * T.edgeRestriction n r src g =
           d'ᵀ * (pairingMap u b Q' * Q) * d := by
       simp only [pairingMap, ← hQd, ← hQd', transpose_mul, Matrix.mul_assoc]
-    rw [h_factor]
-    refine (colengthDvd_mul_mul_of_smul_top_le d'ᵀ _ d hs_span (T.p ^ m)).of_dvd ?_
-    -- The bound is the product of two determinants, `p ^ c₂` for each dimension and `p ^ m` for
-    -- each element of `s`.
+    rw [h_edge_factorization]
+    refine (colengthDvd_mul_mul_of_smul_top_le d'ᵀ _ d h_extra_generators_span (T.p ^ m)).of_dvd ?_
+    -- The two end determinants, the middle scalar and the exceptional generators contribute
+    -- respectively the three terms in the exponent bound.
     rw [pow_add _ (Fintype.card V * D)]
     calc d'ᵀ.det * (((T.p : O) ^ c₂) ^ Fintype.card (V × Exponents N k n) *
           (d.det * ((T.p : O) ^ m) ^ #s))
         = d'ᵀ.det * d.det * (T.p : O) ^ (c₂ * Fintype.card (V × Exponents N k n) + m * #s) := by
           ring
-      _ ∣ _ := mul_dvd_mul_right h_ends _
+      _ ∣ _ := mul_dvd_mul_right h_end_det_dvd _
 
 /-! ### The theorem -/
 

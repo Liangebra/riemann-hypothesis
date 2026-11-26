@@ -249,20 +249,23 @@ lemma HasNormalForm.norm_coeff_subst_le_one (hF : HasNormalForm S pr ϖ l F) {π
     ‖coeff m (F.subst fun x : Φ × c ↦ ϖ • seriesToCp (Z x))‖ ≤ 1 := by
   classical
   set Ξ : MvPowerSeries τ (valRingCp p) := (couplingSum S pr l).subst Z
-  have h_zero : constantCoeff Ξ = 0 :=
+  have h_exponent_zero : constantCoeff Ξ = 0 :=
     constantCoeff_subst_eq_zero (hasSubst_of_constantCoeff_zero hZ) hZ constantCoeff_couplingSum
-  have h_exp (d : τ →₀ ℕ) (hd : d.degree ≤ B) :
+  -- Only couplings of sufficiently small degree can affect the truncated exponential.
+  have h_exp_integral (d : τ →₀ ℕ) (hd : d.degree ≤ B) :
       ‖coeff d (expSubst ((ϖ ^ (p + 1) / p) • seriesToCp Ξ))‖ ≤ 1 :=
-    norm_coeff_expSubst_smul_le_one hπ h_zero
+    norm_coeff_expSubst_smul_le_one hπ h_exponent_zero
       (fun _ hd' ↦ dvd_coeff_subst_couplingSum hZ hΓ hd') hd
-  obtain ⟨W, hW⟩ : ∃ W : MvPowerSeries τ (valRingCp p),
+  obtain ⟨W, h_factorization⟩ : ∃ W : MvPowerSeries τ (valRingCp p),
       F.subst (fun x : Φ × c ↦ ϖ • seriesToCp (Z x)) =
         seriesToCp W * expSubst ((ϖ ^ (p + 1) / p) • seriesToCp Ξ) :=
           hF.exists_subst_eq_mul_expSubst hZ
-  rw [hW, coeff_mul]
+  -- The other factor is already integral. Each convolution term uses a coefficient
+  -- of the exponential of degree at most B.
+  rw [h_factorization, coeff_mul]
   refine sum_mem (S := valRingCp p) fun ⟨d₁, d₂⟩ hd ↦ ?_
-  have h_le : d₂ ≤ m := le_of_add_le_right (Finset.HasAntidiagonal.mem_antidiagonal.1 hd).le
-  exact mul_mem (coeff d₁ W).property (h_exp d₂ ((Finsupp.degree_mono h_le).trans hm))
+  have h_degree_bound : d₂ ≤ m := le_of_add_le_right (Finset.HasAntidiagonal.mem_antidiagonal.1 hd).le
+  exact mul_mem (coeff d₁ W).property (h_exp_integral d₂ ((Finsupp.degree_mono h_degree_bound).trans hm))
 
 variable [DecidableEq Φ] [DecidableEq c]
 
