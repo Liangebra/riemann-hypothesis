@@ -471,7 +471,8 @@ theorem covolume_add_index_nonneg {n n' : ℕ} {y : Fin n → V} {z : Fin n' →
   -- The common basis determinant cancels in the ratio of the two Gram determinants.
   have h_basis_factorization (ξ : T) : Gram ξ = L.volume ξ * (gram ℂ (Sum.elim y z)).det :=
     det_gram_comp (L.lift ξ) _ (by simpa using h_card)
-  have h_twist_factorization (ι : PrimePadicIso) : Gram 1 = ((‖γ (θ ι)‖ : ℂ) ^ 2) ^ n' * Gram (θ ι) *
+  have h_twist_factorization (ι : PrimePadicIso) :
+      Gram 1 = ((‖γ (θ ι)‖ : ℂ) ^ 2) ^ n' * Gram (θ ι) *
       ((‖γ (θ ι)‖ : ℂ) ^ 2)⁻¹ ^ n' * (L.volume 1 / L.volume (θ ι)) := by
     have hγ_norm : (‖γ (θ ι)‖ : ℂ) ≠ 0 := by simpa using hγ_ne (θ ι)
     have hZ_ne : L.volume (θ ι) ≠ 0 := volume_ne_zero (h_inj (θ ι))
@@ -481,7 +482,8 @@ theorem covolume_add_index_nonneg {n n' : ℕ} {y : Fin n → V} {z : Fin n' →
     heightLe_pow_mul_det_gram hδ hθ (fun ι i ↦ hz_int i ι (θ ι) (hθ ι))
       fun ι i ↦ hz_int i ι.conj (θ ι) (hθ ι)
   have h_total_height : HeightLe (2 * δ + n' * b_denom + b_volume) fun _ ↦ Gram 1 := by
-    simpa only [← h_twist_factorization, Pi.mul_def, Pi.pow_def] using (h_local_height.mul (hγ.pow n')).mul hZ
+    simpa only [← h_twist_factorization, Pi.mul_def, Pi.pow_def] using
+      (h_local_height.mul (hγ.pow n')).mul hZ
   have h_gram_ne : Gram 1 ≠ 0 :=
     det_gram_ne_zero_iff_linearIndependent.2 (h_indep.map_injOn _ (h_inj 1).injOn)
   -- At infinity, adjoining the short vectors costs `n' * b_short` by Fischer and Hadamard.
