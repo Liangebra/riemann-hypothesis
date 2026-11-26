@@ -92,7 +92,8 @@ theorem star_inequality {P : Parameters} (D : Data P) :
     D.m * D.totalRemainder ≤ D.f * D.a * D.logB ^ 5 := by
   -- Choose many independent images of short integral forms, bound their covolume and index from
   -- above, and compare with the lower bound `integral_forms_long`.
-  obtain ⟨h_dim_pos, t, h_translate_budget, h_span_dimension⟩ : 0 < D.targetDim ∧ ∃ t : Finset D.chosenGL,
+  obtain ⟨h_dim_pos, t, h_translate_budget, h_span_dimension⟩ :
+      0 < D.targetDim ∧ ∃ t : Finset D.chosenGL,
       #t * finrank ℂ D.ramifiedSourceForms ≤ 5 * D.targetDim * log (1 + 2 * D.b ^ 2) ∧
       (1 - 4 / D.b ^ 2) * D.targetDim ≤ finrank ℂ ↥(⨆ g ∈ t, (D.normalizedPoincare g).range) :=
     D.enough_forms
@@ -132,16 +133,18 @@ theorem star_inequality {P : Parameters} (D : Data P) :
       _ = D.targetDim * indexBudgetPerDim := by ring
   -- C: apply the lower bound to the same family. The index is counted twice (the two Gram
   -- variables); the nonnegative main amount cancels using `n ≤ targetDim`.
-  have h_covolume_lower :
-      D.targetDim * (D.mainAmount - 3 * sizeError) ≤ n * logNormBound + 2 * (D.targetDim * indexBudgetPerDim) :=
+  have h_volume_index_lower :
+      D.targetDim * (D.mainAmount - 3 * sizeError) ≤
+        n * logNormBound + 2 * (D.targetDim * indexBudgetPerDim) :=
     integral_forms_long h_indep h_near_full_rank h_index_upper h_covolume_upper
   have h_loss_pos : 0 < sizeError := HasLogBound.pos D
-  have h_main_comparison : n * (D.mainAmount + sizeError) ≤ D.targetDim * (D.mainAmount + sizeError) :=
+  have h_main_comparison :
+      n * (D.mainAmount + sizeError) ≤ D.targetDim * (D.mainAmount + sizeError) :=
     mul_le_mul_of_nonneg_right hn_le (add_nonneg D.mainAmount_nonneg h_loss_pos.le)
   let totalErrorPerDim : ℝ := 4 * sizeError + 2 * indexBudgetPerDim
   have h_main_cancelled : n * (D.m * D.totalRemainder) ≤ D.targetDim * totalErrorPerDim := by
-    simp only [logNormBound, totalErrorPerDim] at h_covolume_lower ⊢
-    linarith [h_covolume_lower, h_main_comparison]
+    simp only [logNormBound, totalErrorPerDim] at h_volume_index_lower ⊢
+    linarith [h_volume_index_lower, h_main_comparison]
   -- Divide by `n ≥ targetDim / 2 > 0`.
   have h_half_dimension : (D.targetDim : ℝ) ≤ n * 2 := by
     have h_share : 4 / D.b ^ 2 ≤ 2⁻¹ := D.le_of_hasLogBound
@@ -153,7 +156,8 @@ theorem star_inequality {P : Parameters} (D : Data P) :
   -- The errors are of smaller order than `f a log⁵ b`.
   have h_error_budget : |2 * totalErrorPerDim| ≤ D.f * D.a * D.logB ^ 5 := D.le_of_hasLogBound
   refine le_of_mul_le_mul_left ?_ hn_pos
-  calc n * (D.m * D.totalRemainder) ≤ D.targetDim * |totalErrorPerDim| := by grw [h_main_cancelled, ← le_abs_self]
+  calc n * (D.m * D.totalRemainder) ≤ D.targetDim * |totalErrorPerDim| := by
+        grw [h_main_cancelled, ← le_abs_self]
     _ ≤ n * 2 * |totalErrorPerDim| := by grw [h_half_dimension]
     _ = n * |2 * totalErrorPerDim| := by rw [abs_mul, Nat.abs_ofNat, mul_assoc]
     _ ≤ n * (D.f * D.a * D.logB ^ 5) := by grw [h_error_budget]

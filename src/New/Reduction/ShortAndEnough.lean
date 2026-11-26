@@ -222,7 +222,8 @@ theorem span_short_integralRamified_eq_top :
     exact weylNormSq_compositeLift_le hΨ (h_size σ) g
   -- The passage from `z` to the target form `y = #Ḡ · e₀ s z` adds `x ^ 99`.
   have h_projected_size :
-      (D.Θ 1 (D.projectedPoincare s φ)).normSqAt σ ≤ exp (D.x ^ 99 + (D.errorUnit + chainLogBound)) :=
+      (D.Θ 1 (D.projectedPoincare s φ)).normSqAt σ ≤
+        exp (D.x ^ 99 + (D.errorUnit + chainLogBound)) :=
     normSqAt_goodProjTranslate_le h_composite_size
   have h_error_budget : D.x ^ 99 + 4 * D.errorUnit + 2 * D.b ≤ D.f * D.a * D.logB ^ 4 :=
     D.le_of_hasLogBound

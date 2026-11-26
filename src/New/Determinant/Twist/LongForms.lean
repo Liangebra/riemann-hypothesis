@@ -223,9 +223,11 @@ theorem integral_forms_long_with_completion_cost {n : ℕ} {y : Fin n → D.targ
       c + 2 * δ + ((D.targetDim : ℝ) - n) * (2 * D.x₁ ^ 2 * D.b ^ 2 + D.b) := by
   -- Choose local twists and complete `y` to a basis with auxiliary forms `z`. The number of
   -- added vectors is the codimension, which is the multiplier of the completion cost.
-  obtain ⟨θ, h_small_ratios, h_single_lift_heights⟩ := D.exists_hasSmallRatios_heightLe_liftDeterminant_div
+  obtain ⟨θ, h_small_ratios, h_single_lift_heights⟩ :=
+    D.exists_hasSmallRatios_heightLe_liftDeterminant_div
   obtain ⟨e, γ, hγ_ne, -, hγ_norm, h_auxiliary_span⟩ := D.exists_span_isAuxiliaryForm_eq_top
-  obtain ⟨n', z, hz, h_completed_indep, h_completed_card⟩ := exists_extend_basis_of_span_eq_top hy h_auxiliary_span
+  obtain ⟨n', z, hz, h_completed_indep, h_completed_card⟩ :=
+    exists_extend_basis_of_span_eq_top hy h_auxiliary_span
   have hz_aux (i : Fin n') : D.IsAuxiliaryForm γ (z i) := hz i
   have hz_int (i : Fin n') (ι : PrimePadicIso) (ϑ : D.MFoldTwist)
       (hϑ : Nat.Coprime ι.1 ϑ.normQ) : γ ϑ • D.Θ ϑ (z i) ∈ integralForms ι.place :=
@@ -234,7 +236,8 @@ theorem integral_forms_long_with_completion_cost {n : ℕ} {y : Fin n → D.targ
       D.targetLattice.normSqAt (z i) σ ≤ exp (2 * D.x₁ ^ 2 * D.b ^ 2) :=
     (normSqAt_targetLattice (z i) σ).trans_le ((hz_aux i).normSqAt_lift_le σ)
   -- `|γ| ^ (-2)` is a power of `Nm Q` times `2 m² t` inverse ratios of Hecke values.
-  have h_auxiliary_scalar_height : HeightLe D.b fun ι : PrimePadicIso ↦ ((‖γ (θ ι)‖ : ℂ) ^ 2)⁻¹ := by
+  have h_auxiliary_scalar_height :
+      HeightLe D.b fun ι : PrimePadicIso ↦ ((‖γ (θ ι)‖ : ℂ) ^ 2)⁻¹ := by
     have h_cost : 2 * (D.m * D.m * (D.t * D.x₁)) ≤ D.b := D.le_of_hasLogBound
     refine ((h_small_ratios.heightLe_inv_rpow_mul_prod_turnRatio e).pow 2).mono (mod_cast h_cost)
       fun ι ↦ le_of_eq ?_
@@ -247,7 +250,8 @@ theorem integral_forms_long_with_completion_cost {n : ℕ} {y : Fin n → D.targ
   -- The product formula gives one inequality, including the cost of the completion.
   have h_product_formula : 0 ≤ c + 2 * δ + n' * (2 * D.x₁ ^ 2 * D.b ^ 2 + D.b) +
       D.targetDim * (D.b + D.f * D.a * D.logB ^ 4 - D.mainAmount) :=
-    TwistedLattice.covolume_add_index_nonneg injective_lift_targetLattice h_completed_indep h_completed_card h_small_ratios.coprime
+    TwistedLattice.covolume_add_index_nonneg injective_lift_targetLattice h_completed_indep
+      h_completed_card h_small_ratios.coprime
       hc hδ hγ_ne hz_int hz_short h_auxiliary_scalar_height h_chain_ratio_height
   have h_dim : (D.targetDim : ℝ) = n + n' := mod_cast h_completed_card
   have h_missing_dimension : (n' : ℝ) = D.targetDim - n := by linarith
