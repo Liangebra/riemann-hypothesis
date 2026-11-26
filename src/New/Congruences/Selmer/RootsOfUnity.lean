@@ -8,6 +8,18 @@ For `ρ > 0`, `ε > 0`, finitely many integral polynomials `P_i` in at most `s�
 of unity `ζ_j` of `ℓ`-power order with `v(ζ_j - 1) ≤ ρ` such that `v(P_i((ζ_j - 1)_j))` exceeds
 `v(P_i(x_i))` by at most `ε`. The orders of the `ζ_j` are bounded before the polynomials are given.
 
+The one-variable argument uses the cyclotomic radii `ρ_h = 1 / φ(ℓ ^ h)`. Write `v_r(g)`
+for the Gauss valuation and `R_h` for the multiset of roots of valuation `ρ_h`. Distinct
+radii give disjoint root multisets, and for `ρ_h ≤ ρ` their total weighted cardinality
+`∑ h, #R_h · ρ_h` is at most `v_ρ(g)`. Divergence of the harmonic series gives an exponent
+with `#R_h · ρ_h · (h + 1) ≤ δ`, with a cutoff depending only on the bound for
+`v_ρ(g)`, not on the degree. Averaging over primitive roots of order `ℓ ^ h` bounds
+`∑ α ∈ R_h, min (v(ζ - 1 - α)) 1` by the same quantity. Since `δ < 1`, the truncation
+can be removed. Roots of other valuations contribute exactly their Gauss-valuation terms.
+For several polynomials, apply this argument to the product after freezing all but one
+coordinate. Each factor has nonnegative excess over its Gauss valuation, so the bound on
+the sum controls every factor. Repeat with a loss budget divided among the coordinates.
+
 * `New.Selmer.exists_rootOfUnity_eval_le_gaussVal_add`: the step in one variable, by counting roots.
 * `New.Selmer.exists_rootsOfUnity_ellVal_eval_le_add`: several variables, by moving one coordinate
   of all points at a time.
@@ -38,7 +50,7 @@ open scoped NNReal ENNReal NNRat
 
 variable {ℓ : ℕ} [ThePrime ℓ]
 
-/-! ### The radii `ρ_h` and the harmonic sum -/
+/-! ### Cyclotomic radii and the harmonic cutoff -/
 
 variable (ℓ) in
 /-- The number `ρ_h = 1 / φ(ℓ ^ h)`, where `φ` is Euler's totient. For `h ≥ 1` it is the valuation
@@ -302,7 +314,8 @@ theorem exists_rootOfUnity_eval_le_gaussVal_add {ρ : ℚ≥0} {h₀ : ℕ} {B �
     {g : (intQpBar ℓ)[X]} (hg : gaussVal ρ g ≤ B) :
     ∃ h ∈ radiusExponents ℓ ρ h₀, ∃ ζ : intQpBar ℓ, IsPrimitiveRoot ζ (ℓ ^ h) ∧
       ellVal (g.eval (ζ - 1)).val ≤ gaussVal (rootRadius ℓ h) g + δ := by
-  -- Choose `h` with few roots `α` of valuation `ρ_h`, then `ζ` with `ζ - 1` far from them.
+  -- First bound the weighted root multiplicity on one radius, then average the truncated
+  -- distances over primitive roots of that order.
   obtain ⟨h, hh, h_few⟩ := exists_card_rootsOfValuation_mul_le h_harmonic hg
   obtain ⟨h_one, -, -⟩ := mem_radiusExponents.1 hh
   set R : Multiset (intQpBar ℓ) := rootsOfValuation g (rootRadius ℓ h)
@@ -311,7 +324,7 @@ theorem exists_rootOfUnity_eval_le_gaussVal_add {ρ : ℚ≥0} {h₀ : ℕ} {B �
   obtain ⟨ζ, hζ, h_average⟩ := exists_sum_min_ellVal_sub_le h h_unit
   have h_min : (R.map fun α ↦ min (ellVal (ζ - 1 - α).val) 1).sum ≤ δ :=
     h_average.trans (mod_cast (le_div_iff₀ (by positivity)).1 h_few)
-  -- As `δ < 1`, no minimum is `1`.
+  -- Every truncated distance is at most `δ < 1`, so every distance equals its truncation.
   have h_not_one : ∀ α ∈ R, ellVal (ζ - 1 - α).val = min (ellVal (ζ - 1 - α).val) 1 := by
     intro α hα
     have h_le : min (ellVal (ζ - 1 - α).val) 1 ≤ δ :=
@@ -385,7 +398,7 @@ lemma exists_ellVal_eval_update_le_add [DecidableEq σ] [Fintype ι] {ρ : ℚ�
         ellVal (MvPolynomial.eval (x i) (P i)).val + δ) ∧
       ∑ i : ι, ellVal (MvPolynomial.eval (Function.update (x i) j (ζ - 1)) (P i)).val ≤
         ∑ i : ι, ellVal (MvPolynomial.eval (x i) (P i)).val + δ := by
-  -- Apply the case of one variable to the product of the `g i`.
+  -- Use multiplicativity of the Gauss valuation to bound all the frozen polynomials at once.
   set g : ι → (intQpBar ℓ)[X] := fun i ↦ freeCoordinate (x i) j (P i)
   have h_eval (i : ι) (y : intQpBar ℓ) :
       (g i).eval y = MvPolynomial.eval (Function.update (x i) j y) (P i) := eval_freeCoordinate ..
@@ -408,6 +421,8 @@ lemma exists_ellVal_eval_update_le_add [DecidableEq σ] [Fintype ι] {ρ : ℚ�
   have h_sum :
       ∑ i : ι, ellVal ((g i).eval (ζ - 1)).val ≤ ∑ i : ι, gaussVal (rootRadius ℓ h) (g i) + δ := by
     rwa [gaussVal_prod, eval_prod, ellVal_prod] at h_prod_eval
+  -- Each evaluation is at least its Gauss valuation; hence the sum of the excesses
+  -- bounds the excess of each individual factor.
   have h_each (i : ι) : ellVal ((g i).eval (ζ - 1)).val ≤ gaussVal (rootRadius ℓ h) (g i) + δ :=
     le_add_of_sum_le_sum_add (fun k ↦ gaussVal_le_eval (g k) hζ_val.ge)
       (ne_top_of_le_ne_top ENNReal.coe_ne_top (h_compare_sum.trans hP)) h_sum i
@@ -441,7 +456,8 @@ lemma exists_ellVal_eval_piecewise_le_add [DecidableEq σ] [Fintype σ] [Fintype
   | empty => exact ⟨1, by simp, by simp, by simp, by simpa using hP⟩
   | insert j t hj ih =>
     obtain ⟨ζ, h_pow, h_val, h_each, h_sum⟩ := ih
-    -- The points `y i` have the coordinates in `t` moved; now move the coordinate `j`.
+    -- The moved coordinates have consumed at most `#t * δ` of the valuation budget.
+    -- The unmoved coordinate `j` still satisfies the original radius constraint.
     set y : ι → σ → intQpBar ℓ := fun i ↦ t.piecewise (fun k ↦ ζ k - 1) (x i)
     have h_loss : (#t * δ : ℝ≥0) ≤ 1 :=
       (mul_le_mul_left (Nat.cast_le.2 (card_le_univ t)) δ).trans hσ_card
@@ -484,8 +500,8 @@ theorem exists_rootsOfUnity_ellVal_eval_le_add (s₀ : ℕ) {ρ : ℚ≥0} (hρ 
         ∀ i : ι, ellVal (MvPolynomial.eval (fun j : σ ↦ ζ j - 1) (P i)).val ≤
           ellVal (MvPolynomial.eval (x i) (P i)).val + ε := by
   classical
-  -- Take `h₀` from the harmonic sum and move all coordinates, each with the loss
-  -- `δ = min ε 1 / (s₀ + 2)`, so that `δ < 1` and the total loss is at most `min ε 1`.
+  -- Fix the per-coordinate loss and the harmonic cutoff before introducing the polynomials.
+  -- The total loss is at most `min ε 1`, keeping every intermediate sum below `β + 1`.
   set δ : ℝ≥0 := min ε 1 / (s₀ + 2)
   have h_pos : (0 : ℝ≥0) < s₀ + 2 := by positivity
   have hδ_lt : δ < 1 :=
