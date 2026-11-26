@@ -52,12 +52,9 @@ lemma abs_max_sub_max_le_mul_max {r ε D D' : ℝ} (hr : 0 < r) (hε : 0 < ε)
     rw [h_max_low, h_max_mid, sub_zero, abs_zero]
     positivity
   · -- The tent loses at most `2 * ε * r / 3`, while `r - D > 2 * r / 3`.
-    have h_max_mid : max (r / 3 - D) 0 = r / 3 - D := max_eq_left (by linarith)
-    have h_max_top : max (r - D) 0 = r - D := max_eq_left (by linarith)
-    have h_ε_le : ε * (2 * r / 3) ≤ ε * (r - D) := mul_le_mul_of_nonneg_left (by linarith) hε.le
-    have h_low_le : max ((r - ε * r) / 3 - D') 0 ≤ r / 3 - D := max_le (by linarith) (by linarith)
-    rw [h_max_mid, h_max_top, abs_le]
-    exact ⟨by linarith [le_max_left ((r - ε * r) / 3 - D') 0], by linarith⟩
+    have h_top := mul_le_mul_of_nonneg_left (le_max_left (r - D) 0) hε.le
+    have h_εD := mul_lt_mul_of_pos_left hD_lt hε
+    exact (abs_max_sub_max_le_abs _ _ 0).trans (abs_le.mpr ⟨by linarith, by linarith⟩)
 
 namespace New.ZetaIntegral
 

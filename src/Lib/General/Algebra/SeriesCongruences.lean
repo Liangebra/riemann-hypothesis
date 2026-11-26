@@ -1,4 +1,5 @@
 import Lib.General.Algebra.AdicCompletion
+import TauCeti.RingTheory.MvPowerSeries.Derivative
 
 /-!
 # Power series with prime power exponents, congruences and convergent sums
@@ -292,11 +293,8 @@ lemma continuous_subst_of_constantCoeff_eq_zero [Finite σ] [TopologicalSpace R]
 /-- Partial differentiation of power series is continuous in the topology of coefficientwise
 convergence. -/
 lemma continuous_pderiv [TopologicalSpace R] [IsTopologicalRing R] (y : σ) :
-    Continuous (pderiv y : MvPowerSeries σ R → MvPowerSeries σ R) := by
-  refine continuous_pi fun d ↦ ?_
-  change Continuous fun F : MvPowerSeries σ R ↦ coeff d (pderiv y F)
-  simp only [coeff_pderiv]
-  exact (continuous_coeff R _).mul continuous_const
+    Continuous (pderiv y : MvPowerSeries σ R → MvPowerSeries σ R) :=
+  MvPowerSeries.WithPiTopology.continuous_pderiv y
 
 /-- A family of power series is summable, in the topology of coefficientwise convergence, if for
 each `n` only finitely many of its members have order at most `n`. -/

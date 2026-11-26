@@ -321,11 +321,8 @@ lemma QZChar.mem_ker_iff {g : Γ} : g ∈ QZChar.ker χ ↔ (χ : Γ → QZ) g =
   rw [QZChar.ker, MonoidHom.mem_ker, toHom_apply, ofAdd_eq_one]
 
 /-- The kernel of a continuous character `χ : Γ → ℚ/ℤ` is closed in `Γ`. -/
-lemma QZChar.isClosed_ker : IsClosed (QZChar.ker χ : Set Γ) := by
-  have h_ker : (QZChar.ker χ : Set Γ) = (χ : Γ → QZ) ⁻¹' {0} :=
-    Set.ext fun g ↦ QZChar.mem_ker_iff χ
-  rw [h_ker]
-  exact (isClosed_discrete {0}).preimage χ.prop.left
+lemma QZChar.isClosed_ker : IsClosed (QZChar.ker χ : Set Γ) :=
+  (isClosed_discrete {0}).preimage χ.prop.left
 
 /-- The homomorphism induced by the continuous character `χ` on the topological abelianisation of
 `Γ`, with values in `ℚ/ℤ` written multiplicatively. -/
@@ -685,12 +682,7 @@ private lemma mem_Z1_of_injective_of_comp_mem_Z1 (hι : Injective ι) (f : Γ �
       ∀ g g' : Γ, ι (f (g * g')) = ι (f g) + N.ρ g (ι (f g')) := hf
   refine ⟨?_, fun g g' ↦ hι ?_⟩
   · -- `M` is discrete, and each fibre of `f` is a fibre of `ι ∘ f` since `ι` is injective.
-    refine continuous_discrete_rng.mpr fun m ↦ ?_
-    have h_fibre : f ⁻¹' {m} = (⇑ι ∘ f) ⁻¹' {ι m} := by
-      ext x
-      simp [hι.eq_iff]
-    rw [h_fibre]
-    exact (isOpen_discrete {ι m}).preimage hf_cont
+    exact (((IsLocallyConstant.iff_continuous _).2 hf_cont).desc f ⇑ι hι).continuous
   · simpa [ι.isIntertwining] using hf_cocycle g g'
 
 /-- Let `ι : M → N` be injective and `π : N → P` have kernel the image of `ι`. Then for every
