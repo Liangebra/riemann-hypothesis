@@ -238,8 +238,11 @@ theorem integral_forms_long_with_completion_cost {n : ℕ} {y : Fin n → D.targ
     heightLe_chainDeterminant_one_div hθ h_single
   have h_nonneg : 0 ≤ c + 2 * δ + n' * (2 * D.x₁ ^ 2 * D.b ^ 2 + D.b) +
       D.targetDim * (D.b + D.f * D.a * D.logB ^ 4 - D.mainAmount) :=
-    TwistedLattice.covolume_add_index_nonneg injective_lift_targetLattice h_indep h_card hθ.coprime
-      hc hδ hγ_ne hz_int hz_short h_scalar h_volume
+    TwistedLattice.covolume_add_index_nonneg (injective_lift_targetLattice 1) h_indep h_card
+      hθ.coprime (fun ι ↦ TwistedLattice.volume_ne_zero (injective_lift_targetLattice (θ ι)))
+      hc hδ (γ := fun ι ↦ γ (θ ι)) (fun ι ↦ hγ_ne (θ ι))
+      (fun ι i ↦ hz_int i ι (θ ι) (hθ.coprime ι))
+      (fun ι i ↦ hz_int i ι.conj (θ ι) (hθ.coprime ι)) hz_short h_scalar h_volume
   have h_dim : (D.targetDim : ℝ) = n + n' := mod_cast h_card
   have h_missing : (n' : ℝ) = D.targetDim - n := by linarith
   rw [h_missing] at h_nonneg
