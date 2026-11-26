@@ -575,7 +575,12 @@ end FittingIdeal
 
 Let `O` be a discrete valuation ring, `Φ : O^n → R^ι` an `O`-linear map and `N ≤ R^ι` a submodule
 with `Φ (p • O^n) ⊆ N`, `p ≠ 0`. The quotient `O^n / Φ⁻¹ N` is studied through its linear forms with
-values in `O / p`.
+values in `O / p`. For a fixed submodule `V` of functions on `G`, let `A(N)` be the image of
+`formsMod Φ z N p` modulo `V`. As `N` grows, `A(N)` shrinks. The separation of vectors by
+linear forms shows that adjoining a missing vector required by the dual condition makes this
+decrease strict. We can arrange that the new vector is killed by a uniformiser modulo `N`.
+Thus each enlargement costs one unit of valuation in the Fitting ideal and removes at least
+one unit of length from `A(N)`. This accounts for the relative-length bound.
 -/
 
 section FittingDuality
@@ -656,8 +661,9 @@ lemma map_mkQ_formsMod_lt {O R G n ι : Type} [CommRing O] [DVR O] [CommRing R] 
     {v : n → O} (h_kill : ∀ Ψ : (n → O) →ₗ[O] Unit → QuotSpan p, Ψ ∘ z ∈ V → Ψ v = 0) {a : O}
     (h_notMem : Φ (a • v) ∉ N) (h_mem : Φ (a • v) ∈ N') :
     (formsMod Φ z N' p).map V.mkQ < (formsMod Φ z N p).map V.mkQ := by
-  -- If the images agree, each `Ψ` killing `Φ⁻¹ N` agrees modulo `V` with some `Ψ'` killing
-  -- `Φ⁻¹ N'`. Then `Ψ' v = Ψ v`, so `Ψ` kills `a • v`, and duality gives `Φ (a • v) ∈ N`.
+  -- If the images in the quotient by `V` agree, each form `Ψ` annihilating `Φ⁻¹ N` can be
+  -- replaced by a form `Ψ'` annihilating `Φ⁻¹ N'`, without changing its value on `v`.
+  -- Separation by linear forms would then put `Φ (a • v)` in `N`, a contradiction.
   refine lt_of_le_not_ge (map_mono (formsMod_anti z h_le)) fun h_ge ↦ h_notMem ?_
   refine mem_of_forall_form_eq_zero hp hN fun Ψ hΨ ↦ ?_
   have h_form : Ψ ∘ z ∈ formsMod Φ z N p := mem_formsMod.2 ⟨Ψ, hΨ, rfl⟩
@@ -687,31 +693,30 @@ lemma fittingIdeal.exists_addVal_le_relLength [Fintype n] (hp : p ≠ 0)
       (∀ ⦃v : n → O⦄, (∀ Ψ : (n → O) →ₗ[O] Unit → QuotSpan p, Ψ ∘ z ∈ V → Ψ v = 0) → Φ v ∈ K) ∧
       -- (c)
       ∀ d ∈ fittingIdeal K, c • d ∈ fittingIdeal N := by
-  -- Noetherian induction on `N`. If `K = N` fails (b), enlarge `N` by one vector `x` with
-  -- `ϖ • x ∈ N`, `ϖ` a uniformiser: `ϖ` takes the new Fitting ideal into the old one, and the
-  -- length of `formsMod` modulo `V` drops.
+  -- Noetherian induction on the relation submodule. If (b) fails for `N`, choose an
+  -- enlargement `N'` by a vector killed by a uniformiser modulo `N`. The strict drop
+  -- in dual length pays for the uniformiser that carries the new Fitting ideal into the old one.
   induction N using IsNoetherian.induction with | _ N ih => ?_
-  by_cases! h_base : ∀ v : n → O,
+  by_cases! h_dual_closed : ∀ v : n → O,
     (∀ Ψ : (n → O) →ₗ[O] Unit → QuotSpan p, Ψ ∘ z ∈ V → Ψ v = 0) → Φ v ∈ N
-  · exact ⟨1, N, le_rfl, by simp, h_base, by simp⟩
-  obtain ⟨v, hv, hvN⟩ := h_base
+  · exact ⟨1, N, le_rfl, by simp, h_dual_closed, by simp⟩
+  obtain ⟨v, h_v_annihilated, h_v_outside⟩ := h_dual_closed
   obtain ⟨ϖ, hϖ⟩ := exists_irreducible O
   -- `p` is a power of `ϖ` up to a unit and `Φ (p • O^n) ⊆ N`, so some `Φ (ϖ ^ k • v)` is outside
   -- `N` with `Φ (ϖ ^ (k + 1) • v)` in `N`.
-  obtain ⟨m, hm⟩ := associated_pow_irreducible hp hϖ
-  obtain ⟨k, hk, hk_succ⟩ := exists_pow_smul_notMem_and_succ_mem hm hN hvN
+  obtain ⟨m, h_uniformizer_power⟩ := associated_pow_irreducible hp hϖ
+  obtain ⟨k, h_outside, h_next_inside⟩ := exists_pow_smul_notMem_and_succ_mem h_uniformizer_power hN h_v_outside
   let N' : Submodule R (ι → R) := N ⊔ R ∙ Φ (ϖ ^ k • v)
-  obtain ⟨c, K, hK, h_len, h_mem, h_fitting⟩ :=
-    ih N' (lt_sup_iff_notMem.2 hk) fun w ↦ mem_sup_left (hN w)
-  refine ⟨c * ϖ, K, le_sup_left.trans hK, ?_, h_mem, fun d hd ↦ ?_⟩
-  · -- The image of `formsMod` modulo `V` is strictly smaller for `N'` than for `N`, so the length
-    -- for `N` exceeds that for `N'` by at least 1, the valuation of `ϖ`.
-    have h_drop : map V.mkQ (formsMod Φ z N' p) < map V.mkQ (formsMod Φ z N p) :=
-      map_mkQ_formsMod_lt z hp hN le_sup_left hv hk (mem_sup_right (mem_span_singleton_self _))
-    grw [addVal_mul, addVal_uniformizer hϖ, h_len]
-    simpa only [relLength_eq_length_map_mkQ, length_submodule] using Order.height_add_one_le h_drop
-  · have h_smul : (ϖ • 1 : R) • Φ (ϖ ^ k • v) ∈ N := by simpa [pow_succ', mul_smul] using hk_succ
-    simpa [mul_smul] using mul_mem_of_smul_mem h_smul _ (h_fitting d hd)
+  obtain ⟨c, K, h_enlargement, h_cost, h_dual_condition, h_fitting_transfer⟩ :=
+    ih N' (lt_sup_iff_notMem.2 h_outside) fun w ↦ mem_sup_left (hN w)
+  refine ⟨c * ϖ, K, le_sup_left.trans h_enlargement, ?_, h_dual_condition, fun d hd ↦ ?_⟩
+  · -- The strict decrease of the dual image modulo `V` pays for `v_O(ϖ) = 1`.
+    have h_dual_drop : map V.mkQ (formsMod Φ z N' p) < map V.mkQ (formsMod Φ z N p) :=
+      map_mkQ_formsMod_lt z hp hN le_sup_left h_v_annihilated h_outside (mem_sup_right (mem_span_singleton_self _))
+    grw [addVal_mul, addVal_uniformizer hϖ, h_cost]
+    simpa only [relLength_eq_length_map_mkQ, length_submodule] using Order.height_add_one_le h_dual_drop
+  · have h_uniformizer_smul : (ϖ • 1 : R) • Φ (ϖ ^ k • v) ∈ N := by simpa [pow_succ', mul_smul] using h_next_inside
+    simpa [mul_smul] using mul_mem_of_smul_mem h_uniformizer_smul _ (h_fitting_transfer d hd)
 
 end FittingDuality
 
