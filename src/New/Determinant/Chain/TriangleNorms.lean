@@ -444,7 +444,9 @@ lemma IsTriangle.exists_inner_weightedChain_eq [∀ (t : I) (n : ℕ), NeZero (w
     have h_triangle_modulus : M (κ' * β * κ * C i) (∏ r ∈ Ioc i m, ∏ k ∈ Ioc r m, L r k) := by
       rw [← prod_Ioc_consecutive _ i.le_succ hi_lt, Nat.Ioc_succ_singleton, prod_singleton]
       simpa only [one_mul, mul_one] using
-        h_moduli.modulus_mul (h_moduli.modulus_mul (h_moduli.modulus_mul h_adjoint_modulus h_strip_modulus) h_tail_modulus) (hC i)
+        h_moduli.modulus_mul
+          (h_moduli.modulus_mul (h_moduli.modulus_mul h_adjoint_modulus h_strip_modulus)
+            h_tail_modulus) (hC i)
     refine ⟨κ' * β * κ * C i, h_triangle_modulus, fun t x y ↦ ?_⟩
     rw [List.range'_succ, List.map_cons, List.prod_cons, End.mul_apply]
     obtain ⟨x', hx'⟩ : ∃ x' : V, j (i + 1) x' = d t i 0 (a t i 0 (j i x)) :=
