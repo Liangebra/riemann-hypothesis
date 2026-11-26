@@ -264,8 +264,10 @@ lemma HasNormalForm.norm_coeff_subst_le_one (hF : HasNormalForm S pr ϖ l F) {π
   -- of the exponential of degree at most B.
   rw [h_factorization, coeff_mul]
   refine sum_mem (S := valRingCp p) fun ⟨d₁, d₂⟩ hd ↦ ?_
-  have h_degree_bound : d₂ ≤ m := le_of_add_le_right (Finset.HasAntidiagonal.mem_antidiagonal.1 hd).le
-  exact mul_mem (coeff d₁ W).property (h_exp_integral d₂ ((Finsupp.degree_mono h_degree_bound).trans hm))
+  have h_degree_bound : d₂ ≤ m :=
+    le_of_add_le_right (Finset.HasAntidiagonal.mem_antidiagonal.1 hd).le
+  exact mul_mem (coeff d₁ W).property
+    (h_exp_integral d₂ ((Finsupp.degree_mono h_degree_bound).trans hm))
 
 variable [DecidableEq Φ] [DecidableEq c]
 

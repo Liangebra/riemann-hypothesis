@@ -454,11 +454,13 @@ theorem exists_colengthDvd_gaugeLe_compositeLift {P : Parameters} {D : Data P} {
     obtain ⟨Λ, hΛ⟩ : ∃ Λ : Finset (FinPlace D.E), D.IsFullMark Λ :=
       D.exists_isFullMark (mem_smallNonsplitPrimes_iff_isSmallNonsplit.1 h_mem).1 h_exc
     -- Trade collision loss in valuation for the colength of this submodule.
-    obtain ⟨-, l, hl, h_colength⟩ : IsOntoUpToColength ↑p D.integralSourceForms (D.collisionExponent p)
+    obtain ⟨-, l, hl, h_colength⟩ :
+        IsOntoUpToColength ↑p D.integralSourceForms (D.collisionExponent p)
         ((Λ.attach.toList.map hΛ.scaledHeckeOperator).prod ^ D.m)
           (D.loss p * finrank ℂ D.SourceForm) :=
       hΛ.isOntoUpToColength_prod_scaledHeckeOperator_pow
-    have h_colength_budget : D.loss p * finrank ℂ D.SourceForm ≤ 2 * D.loss p * finrank ℂ D.SourceForm := by
+    have h_colength_budget :
+        D.loss p * finrank ℂ D.SourceForm ≤ 2 * D.loss p * finrank ℂ D.SourceForm := by
       gcongr
       linarith
     exact ⟨l, _, hl.trans h_colength_budget, h_colength, fun ϑ Ψ hΨ hQ φ hφ _ ↦

@@ -1114,7 +1114,8 @@ lemma exists_colengthDvd_range_pairingMap_mul_edgeRestriction {N k n : ℕ} {W O
     exact mul_dvd_mul hd' hd
   -- The defect count and near inverse give at most θ times the dimension extra generators.
   -- Each such generator will cost at most m in the truncated colength.
-  obtain ⟨s, hs : (#s : ℝ) ≤ θ * (Fintype.card V * Fintype.card (Exponents N k n)), h_extra_generators_span⟩ :=
+  obtain ⟨s, hs : (#s : ℝ) ≤ θ * (Fintype.card V * Fintype.card (Exponents N k n)),
+      h_extra_generators_span⟩ :=
     hC.exists_finset_smul_top_le_range_sup_span hp h_large.two_le_rank hb u hR hR'
       (fun ψ hψ ↦ mem_valuedIn.2 (T.apply_mem_allEdgesForms h_origin (hQ.le hψ)))
       (fun ψ hψ ↦ mem_valuedIn.2 (T.apply_mem_allEdgesForms h_dual (hQ'.le hψ))) h_card
