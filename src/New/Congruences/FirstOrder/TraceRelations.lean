@@ -471,8 +471,9 @@ lemma exists_blockDiagonal_lattice {ψ : AbsGal D →* PadicAlgCl ℓ} {R : GalR
 /-- Let the representations `u x`, indexed by the type `Y`, have lattices over `O` off `𝓧`.
 For `x ∈ 𝓧`, assume non-degenerate trace form (`IsTraceNondeg`) and let the trace of `u x` be
 that of the twisted main summand `ψ (R x)` plus the characters `O(-e)`, `e < t`, where the
-twisted lattice `ψ' x R₀ x` spans all matrices. Then there are lattices in all these representations that, for
-`x ∈ 𝓧`, are block diagonal with the twisted lattice of the main summand and the characters. -/
+twisted lattice `ψ' x R₀ x` spans all matrices. Then there are lattices in all these
+representations that, for `x ∈ 𝓧`, are block diagonal with the twisted lattice of the main summand
+and the characters. -/
 lemma exists_blockDiagonal_lattices {u : Y → GalRep ℓ D.E n} {𝓧 : Set Y}
     (hu : ∀ x : 𝓧, IsTraceNondeg (u x))
     (h_lat : ∀ x : ↥(𝓧ᶜ), ∃ v : AbsGal D →* Matrix n n O, IsLatticeIn (u x) v)
