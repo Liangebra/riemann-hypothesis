@@ -4,18 +4,18 @@ Names below omit the prefix `New.`. Throughout, `P : Parameters` and `D : Data P
 
 ## 1. Where to start
 
-For the formal statement and verification boundary, start with [Statements.lean](src/Statements.lean), the five theorems of [Main.lean](src/Main.lean), and their axiom dependencies. The mathematical argument uses the definitions and intermediate results described below.
+To check what is proved, read [Statements.lean](src/Statements.lean), the five theorems of [Main.lean](src/Main.lean), and the list of axioms that `#print axioms` gives. `Statements.lean` states the theorems in Mathlib's terms. The rest of this guide is for reading the proof.
 
 `Main.lean` derives the statements from `grh` (no Dirichlet L-function vanishes in re s > 1/2, the pole excepted), with the two lemmas of `New/Main`. For a first reading of the argument, follow these interfaces:
 
 | Step | File | What passes to the next step |
 |---|---|---|
-| Admissible data | [Data/AdmissibleData](src/New/Reduction/Data/AdmissibleData.lean), [Data/Sizes](src/New/Reduction/Data/Sizes.lean) | Fields, places, levels and scale bounds; see also `FieldsAndPlaces` and `LevelAndTwists`. |
+| Admissible data | [Data/AdmissibleData](src/New/Reduction/Data/AdmissibleData.lean), [Data/Sizes](src/New/Reduction/Data/Sizes.lean) | Fields, places, levels and scale bounds. The table near the top of `AdmissibleData` translates letters into names; see also `FieldsAndPlaces` and `LevelAndTwists`. |
 | Arithmetic framework | [Heights](src/New/Reduction/Lattices/Heights.lean), [TwistedLattice](src/New/Reduction/Lattices/TwistedLattice.lean), [IntegralTargetForms](src/New/Reduction/IntegralTargetForms.lean) | A common determinant to which both local integrality and archimedean size estimates apply. |
 | Prime sums | [PrimeSums](src/New/Reduction/PrimeSums.lean) | The main amount and the exact expression of the total remainder in terms of the prime remainders. |
 | Theorems A and B | [ShortAndEnough](src/New/Reduction/ShortAndEnough.lean) | An upper bound for size and index of short forms, and enough translates to span almost all of the target. |
 | Theorem C | [LongForms](src/New/Determinant/Twist/LongForms.lean) | A lower bound for covolume plus twice the index, using auxiliary forms to complete the family. |
-| Comparison | [MainInequality](src/New/Reduction/MainInequality.lean) | `star_inequality`: cancellation of the main amount leaves an upper bound for the total remainder. |
+| Comparison | [MainInequality](src/New/Reduction/MainInequality.lean) | `star_inequality`: cancellation of the main amount leaves an upper bound for the total remainder. The head of `MainInequality` lists the inputs, what cancels and the errors. |
 | Analytic reduction | [OneSidedBound](src/New/Reduction/OneSidedBound.lean), [Criterion](src/New/Reduction/Zeros/Criterion.lean) | The one-sided bound for the prime remainder implies the zero-free half-plane via the Landau criterion. |
 
 The spaces and maps, with ranks (words and letters: sections 2 and 3): source forms on X₀ (k) go by the Poincaré series to forms of principal level on Y₀ (r), which `D.e₀` projects to the target forms, and from Y₀ by m lifts to Y_m (r + mt). Source forms also go by m lifts to X_m (r + mt + 1) and by restriction to Y_m. The single lifts are W_j (r) → V_j (r + t).
