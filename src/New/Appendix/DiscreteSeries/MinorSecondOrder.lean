@@ -360,12 +360,8 @@ lemma logMinorRemainder_conj {U : Matrix n n ℂ} (hU : U * U = 1) (hUQ : Commut
   have hQ : U * Q * U = Q := by rw [hUQ.eq, mul_assoc, hU, mul_one]
   have h_mul (X Y : Matrix n n ℂ) : U * X * U * (U * Y * U) = U * (X * Y) * U := by
     linear_combination (norm := noncomm_ring) U * X * hU * Y * U
-  have h_exp (X : Matrix n n ℂ) : NormedSpace.exp (U * X * U) = U * NormedSpace.exp X * U := by
-    have h_semiconj : SemiconjBy U X (U * X * U) := by
-      rw [SemiconjBy, mul_assoc (U * X), hU, mul_one]
-    have h_exp_semiconj : U * NormedSpace.exp X = NormedSpace.exp (U * X * U) * U :=
-      h_semiconj.exp_right.eq
-    rw [h_exp_semiconj, mul_assoc _ U U, hU, mul_one]
+  have h_exp (X : Matrix n n ℂ) : NormedSpace.exp (U * X * U) = U * NormedSpace.exp X * U :=
+    Matrix.exp_units_conj ⟨U, U, hU, hU⟩ X
   have h_det (X : Matrix n n ℂ) : (1 + Q * (U * X * U - 1)).det = (1 + Q * (X - 1)).det := by
     have h_conj : 1 + Q * (U * X * U - 1) = U * (1 + Q * (X - 1)) * U := by
       linear_combination (norm := noncomm_ring) hQ - hU - hUQ.eq * X * U

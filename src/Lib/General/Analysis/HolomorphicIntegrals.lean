@@ -134,7 +134,7 @@ variable {E F K : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimen
 functionals `evalCLM ℂ k : g ↦ g k` (see `New.strongIntegral`) sends a continuous f : K → ℂ to
 ∫ f dμ. -/
 lemma strongIntegral_eval {mK : MeasurableSpace K} [BorelSpace K] (μ : Measure K)
-    [IsFiniteMeasure μ] [R1Space K] (f : C(K, ℂ)) :
+    [IsFiniteMeasure μ] (f : C(K, ℂ)) :
     strongIntegral μ (evalCLM ℂ) f = ∫ k : K, f k ∂μ :=
   strongIntegral_apply μ (evalCLM ℂ) (fun g ↦ (g.memLp μ ℂ).integrable le_rfl) f
 

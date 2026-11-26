@@ -697,32 +697,12 @@ theorem glMultiplier_mul_diagGL_mul (hk : k ∈ intGL ι (Ô E)) (hk' : k' ∈ i
     Units.ext (by simp)
   rw [glMultiplier_mul_of_mem _ hk hk', (isSaturating_diagGL d).glMultiplier_eq, h_det, map_prod]
 
-/-- Let `den x` be the denominator of a finite idele `x` (`New.denominatorIdele`). Then
-`χ_f (den x⁻¹) = χ_f x * χ_f (den x)` for `χ_f = υ |·|^(-1/2)`: this is the identity
-`max 0 μ = μ + max 0 (-μ)` for the orders `μ` of `x`. -/
-lemma chiFin_denominatorIdele_inv (x : (𝔸f E)ˣ) :
-    chiFin (denominatorIdele x⁻¹) = chiFin x * chiFin (denominatorIdele x) := by
-  refine (chiFin_congr fun w ↦ ?_).trans (chiFin.map_mul x (denominatorIdele x))
-  have h_inv : x⁻¹.val w = (x.val w)⁻¹ := map_units_inv (evalAt w) x
-  have h_ne : v (x.val w) ≠ 0 := by simpa using (x.isUnit.map (evalAt w)).ne_zero
-  have h_max : max 1 (v (x.val w))⁻¹ = (v (x.val w))⁻¹ * max 1 (v (x.val w)) := by
-    rw [mul_max, mul_one, inv_mul_cancel₀ h_ne, max_comm]
-  simp [v_denominatorIdele, h_inv, h_max, mul_comm]
-
 /-- The character `χ_f = υ |·|^(-1/2)` of the finite ideles turns the conjugation of `E` into
 complex conjugation, as `υ (star x)` is the inverse of `υ x` on the unit circle. -/
 lemma chiFin_star (x : (𝔸f E)ˣ) : chiFin (star x) = conj (chiFin x) := by
   have h_incl : finIdeleIncl (star x) = star (finIdeleIncl x) :=
     Units.ext (Prod.ext (star_one _).symm rfl)
   simp [chiFin, h_incl, chiAdelic, ← Circle.coe_inv_eq_conj, ← υ_star]
-
-/-- For a finite idele `x`, the value of `χ_f = υ |·|^(-1/2)` at the denominator
-(`New.denominatorIdele`) of `star x` is the complex conjugate of its value at the denominator of
-`x`. -/
-lemma chiFin_denominatorIdele_star (x : (𝔸f E)ˣ) :
-    chiFin (denominatorIdele (star x)) = conj (chiFin (denominatorIdele x)) := by
-  rw [← chiFin_star]
-  exact chiFin_congr fun w ↦ by simp only [v_denominatorIdele, Units.coe_star, v_star_apply]
 
 /-- For an invertible matrix `g` over the finite adeles of `E`, Δ_f(g⁻¹) = υ(det g)|det g|^(−1/2)
 Δ_f(g), where `chiFin` is the character x ↦ υ(x)|x|^(−1/2) with υ the splitting character of the

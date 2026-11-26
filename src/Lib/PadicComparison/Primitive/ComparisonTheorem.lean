@@ -182,7 +182,7 @@ lemma ComparedTheory.isFiniteLerayHirsch_freeAb_iff_relFreeAb {ℓ : ℕ} {Ω : 
 omit [ThePrime p] [Algebra Ω ℂ_[p]] in
 /-- The points of a proper `Y` over `R` on tests over `Ω` have flat base change: the functor is
 covered by affine pieces (`isAffinelyCovered_algPointsOf`). -/
-lemma hasFlatBaseChange_algPointsOf [InvertsPrime Ω p] (Y : Over (Spec R)) [IsProper Y.hom] :
+lemma hasFlatBaseChange_algPointsOf (Y : Over (Spec R)) [IsProper Y.hom] :
     HasFlatBaseChange
       (freeAb (ObjectProperty.ι _ ⋙ algPointsOf Ω R Y) : AbFunctor (TestOver Ω)) :=
   (isAffinelyCovered_algPointsOf (·.2.2) Y).hasFlatBaseChange

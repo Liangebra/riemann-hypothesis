@@ -256,7 +256,7 @@ the basis given by `paramV`, the doubled Harish-Chandra parameter of this weight
 `P = fockPoly η` be the polynomial in the coordinates of `Hom(W, V)` at the infinite places that
 corresponds to `η`, with `W`, `V` the definite spaces of ranks `1` and `card n`. Then the squared
 Fock norm `⟨P̄, P⟩` is the hook number, where `⟨P, Q⟩ = fockPairing ℂ P Q = P(∂) Q (0)`. -/
-lemma LValueData.fockPairing_fockPoly_highestVector [WeilData E] :
+lemma LValueData.fockPairing_fockPoly_highestVector :
     fockPairing ℂ ((X.descentPair.fockPoly
       (highestVector X.descentPair.columnCount X.descentPair.paramV)).map conj)
         (X.descentPair.fockPoly (highestVector X.descentPair.columnCount X.descentPair.paramV)) =

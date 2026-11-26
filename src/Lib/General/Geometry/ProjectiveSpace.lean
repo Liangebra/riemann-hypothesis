@@ -67,12 +67,7 @@ scaled point `c • v` is `c ^ n` times its value at `v`. -/
 lemma eval₂_mul_of_isHomogeneous {σ R S : Type*} [CommRing R] [CommRing S] {n : ℕ}
     {a : MvPolynomial σ R} (ha : a.IsHomogeneous n) (f : R →+* S) (c : S) (v : σ → S) :
     eval₂ f (fun i : σ ↦ c * v i) a = c ^ n * eval₂ f v a := by
-  rw [eval₂_eq, eval₂_eq, mul_sum]
-  refine sum_congr rfl fun d hd ↦ ?_
-  -- Each monomial `d` of `a` has degree `n`.
-  have h_scale : ∏ i ∈ d.support, (c * v i) ^ d i = c ^ n * ∏ i ∈ d.support, v i ^ d i := by
-    simp only [mul_pow, prod_mul_distrib, prod_pow_eq_pow_sum, ← ha.degree_eq_sum_deg_support hd]
-  rw [h_scale, mul_left_comm]
+  simpa only [MvPolynomial.eval_map, Pi.smul_def, smul_eq_mul] using (ha.map f).eval_smul c v
 
 /-! ### Projective space and its charts -/
 

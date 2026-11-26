@@ -620,7 +620,7 @@ namespace New.Rows
 
 /-- A point of the archimedean unitary group has operator norm at least `1` at every place, so the
 largest of these norms is at least `1`. -/
-@[bound] theorem one_le_maxOpNorm {E n : Type} [Field E] [NumberField E] [IsCMField E] [Fintype n]
+@[bound] theorem one_le_maxOpNorm {E n : Type} [Field E] [NumberField E] [Fintype n]
     [DecidableEq n] [Nonempty n] {s : n → ℤˣ} (h : GInf E s) : 1 ≤ maxOpNorm h := by
   obtain ⟨w⟩ : Nonempty (InfinitePlace E) := inferInstance
   exact (U.one_le_norm (h w)).trans (norm_le_pi_norm (fun w ↦ (h w : Matrix n n ℂ)) w)

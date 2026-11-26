@@ -108,9 +108,6 @@ lemma valRingCp.algebraMap_apply (x : valRingCp p) : algebraMap (valRingCp p) �
 lemma valRingCp.dvd_iff_norm_le (x y : valRingCp p) : x ∣ y ↔ ‖(y : ℂ_[p])‖ ≤ ‖(x : ℂ_[p])‖ :=
   (Valuation.integer.integers (NormedField.valuation (K := ℂ_[p]))).dvd_iff_le
 
-lemma valRingCp.isClosed : IsClosed (valRingCp p : Set ℂ_[p]) :=
-  isClosed_Iic.preimage continuous_norm
-
 instance : ValuationRing (valRingCp p) :=
   inferInstanceAs (ValuationRing (NormedField.valuation (K := ℂ_[p])).integer)
 

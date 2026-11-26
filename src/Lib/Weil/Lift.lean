@@ -105,7 +105,7 @@ theorem New.sum_sigma_filter_eq_sum_mul_sum_Ioo (N : ℕ) (k : ℤˣ → ℕ →
 
 /-- For injective `l`, number the columns `c` of sign `η` by decreasing `η * l c`: the number `o c`
 of columns of the same sign that come before `c` is a bijection onto an initial segment of `ℕ`. -/
-theorem New.exists_equiv_fin_eq_card_filter_lt {r : Type} [Fintype r] [DecidableEq r] {s : r → ℤˣ}
+theorem New.exists_equiv_fin_eq_card_filter_lt {r : Type} [Fintype r] {s : r → ℤˣ}
     {l : r → ℤ} (hl : Injective l) {o : r → ℕ}
     (ho : ∀ c : r, o c = #{d : r | s d = s c ∧ s c * l c < s c * l d}) (η : ℤˣ) :
     ∃ f : {c : r // s c = η} ≃ Fin (card {c : r // s c = η}),
@@ -118,7 +118,7 @@ theorem New.exists_equiv_fin_eq_card_filter_lt {r : Type} [Fintype r] [Decidable
 
 /-- For injective `l` and a sign `η`, the position of a row in the decreasing order of `η • l` is a
 bijection onto `Fin (card n)`, and the position for `-η` is the reversed one. -/
-theorem New.exists_equiv_decreasingPosition_smul {n : Type} [Fintype n] [DecidableEq n] {l : n → ℤ}
+theorem New.exists_equiv_decreasingPosition_smul {n : Type} [Fintype n] {l : n → ℤ}
     (hl : Injective l) (η : ℤˣ) :
     ∃ u : n ≃ Fin (Fintype.card n), ∀ a : n,
       decreasingPosition (η.val • l) a = u a ∧ decreasingPosition ((-η).val • l) a = (u a).rev := by

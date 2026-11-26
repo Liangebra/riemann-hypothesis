@@ -653,7 +653,7 @@ inclusion of vectors over `K = localFieldOf Γ` into `ι → BdR`. For a ℤ_p-s
 `ι → Bmax`, the preimage of `Z × (range of w mod P)` under `Φ y = (φ y - y, u y mod P)`, with `φ`
 the Frobenius acting entrywise, has ℤ_p-rank `rk Z + rk (K ^ d⁻) + rk (ℚ_p ^ ι)`, where `d⁻` is the
 number of `i` with `k i < 0`. -/
-lemma rank_comap_frob_sub_prod_eq {ι : Type} [Fintype ι] [DecidableEq ι] {k : ι → ℤ}
+lemma rank_comap_frob_sub_prod_eq {ι : Type} {k : ι → ℤ}
     {N : (ι → BdR) ≃ₗ[ℤ_[p]] ι → BdR}
     (hP : ∀ b : ι → BdR, (∃ x : ι → BdRPlus, N ((↑) ∘ x) = b) ↔ ∀ i : ι, b i ∈ hodgeFil (-k i))
     (Z : Submodule ℤ_[p] (ι → Bmax)) :

@@ -338,7 +338,7 @@ lemma integral_mul_finIdeleAbs_rpow_eq_eulerProd_mul (hψ : IsHeckeOfType ψ n)
       obtain ⟨x, rfl⟩ := mul_left_surjective (locIdele w (uniformizer w)) y
       have h_coeff : χ (w.asIdeal * J) * ((w.asIdeal * J).absNorm : ℂ) ^ (-s : ℂ) =
           χ w.asIdeal * (w.asIdeal.absNorm : ℂ) ^ (-s : ℂ) * (χ J * J.absNorm ^ (-s : ℂ)) := by
-        rw [map_mul, map_mul, Nat.cast_mul, natCast_mul_natCast_cpow, mul_mul_mul_comm]
+        rw [map_mul, map_mul, Nat.cast_mul, natCast_mul_cpow, mul_mul_mul_comm]
       -- With `u = locIdele w (uniformizer w)`, the divisor of `u * x` is `w` times that of `x`, and
       -- `(t / u) * (u * x) = t * x`; so `ht` gives the part of divisor `J` on the right, and
       -- `h_unif` compares the two sides.

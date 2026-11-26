@@ -363,7 +363,7 @@ with dense images and with finitely many composites `x w ≫ z`. Consider the pa
 and a map `ψ` from the stalk `𝒪_{S,s}` to `ℂ` such that `x w ≫ z` factors through `Spec 𝒪_{S,s}`
 via `Spec.map ψ`. The points `(x w, Spec.map ψ)` of `A ×_S Spec 𝒪_{S,s}` form a separating family:
 this scheme is reduced and the images of these points are dense. -/
-lemma isSeparatingFamily_stalk {S : Scheme} [IsReduced S] {W : Type} {A : Scheme} {z : A ⟶ S}
+lemma isSeparatingFamily_stalk {S : Scheme} {W : Type} {A : Scheme} {z : A ⟶ S}
     {x : W → (Spec (.of ℂ) ⟶ A)} [IsReduced A] (h_dense : IsDenseFamily x)
     (h_finite : (range fun w : W ↦ x w ≫ z).Finite) (s : S) :
     IsSeparatingFamily
@@ -439,7 +439,7 @@ noetherian scheme S with finitely many complex points whose images are dense. Th
 locus of X over S is dense in X. -/
 lemma dense_smoothLocus_of_isDenseFamily {S : Scheme} [IsReduced S] [IsLocallyNoetherian S]
     {J : Type} [Finite J] {ξ : J → (Spec (.of ℂ) ⟶ S)} (hξ : IsDenseFamily ξ) {X : Scheme}
-    (f : X ⟶ S) [LocallyOfFiniteType f] [Flat f] [IsReduced X] [IsLocallyNoetherian X] :
+    (f : X ⟶ S) [LocallyOfFiniteType f] [Flat f] [IsReduced X] :
     Dense (f.smoothLocus : Set X) := by
   -- At a generic point `a` of `X` the stalks of `X` and `S` are fields. The second maps to `ℂ`,
   -- so it has characteristic zero and is perfect, and the extension is formally smooth.

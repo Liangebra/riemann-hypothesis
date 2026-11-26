@@ -122,14 +122,6 @@ instance {G : Type*} [AddCommMonoid G] [Module ℚ≥0 G] : PerfectRing (Multipl
 
 /-! ### The elements ε, τ, μ, ξ -/
 
-/-- The untilt of the reduction modulo `p` of a sequence `y` of successive `p`-th roots in `O_C` is
-the zeroth term of `y`. -/
-private lemma untilt_mapMonoidHom_idealQuotientMk (y : Perfection OC p) :
-    PreTilt.untilt (O := OC) (p := p)
-        (mapMonoidHom p (Ideal.Quotient.mk (Ideal.span {(p : OC)})).toMonoidHom y) =
-      coeffMonoidHom OC p 0 y :=
-  teichmuller₀_mapMonoidHom_idealQuotientMk
-
 /-- Every homomorphism a from the additive group ℚ to the multiplicative monoid of C_p with a(1) = 1
 lifts to the tilt: some homomorphism χ: ℚ → O^♭ has χ(s)^♯ = a(s) for all s. -/
 lemma exists_tilt_lift_of_character (a : Multiplicative ℚ →* ℂ_[p])
@@ -150,8 +142,8 @@ lemma exists_tilt_lift_of_character (a : Multiplicative ℚ →* ℂ_[p])
   change ((PreTilt.untilt (O := OC) (p := p)
     (mapMonoidHom p (Ideal.Quotient.mk (Ideal.span {(p : OC)})).toMonoidHom (roots s)) : OC) :
       ℂ_[p]) = a s
-  rw [untilt_mapMonoidHom_idealQuotientMk]
-  simp [roots]
+  exact (congrArg _ (teichmuller₀_mapMonoidHom_idealQuotientMk (x := roots s))).trans
+    (by simp [roots])
 
 /-- The map s ↦ ε^s: a chosen homomorphism from ℚ to the multiplicative monoid of O^♭ with
 (ε^s)^♯ a primitive root of unity of order the denominator of s. -/
@@ -633,7 +625,7 @@ lemma exists_algebraMap_eq_of_frobenius_eq {k : Type*} [CommRing k] [IsDomain k]
   -- coordinate comes from `ZMod p`.
   have h_coeff_mem (n : ℕ) : ∃ z : ZMod p, castHom dvd_rfl k z = a.coeff n := by
     have h_root : a.coeff n ^ p = a.coeff n := by rw [← coeff_frobenius_charP, h_frobenius]
-    exact (GaloisField.splits_zmod_X_pow_sub_X p).mem_range_of_isRoot
+    exact (Polynomial.splits_X_pow_char_sub_X (ZMod p) p).mem_range_of_isRoot
       (Polynomial.X_pow_sub_X_ne_zero (Fact.out : p.Prime).one_lt)
       (by simpa [sub_eq_zero] using h_root)
   choose z hz using h_coeff_mem

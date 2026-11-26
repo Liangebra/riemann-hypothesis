@@ -73,7 +73,7 @@ open MvPolynomial Finset Finsupp Submodule Ideal
 
 /-- If `p` vanishes to order `d` at the point `w`, then after translating `w` to the origin the
 coefficients of `p` of degree below `d` are zero. -/
-lemma New.coeff_translate_eq_zero_of_mem_vanishingIdeal_pow {K ι : Type} [Field K] [Fintype ι]
+lemma New.coeff_translate_eq_zero_of_mem_vanishingIdeal_pow {K ι : Type} [Field K]
     {w : ι → K} {d : ℕ} {p : MvPolynomial ι K} (hp : p ∈ vanishingIdeal K {w} ^ d) {γ : ι →₀ ℕ}
     (hγ : γ.degree < d) : (bind₁ (X + C ∘ w) p).coeff γ = 0 := by
   let T : MvPolynomial ι K →ₐ[K] MvPolynomial ι K := bind₁ (X + C ∘ w)
@@ -86,7 +86,7 @@ lemma New.coeff_translate_eq_zero_of_mem_vanishingIdeal_pow {K ι : Type} [Field
 
 /-- If the polynomials `φ u` vanish at the point `w`, the product `∏ φ u ^ γ u` vanishes at `w` to
 every order `d ≤ |γ|`. -/
-lemma New.bind₁_monomial_mem_vanishingIdeal_pow {K ι : Type} [Field K] [Fintype ι] {w : ι → K}
+lemma New.bind₁_monomial_mem_vanishingIdeal_pow {K ι : Type} [Field K] {w : ι → K}
     {φ : ι → MvPolynomial ι K} (hφ : ∀ u : ι, eval w (φ u) = 0) {d : ℕ} {γ : ι →₀ ℕ}
     (hγ : d ≤ γ.degree) : bind₁ φ (monomial γ 1) ∈ vanishingIdeal K {w} ^ d := by
   classical

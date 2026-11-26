@@ -599,7 +599,7 @@ lemma twistedPairWeil_movedDatum (k : ℕ) (g : New.G D.E (D.signsY k))
 /-- In the constant term `constTermAtStringMap` of the moved datum at `(g, g' * a)`, the point `a`
 may be moved into the datum: it is the constant term at `(g, g')` of `datumY` acted on by
 `(g_k, a)`, where `g_k = (ξ k, y k)`. -/
-lemma constTermAtStringMap_movedDatum {k : ℕ} {hk : k ≤ 2 * D.ϱ + 1} {X : Type} {s : ℕ} [Fintype X]
+lemma constTermAtStringMap_movedDatum {k : ℕ} {hk : k ≤ 2 * D.ϱ + 1} {X : Type} {s : ℕ}
     [DecidableEq X] (Y' : Grading (D.spaceY (k + 1)) D.N X s) (g : New.G D.E (D.signsY k))
     (g' a : New.G D.E (D.signsY (k + 1))) :
     (D.gradingY k hk).constTermAtStringMap Y' (rankTwist (D.chainChar ϑ (k + 1)))

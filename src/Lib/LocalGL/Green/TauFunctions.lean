@@ -471,7 +471,7 @@ private lemma finMean_conj_mul_eq_ite {L : Type*} [Field L] [Finite L] (χ ξ : 
 /-- Let `L` be a finite extension of `k` with an embedding `φ` into `K`, and `q = |k|`. The roots in
 `K` of the characteristic polynomial of multiplication by `u` on `L` are the conjugates
 `φ(u) ^ q ^ i`, `i < [L : k]`. -/
-private lemma aroots_charpoly_mulLeft {L : Type*} [Field L] [Finite L] [Algebra k L]
+private lemma aroots_charpoly_mulLeft {L : Type*} [Field L] [Algebra k L]
     [FiniteDimensional k L] (φ : L →ₐ[k] K) (u : L) :
     (mulLeft k u).charpoly.aroots K =
       Multiset.map (fun i : ℕ ↦ φ u ^ Nat.card k ^ i) (Multiset.range (finrank k L)) := by

@@ -363,7 +363,7 @@ open AddMonoidAlgebra Algebra TensorProduct AlgebraMonoidAlgebra in
 algebra A_inf[G] (and an A_inf-algebra through it), and b = O^♭[G] ⊗_{A_inf[G]} T, assumed perfect.
 Then there is an A_inf-algebra map k : T → W(b) that induces a bijection of p-adic completions. -/
 private lemma exists_isCompletionBijective_witt_tensor (G : Type) [AddCommMonoid.{0} G]
-    [Module ℚ≥0 G] (T : CommAlg Ainf[G]) [Etale Ainf[G] T] [Algebra Ainf T]
+    (T : CommAlg Ainf[G]) [Etale Ainf[G] T] [Algebra Ainf T]
     [IsScalarTower Ainf Ainf[G] T]
     (h_perf : PerfectRing (CommAlgCat.of OFlat (OFlat[G] ⊗[Ainf[G]] T)) p) :
     ∃ k : CommAlgCat.of Ainf T ⟶ wittFunctor.obj (CommAlgCat.of OFlat (OFlat[G] ⊗[Ainf[G]] T)),

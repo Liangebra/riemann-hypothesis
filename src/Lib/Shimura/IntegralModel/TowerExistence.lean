@@ -225,7 +225,7 @@ complex point in the closure `C` after `a` is translated by `κ⁻¹` for some `
 `levelGU D.Index D.level`. -/
 lemma New.Variety.UniversalFamily.GraphClosure.exists_point_act_eq {E : Type} [Field E] [CMBase E]
     {R : Subalgebra (𝓞 E) E} {D : PEL E} {U : UniversalFamily D R} {ν : ℕ}
-    [NeZero ν] {J : Type} [Finite J] {γ : J → nonZeroDivisors (𝓞 E) × GUPlus E D.Index}
+    {J : Type} [Finite J] {γ : J → nonZeroDivisors (𝓞 E) × GUPlus E D.Index}
     (C : U.GraphClosure γ ν) {a b : ModuliPoint E D.Index ν}
     (hab : U.datumPoint 1 a = U.datumPoint 1 b) :
     ∃ κ : levelGU D.Index D.level,
@@ -245,7 +245,7 @@ determined by the coset of `g` modulo `levelGU D.Index D.level`: there is one ma
 with `f = u ⟦g⟧` for every such `f`. The map `c` witnesses that maps to the base exist. -/
 lemma New.Variety.UniversalFamily.GraphClosure.exists_forall_eq_apply_mk_of_translate {E : Type}
     [Field E] [CMBase E] {R : Subalgebra (𝓞 E) E} {D : PEL E} {U : UniversalFamily D R} {ν : ℕ}
-    [NeZero ν] {J : Type} [Finite J] {γ : J → nonZeroDivisors (𝓞 E) × GUPlus E D.Index}
+    {J : Type} [Finite J] {γ : J → nonZeroDivisors (𝓞 E) × GUPlus E D.Index}
     (C : U.GraphClosure γ ν)
     (c : C.scheme ⟶ (Over.map U.base.hom).obj
       (ThetaFamily.fibrePower (X := U.family) (NonzeroTorsion (E := E) 1 D.Index ⊕ Fin ν))) :

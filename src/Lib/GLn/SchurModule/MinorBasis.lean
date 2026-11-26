@@ -741,7 +741,7 @@ lemma nabla_le_span_of_hasLeadingTerm {c : m → Φ} {l : Φ × ℕ →₀ ℕ}
       rw [map_sub]
       exact degree_sub_le.trans (sup_le le_rfl hg_lead.degree_le)
     have h_coeff : (rowExpansion y (f - g)).coeff γ = 0 := by
-      rw [map_sub, MvPolynomial.coeff_sub, hg_lead.coeff_eq]
+      rw [map_sub, AddMonoidAlgebra.coeff_sub_apply, hg_lead.coeff_eq]
       exact sub_self _
     refine (sub_mem_iff_left _ hg_span).mp ?_
     rcases h_le.lt_or_eq with h_lt | h_eq

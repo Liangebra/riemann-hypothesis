@@ -46,8 +46,6 @@ open CategoryTheory Functor Function Module ExteriorAlgebra TrivSqZeroExt CommAl
 
 namespace New.Variety
 
-set_option backward.isDefEq.respectTransparency false
-
 variable {T T' M M' : Type} [CommRing T] [CommRing T'] [AddCommGroup M] [AddCommGroup M']
   [Module T M] [Module T' M'] {a : T →+* T'} (m : M →ₛₗ[a] M')
 
@@ -125,11 +123,22 @@ def HodgeTest.sqZeroExt : HodgeTest k ⥤ CommAlg k where
   map f :=
     ofHom
       { toFun x := (f.1 x.fst, f.2 x.snd)
-        map_one' := by simp [TrivSqZeroExt.ext_iff]
-        map_mul' := by simp [TrivSqZeroExt.ext_iff]
-        map_zero' := by simp [TrivSqZeroExt.ext_iff]
-        map_add' := by simp [TrivSqZeroExt.ext_iff]
-        commutes' := by simp [TrivSqZeroExt.ext_iff, Algebra.algebraMap_eq_smul_one] }
+        map_one' := by apply TrivSqZeroExt.ext <;> simp
+        map_mul' := by
+          intro x y
+          apply TrivSqZeroExt.ext
+          · simp
+            rfl
+          · simp
+            erw [TrivSqZeroExt.snd_mul, op_smul_eq_smul]
+            rfl
+        map_zero' := by apply TrivSqZeroExt.ext <;> simp
+        map_add' := by
+          intro x y
+          apply TrivSqZeroExt.ext <;> simp <;> rfl
+        commutes' := by
+          intro r
+          apply TrivSqZeroExt.ext <;> simp [Algebra.algebraMap_eq_smul_one] }
 
 /-- The functor sending a pair (A, M) to the exterior algebra ⋀_A M, as a k-algebra. -/
 def exteriorAlg : HodgeTest k ⥤ AlgCat k where
@@ -140,7 +149,10 @@ def exteriorAlg : HodgeTest k ⥤ AlgCat k where
   map_id X := by
     ext x
     induction x using induction with
-    | algebraMap r => simp [Algebra.algebraMap_eq_smul_one, HodgeTest.id_fst]
+    | algebraMap r =>
+      change exteriorMap (𝟙 X : X ⟶ X).2 (algebraMap _ _ r) = algebraMap _ _ r
+      rw [Algebra.algebraMap_eq_smul_one, exteriorMap_smul, map_one]
+      rfl
     | ι v => simp [HodgeTest.id_snd_apply]
     | mul x y hx hy => rw [map_mul, map_mul, hx, hy]
     | add x y hx hy => rw [_root_.map_add, _root_.map_add, hx, hy]
@@ -256,7 +268,9 @@ def HodgeTest.scaleModule (F : HodgeTest k ⥤ C) : F ⟶ F :=
          -- `f.2` is semilinear over `f.1`, a map of `k`-algebras, which fixes `t • 1`.
          have h_smul : f.2 ((t • (1 : X.baseAlg)) • single i 1) = f.1 (t • 1) • f.2 (single i 1) :=
            f.2.map_smulₛₗ (t • 1) (single i 1)
-         simpa [comp_snd_apply] using h_smul.symm } :
+         rw [comp_snd_apply, comp_snd_apply]
+         change t • f.2 (single i 1) = f.2 (t • single i 1)
+         simpa using h_smul.symm } :
       𝟭 (HodgeTest k) ⟶ 𝟭 (HodgeTest k))
     F
 
@@ -306,7 +320,13 @@ def HodgeTest.baseComparison : Comparison (hodgeCoeff (k := E)) (hodgeCoeff (k :
   functor :=
           { obj X := ⟨(restrictAlg E k).obj X.baseAlg, X.Index⟩
             map f := ⟨(restrictAlg E k).map f.1, f.2⟩ }
-  coeffHom := by apply 𝟙
+  coeffHom :=
+    { app X := by
+        change (hodgeCoeff (k := k)).obj X ⟶ (hodgeCoeff (k := k)).obj X
+        exact 𝟙 _
+      naturality X Y f := by
+        change (hodgeCoeff (k := k)).map f ≫ 𝟙 _ = 𝟙 _ ≫ (hodgeCoeff (k := k)).map f
+        simp }
 
 /-- Base change: for an E-algebra k, the additive map from the Hodge cohomology over E of N to
 that over k of N restricted to k-algebras. -/

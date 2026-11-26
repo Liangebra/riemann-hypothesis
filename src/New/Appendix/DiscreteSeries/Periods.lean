@@ -465,7 +465,7 @@ variable [MeasurableSpace S] [MeasurableMul S] (ν : Measure S) [ν.IsMulRightIn
 /-- The covering bound for two radii, for a right invariant measure `ν` on `S` and the `L²` operator
 norm: for `J : S →* U(ζ)` with `ζ` indexed by `ι` and `β ≥ 10¹²`, the volume of `{‖J s‖ ≤ β + 1}` is
 at most `β ^ (16 (card ι)²)` times that of `{‖J s - 1‖ ≤ (200 β⁵)⁻¹}`. -/
-lemma measure_large_ball_le_pow_mul_small_ball {ι : Type} [Fintype ι] [DecidableEq ι] [Nonempty ι]
+lemma measure_large_ball_le_pow_mul_small_ball {ι : Type} [Fintype ι] [DecidableEq ι]
     {ζ : ι → ℤˣ} (J : S →* USign ζ) (hβ : 10 ^ 12 ≤ β) :
     ν {s : S | ‖(J s : Matrix ι ι ℂ)‖ ≤ β + 1} ≤ ENNReal.ofReal (β ^ (16 * card ι ^ 2)) *
       ν {s : S | ‖(J s : Matrix ι ι ℂ) - 1‖ ≤ (200 * β ^ 5)⁻¹} := by

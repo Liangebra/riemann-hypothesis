@@ -534,7 +534,7 @@ lemma norm_zeroTerm_vacElem_pos (g : G E s) :
   simpa [h_zero, h_vac] using hc_ne
 
 /-- The idele norm is bounded on the ideles that lie in a compact set `C` of adeles. -/
-lemma exists_ideleAbs_le_of_isCompact {F : Type} [Field F] [CMType F] [WeilData F] {C : Set (𝔸 F)}
+lemma exists_ideleAbs_le_of_isCompact {F : Type} [Field F] [CMType F] {C : Set (𝔸 F)}
     (hC : IsCompact C) : ∃ R : ℝ, ∀ d : (𝔸 F)ˣ, d.val ∈ C → ideleAbs d ≤ R := by
   -- The ideles in `C` of norm at least `1`, read as `1 × 1` matrices, form a compact set.
   have h_compact : IsCompact {A : GL (Fin 1) (𝔸 F) |

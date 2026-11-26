@@ -349,10 +349,7 @@ private lemma exists_continuous_unipotent_besselRow_mul {q : Type*} [Fintype q]
     Pi.single_eq_of_ne (by omega : Y.gradeOf p ≠ 1) 1
   have y_supp (b : q × X → 𝔸 E) (l : ι) (hl : Y.gradeOf l ≠ -0) : y b l = 0 := by
     refine Finset.sum_eq_zero fun k _ ↦ ?_
-    have l_ne : l ≠ Y.indexEquiv (.inl k.snd) := by
-      rintro rfl
-      exact hl (Y.gradeOf_inl k.snd)
-    rw [ite_eq_right l_ne, zero_mul]
+    rw [ite_eq_right (ne_of_apply_ne Y.gradeOf (by rwa [gradeOf_inl])), zero_mul]
   have exists_u (b : q × X → 𝔸 E) : ∃ u ∈ Y.unipotent,
       V.ratCoordMatrix u = eichlerMap J x (y b) (toAdele 2⁻¹ * star (y b) ⬝ᵥ J *ᵥ y b) :=
     Y.exists_ratCoordMatrix_eq_eichlerMap x (y b) 0 x_supp (y_supp b)
@@ -564,11 +561,8 @@ lemma formAdjoint_mul_self_mulVec_apply_eq_of_survives {w : Matrix ι' ι (𝔸 
   let x : ι → 𝔸 E :=
     Pi.single (Y.stringReversal k) (star (↑(j⁻¹ * V.J⁻¹ k (Y.stringReversal k)) * t))
   have v_supp (p : ι) (hp : Y.gradeOf p ≤ 0 ⊔ Y.gradeOf k) : v p = 0 := hv p (by omega)
-  have x_supp (q : ι) (hq : Y.gradeOf q ≠ -Y.gradeOf k) : x q = 0 := by
-    have q_ne : q ≠ Y.stringReversal k := by
-      rintro rfl
-      exact hq (Y.gradeOf_stringReversal k)
-    exact Pi.single_eq_of_ne q_ne _
+  have x_supp (q : ι) (hq : Y.gradeOf q ≠ -Y.gradeOf k) : x q = 0 :=
+    Pi.single_eq_of_ne (ne_of_apply_ne Y.gradeOf (by rwa [gradeOf_stringReversal])) _
   obtain ⟨u, u_mem, u_mat⟩ : ∃ u ∈ Y.unipotent, V.ratCoordMatrix u =
       eichlerMap (V.J.map toAdele) v x (toAdele 2⁻¹ * star x ⬝ᵥ V.J.map toAdele *ᵥ x) :=
     Y.exists_ratCoordMatrix_eq_eichlerMap v x (Y.gradeOf k) v_supp x_supp

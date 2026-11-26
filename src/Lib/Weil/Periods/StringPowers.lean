@@ -135,7 +135,7 @@ def stringSum (t : ℕ → 𝔸f E) : ι → 𝔸f E :=
 
 variable {Y}
 
-lemma stringProj_stringSum [Fintype X] (t : ℕ → 𝔸f E) :
+lemma stringProj_stringSum (t : ℕ → 𝔸f E) :
     Y.stringProj (Y.stringSum t) = Y.stringSum t :=
   stringProj_eq_self_iff.2 (by simp [stringSum, stringPower])
 

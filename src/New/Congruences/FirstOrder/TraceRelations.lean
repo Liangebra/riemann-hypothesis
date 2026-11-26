@@ -797,10 +797,10 @@ lemma eventually_exists_inClass_sum_dualDefect_le {V : DescentPair D.E r n}
           card r * localDefectBound D ℓ := by
   classical
   -- Fix a place `v` above `ℓ`. The lattices `u x` lie in a class of local lattices, and so do the
-  -- summands of `u π`. Then `summand_defect_le_at_place` bounds the defect of each summand at `v`,
-  -- and `sum_index_mul_defectBound_le` sums over the summands and the places.
-  filter_upwards [eventually_all.2 fun v : placesDividing D.E ℓ ↦ summand_defect_le_at_place
-    h_summand.toIsMainSummandWeights (localChart ℓ D.E v).inducesPlace.2]
+  -- summands of `u π`. Apply the defect bound at each `v` and sum over the summands and places.
+  filter_upwards [eventually_all.2 fun v : placesDividing D.E ℓ ↦
+    normLength_dualDefect_le_of_isSummandClass h_summand.toIsMainSummandWeights
+      (localChart ℓ D.E v).inducesPlace.2]
     with O h_place T T₀ u hπ hu_lat hT₀ hTT₀
   -- `L v i`: the summands at `v`; `f`: the splitting of `u π` into its summands
   let G (v : placesDividing D.E ℓ) : Subgroup (AbsGal D) := decompGroup (AbsGal D) (placeOver v.1)
@@ -851,8 +851,9 @@ lemma eventually_exists_inClass_sum_dualDefect_le {V : DescentPair D.E r n}
     have h_rank (j : Option (Fin t)) : finrank O (L v j) = card (SummandCoordIndex r j) :=
       finrank_pi _
     rw [← h_rank]
-    refine h_place v ?_ (h_jump_from v)
-      (hasJumps_localLattice_summandRep h_summand hT₀ (hTT₀ v v.2)) (h_rank none) i (hL v i)
+    have h_jumps := hasJumps_localLattice_summandRep h_summand hT₀ (hTT₀ v v.2)
+    refine h_place v ⟨?_, h_jump_from v, h_jumps none, fun c ↦ h_jumps (some c), h_rank none⟩
+      i (hL v i)
     -- the class is tame above `p₀ p₁` and crystalline elsewhere
     by_cases hv : v.1 ∈ placesAboveM D
     · exact .inl (isTameType_of_mem_placesAboveM hc h_summand.t_le v hv)

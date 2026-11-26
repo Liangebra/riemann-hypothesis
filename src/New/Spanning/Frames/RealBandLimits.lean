@@ -106,7 +106,7 @@ lemma IsCutBessel.continuous_normalizedCellIntegral (hF : IsCutBessel F rep ρ s
         {c | Γ.IsHead 𝔰.ϱ c} := by
     refine (PiLp.continuous_toLp ..).comp_continuousOn (continuousOn_pi.2 fun i ↦
       continuousOn_integral_of_compact_support (Γ.isCompact_hasMatrixSize (j := 60 * 𝔰.n ^ 2))
-        (by fun_prop) fun c y hc y_large ↦ ?_)
+        (Continuous.continuousOn (by fun_prop)) fun c y hc y_large ↦ ?_)
     -- Off the compact set one of the two values of `F` in the integrand is zero.
     have h_zero : F y = 0 ∨ F ((weylElem 𝔰.ϱ c * cellChart 𝔰 𝔰.ϱ (c 𝔰.ϱ))⁻¹ * y) = 0 := by
       by_contra! ⟨hy, hy'⟩

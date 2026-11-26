@@ -398,7 +398,7 @@ open scoped NumberField
 
 /-- If `R` is the localization of `𝓞 E` at a set `M` of denominators prime to `w`, then `R` is
 integral at every place `A` of `Ω` above `w`. -/
-lemma New.Variety.algebraMap_mem_of_isLocalization {E : Type} [Field E] [NumberField E]
+lemma New.Variety.algebraMap_mem_of_isLocalization {E : Type} [Field E]
     [Algebra E Ω] {R : Subalgebra (𝓞 E) E} {M : Submonoid (𝓞 E)} [IsLocalization M R]
     {w : FinPlace E} (hM : M ≤ w.asIdeal.primeCompl) {A : ClosurePlace} (hA : IsPlaceOver A w)
     (x : R) :
@@ -545,7 +545,7 @@ the model `X` act through the legs of the levels `l w` (`hT_pull`), whose pull-b
 the Hecke polynomial of `θ` at `w` kills `r s` for every geometric Frobenius `s` at `A`. -/
 lemma New.Variety.Model.aeval_heckePoly_eq_zero_of_isEigenQuotient {E : Type} [Field E] [CMBase E]
     {a d₀ : ℕ} [HasQuadSubfield d₀ E] {𝔑 : 𝓞 E} {ν : ℕ} {R : Subalgebra (𝓞 E) E}
-    (X : Model (Fin a) d₀ 𝔑 ν R) {ℓ : ℕ} [NeZero a] [ThePrime ℓ] [Algebra E Ω]
+    (X : Model (Fin a) d₀ 𝔑 ν R) {ℓ : ℕ} [ThePrime ℓ] [Algebra E Ω]
     (M : Submonoid (𝓞 E)) [IsLocalization M R] [PadicIso ℓ] (θ : SafePlace 𝔑 → ℕ → ℂ)
     {w : SafePlace 𝔑} {A : ClosurePlace} (hA : IsPlaceOver A w.val.val)
     (hR : ∀ x : CommRingCat.of R, algebraMap (CommRingCat.of R) Ω x ∈ A)

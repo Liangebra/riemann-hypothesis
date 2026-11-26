@@ -306,7 +306,7 @@ measures, the family of products `k i x y * k' i' x' y'`, indexed by `I × I'`, 
 bound for the product measures `m.prod m'`, `μ.prod μ'` and `n.prod n'`. -/
 lemma IsL2Contraction.prod {X' Y' I' : Type*} [MeasurableSpace X'] [MeasurableSpace Y'] [Fintype I]
     [Fintype I'] {m : Measure X} {m' : Measure X'} {n : Measure Y} {μ' n' : Measure Y'} [SFinite m]
-    [SFinite m'] [SFinite μ] [SFinite μ'] [SFinite n] [SFinite n'] {k : I → X → Y → ℂ}
+    [SFinite μ] [SFinite μ'] [SFinite n] [SFinite n'] {k : I → X → Y → ℂ}
     {k' : I' → X' → Y' → ℂ} (hk : ∀ i : I, Measurable ↿(k i)) (hk' : ∀ i : I', Measurable ↿(k' i))
     (hi : ∀ (i : I) (x : X), Integrable (k i x) μ)
     (hi' : ∀ (i : I') (x : X'), Integrable (k' i x) μ') (h : IsL2Contraction m μ n k)

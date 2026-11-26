@@ -69,7 +69,8 @@ lemma exists_norm_le_of_isCompact {K : Set (G E s × G E t)} (hK : IsCompact K) 
   -- Each orbit map is continuous, hence bounded on `K`; then apply the Banach–Steinhaus theorem.
   have orbit_bdd (φ : X) : ∃ C : ℝ, ∀ k : K, ‖Θ.ω k φ‖ ≤ C := by
     simpa only [Subtype.forall] using
-      hK.exists_bound_of_continuousOn (f := fun k ↦ Θ.ω k φ) (by fun_prop)
+      hK.exists_bound_of_continuousOn (f := fun k ↦ Θ.ω k φ)
+        (Θ.continuous.comp₂ continuous_id continuous_const).continuousOn
   simpa only [Subtype.forall] using banach_steinhaus orbit_bdd
 
 /-- One step of reduction: for `g` an adelic point of the unitary group of `V`, there is an

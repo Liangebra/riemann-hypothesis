@@ -387,10 +387,12 @@ theorem New.DiscreteSeries.exists_conj_mem_dilationGroup {n m : Type} [Fintype n
       simp [q, isStarProjection_iff', star, hJ_herm, mul_assoc, hJ_cancel, hp_herm,
         hp.isIdempotentElem.mul_self_mul]
     have h_norm : ‖p - (1 + c)⁻¹ • q‖ ≤ 1 := by
-      grw [hp.isSelfAdjoint.norm_sub_eq_max, norm_smul, hq.norm_le, hp.norm_le]
-      · simp [abs_of_pos, inv_le_one₀, add_pos, hc, hc.le]
-      · exact (IsSelfAdjoint.all (1 + c)⁻¹).smul hq.isSelfAdjoint
-      · simp [q, mul_assoc, h_isotropic_mul]
+      have h_ortho : IsStarOrtho p ((1 + c)⁻¹ • q) := by
+        refine (hp.isSelfAdjoint.isStarOrtho_iff_mul_eq_zero ?_).mpr ?_
+        · exact (IsSelfAdjoint.all (1 + c)⁻¹).smul hq.isSelfAdjoint
+        · simp [q, mul_assoc, h_isotropic_mul]
+      grw [h_ortho.norm_sub, norm_smul, hq.norm_le, hp.norm_le]
+      simp [abs_of_pos, inv_le_one₀, add_pos, hc, hc.le]
     simpa [y, norm_smul, hc, abs_of_pos] using h_norm
   · -- On `x⁻¹ * A` the projection `p` is the identity and `q` vanishes.
     simp [y, q, X, Matrix.mul_assoc, Matrix.add_mul, Matrix.sub_mul, Matrix.mul_add, h_fix,

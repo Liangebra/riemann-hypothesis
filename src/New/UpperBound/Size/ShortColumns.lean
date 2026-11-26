@@ -190,7 +190,7 @@ lemma IsShort.sub_translate {B : ℝ} {k : Gf E n} {φ : AlgForm n κ e} (hφ : 
 /-- Let y be an array over ℂ_p with entries of absolute value at most 1. The evaluation vector
 `New.weylEval` at y has norm at most 1: its coordinates are the values at y of the products of
 minors `New.nablaBasis`, which are polynomials with integer coefficients. -/
-lemma norm_weylEval_le_one_of_integral {p : ℕ} [Fact p.Prime] [PadicPlace p]
+lemma norm_weylEval_le_one_of_integral {p : ℕ} [Fact p.Prime]
     {y : (Σ _ : InfinitePlace E, n) × ℕ → ℂ_[p]}
     (hy : ∀ x : (Σ _ : InfinitePlace E, n) × ℕ, ‖y x‖ ≤ 1) :
     ‖weylEval (fun _ : InfinitePlace E ↦ n) κ y‖ ≤ 1 := by

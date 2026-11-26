@@ -409,7 +409,7 @@ a Schwartz vector `v'` for `(W', V')` with this property: for all `z > 0`, the t
 ramified exactly at a non-empty set of split places, containing no place together with its
 conjugate, and for every standard datum `stdRowDatum σ 𝔠.semilocalChar y` at these places. -/
 theorem exists_thetaLarge_cone_eq_mul [IsBaseAdapted A] [IsBaseAdapted X]
-    (μ : InfinitePlace E → ℤ) {b : Type} [Fintype b] [DecidableEq b] (σ : b ⊕ r ≃ n)
+    (μ : InfinitePlace E → ℤ) {b : Type} (σ : b ⊕ r ≃ n)
     (hn : 2 ∣ card n) :
     ∃ B : ℝ → ℝ, (∀ z : ℝ, 0 < B z) ∧ AnalyticOnNhd ℝ (fun z : ℝ ↦ (B z : ℂ)) Set.univ ∧
       ∀ v : PairFock E s t, IsSchwartzVector v → ∃ v' : PairFock E s' t', IsSchwartzVector v' ∧

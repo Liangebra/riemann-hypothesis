@@ -505,7 +505,8 @@ lemma coeff_mul_prod_of_mem_colon [Fintype J] [LinearOrder J] {t : ℕ} (ty : J 
   have h_main : F * ∏ e : Fin t, (d e + ζ e) =
       (F * ∏ e : Fin t, Γ e) * monomial (∑ j : J, Finsupp.single j 1) 1 := by
     simp [hdζ, sum_fiberwise, MvPolynomial.X, ← mul_assoc, ← monomial_sum_one, prod_mul_distrib]
-  rw [h_prod, mul_sub, MvPolynomial.coeff_sub, h_zero, sub_zero, h_main, coeff_mul_monomial']
+  rw [h_prod, mul_sub, AddMonoidAlgebra.coeff_sub_apply, h_zero, sub_zero, h_main,
+    coeff_mul_monomial']
   simp +contextual [hi.ge_iff_eq', ← constantCoeff_eq]
 
 /-- Let `χ x` (`x : Y`) be representations of the group algebra `Λ[G]` by `σ × σ` matrices and `η₀`

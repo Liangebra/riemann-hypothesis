@@ -488,7 +488,7 @@ leading minor of order `j` of `S.frameProducts γ` (divided by a power of `N` wh
 positive. -/
 lemma HasCellRank.minorNorm_pos {S : Filling E 𝔰} {j : Fin (𝔰.ϱ + 2)} {γ : S.G E}
     (h : S.HasCellRank j γ) : 0 < S.minorNorm j γ := by
-  simp [minorNorm, h.leadingMinor_ne_zero, zero_lt_iff, Nat.Prime.ne_zero]
+  simp [minorNorm, h.leadingMinor_ne_zero, _root_.pos_iff_ne_zero, Nat.Prime.ne_zero]
 
 /-- If `γ` has cell rank `j` for `S`, then so does `γ⁻¹`. That is, `New.NormOnePairOccursFrom j`
 holds, the leading minor `D_j` of `S.frameProducts` is nonzero, and `S.termDisc` is nonzero exactly

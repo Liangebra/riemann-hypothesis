@@ -433,7 +433,7 @@ runs over the infinite places and `y⁻_τ` is the `m × m` block of variables i
 copies of the compact group `U(0, m)`.
 Here `Ω = realPairWeil 0 0` is the real Weil representation of the pair with both weights `0`, and
 `⟨·, ·⟩ = Fock.fockInner` is the sesquilinear form of the Fock space. -/
-lemma fockInner_realPairWeil_variableMinor_pow_eq_self {m : ℕ} [NeZero m]
+lemma fockInner_realPairWeil_variableMinor_pow_eq_self {m : ℕ}
     (u : GInf E (-1 : Fin m → ℤˣ)) :
     let v : PairFock E (-1 : Fin m → ℤˣ) (1 ⊕ᵥ -1 : Fin (2 * m) ⊕ Fin m → ℤˣ) :=
       Fock.polyVector (realSigns E (homSigns (-1) (1 ⊕ᵥ -1)))

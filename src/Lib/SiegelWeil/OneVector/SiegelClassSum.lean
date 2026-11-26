@@ -603,7 +603,7 @@ components at the infinite places, `z.2` at the finite ones), is the product ove
 components `t` of `z` of `𝐞 (α t)` times a Gaussian integral over `ℂⁿ`, times the integral over the
 finite adelic vectors. Here `α` at an infinite place `v` is read as the real part of its embedding
 `Φ v α` of the CM type. -/
-lemma New.integral_gaussian_mul_stdAddChar {E κ : Type} [Field E] [CMType E] [WeilData E]
+lemma New.integral_gaussian_mul_stdAddChar {E κ : Type} [Field E] [CMType E]
     [Fintype κ] (Φ₀ : LocallyConstant (κ → 𝔸f E) NNReal) (α : E)
     (z : (InfinitePlace E → ℝ) × selfAdjoint (𝔸f E)) :
     ∫ x : κ → 𝔸 E, cexp (-∑ v : InfinitePlace E, ((star x ⬝ᵥ x).1 v).re) *

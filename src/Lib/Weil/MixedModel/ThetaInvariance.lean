@@ -542,11 +542,8 @@ lemma theta_omega_ratEmbed_of_splitting (γ : U V.J) [DecidableEq p]
   -- The stabilizer of `θ` contains two opposite parabolic subgroups, which generate the group.
   have h_le (D' : V.Splitting (stdSpace E Empty) p) : D'.siegelParabolic ≤ V.thetaStabilizer :=
     fun δ ⟨a, ha⟩ ↦ theta_omega_ratEmbed_of_mul_k δ D' a ha
-  have h_top : V.thetaStabilizer = ⊤ := by
-    rw [eq_top_iff, ← D.siegelParabolic_sup_symm_eq_top]
-    exact sup_le (h_le D) (h_le D.symm)
-  have h_mem : γ ∈ V.thetaStabilizer := by simp [h_top]
-  exact h_mem f
+  exact (D.siegelParabolic_sup_symm_eq_top.ge.trans (sup_le (h_le D) (h_le D.symm))
+    (Subgroup.mem_top γ)) f
 
 variable (V) in
 /-- The splitting without middle part of `V ⊕ V⁻`, with `V⁻` the space of the negative form, whose

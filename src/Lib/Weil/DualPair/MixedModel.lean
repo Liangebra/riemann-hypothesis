@@ -261,10 +261,6 @@ lemma homSlice_rho (x : Matrix n' p (𝔸 E)) (y : Matrix n' n (𝔸 E)) (f : �
     conjTranspose_transpose_eq_transpose_conjTranspose, ← mul_kronecker_mul, ← transpose_mul] using
     (D.homSource T).isMixedLaw_slice (matrixToVec (T.x.val * x)) (matrixToVec y) f
 
-/-- The character `New.WeilData.upsilonU1` is υ on the norm-one ideles. -/
-private lemma upsilonU1_apply (u : unitary (𝔸 E)) : upsilonU1.val u = υ.1 (Unitary.toUnits u) :=
-  rfl
-
 /-- On a norm-one idele u, the character `New.chiAdelic` x ↦ υ(x)|x|^(−1/2) is υ: the idele norm
 of u is one. -/
 @[simp↓]

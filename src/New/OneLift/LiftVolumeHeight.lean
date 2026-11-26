@@ -90,7 +90,7 @@ lemma norm_map_det_le_pow {K L : Type} [NormedField K] [AddCommGroup L] [Module 
 /-- Multiplying a form on the space `V` of a descent pair `O` by `c` multiplies its squared norm
 `normSqAt` at an automorphism `σ` of `ℂ` by `‖σ c‖ ^ 2`. -/
 lemma _root_.New.LevelPlaces.LevelForm.normSqAt_smul {E r n : Type} [Field E] [CMType E]
-    [WeilData E] [Fintype r] [DecidableEq r] [Fintype n] [DecidableEq n] {O : DescentPair E r n}
+    [Fintype r] [DecidableEq r] [Fintype n] [DecidableEq n] {O : DescentPair E r n}
     (c : ℂ) (φ : O.FormV) (σ : ℂ ≃+* ℂ) :
     (c • φ).normSqAt σ = ‖σ c‖ ^ 2 * φ.normSqAt σ := by
   rw [normSqAt, normSqAt, mul_classSum]
@@ -99,7 +99,7 @@ lemma _root_.New.LevelPlaces.LevelForm.normSqAt_smul {E r n : Type} [Field E] [C
 /-- The squared norm `φ.normSqAt σ` of a form (the weighted sum over classes of the squared norms
 of the values after applying `σ`) is not negative. -/
 lemma _root_.New.LevelPlaces.LevelForm.normSqAt_nonneg {E r n : Type} [Field E] [CMType E]
-    [WeilData E] [Fintype r] [DecidableEq r] [Fintype n] [DecidableEq n] {O : DescentPair E r n}
+    [Fintype r] [DecidableEq r] [Fintype n] [DecidableEq n] {O : DescentPair E r n}
     (φ : O.FormV) (σ : ℂ ≃+* ℂ) :
     0 ≤ φ.normSqAt σ := by
   rw [normSqAt, classSum]
@@ -110,7 +110,7 @@ of a lift from a hermitian space `W` with basis indexed by `r` to the standard s
 indexed by `n`. For `φ ≠ 0` in `O.FormV`, the algebraic forms on `V` of the weight and level of `O`,
 the squared norm `φ.normSqAt σ` is positive at every automorphism `σ` of `ℂ`. -/
 lemma _root_.New.LevelPlaces.LevelForm.normSqAt_pos {E r n : Type} [Field E] [CMType E]
-    [WeilData E] [Fintype r] [DecidableEq r] [Fintype n] [DecidableEq n] {O : DescentPair E r n}
+    [Fintype r] [DecidableEq r] [Fintype n] [DecidableEq n] {O : DescentPair E r n}
     {φ : O.FormV} (hφ : φ ≠ 0) (σ : ℂ ≃+* ℂ) :
     0 < φ.normSqAt σ := by
   obtain ⟨c, hc⟩ : ∃ c : StdClasses (levelOf O.placeAt
@@ -126,7 +126,7 @@ field `E` can be scaled to valuation `0` at a place `ι` (an embedding `ι.ιₚ
 there is `c ≠ 0` such that `c • φ` is integral at `ι`, and `α • c • φ` is integral only if
 `‖ι.ιₚ α‖ ≤ 1`. -/
 lemma _root_.New.DescentPair.exists_smul_mem_integralForms_maximal {E r n : Type} [Field E]
-    [CMType E] [WeilData E] [Fintype r] [DecidableEq r] [Fintype n] [DecidableEq n]
+    [CMType E] [Fintype r] [DecidableEq r] [Fintype n] [DecidableEq n]
     {O : DescentPair E r n} {φ : O.FormV} (hφ : φ ≠ 0) {l : ℕ} [Fact l.Prime] (ι : PadicPlace l) :
     ∃ c : ℂ, c ≠ 0 ∧ c • φ ∈ integralForms ι ∧
       ∀ α : ℂ, α • c • φ ∈ integralForms ι → ‖ι.ιₚ α‖ ≤ 1 := by

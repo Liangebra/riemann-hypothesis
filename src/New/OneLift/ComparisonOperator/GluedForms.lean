@@ -276,6 +276,7 @@ lemma normalizedDescent_classForm_mul [WeilData E]
   congr with x
   exact V.liftFn_datum_point_inv_mul x
 
+omit [DecidableEq n] in
 /-- Let `Y` be invertible modulo `ϖ²` and `1` modulo `ϖ`, let `k = liftMod Y` be its chosen lift to
 an integral unitary point, reduced at a place by `stdLevel.reduceAt`, and let `x` be a matrix modulo
 `ϖ² Q`. Suppose that the rows `S` of `x Y` in `N` satisfy `w S = w ι` modulo `ϖ²`, where

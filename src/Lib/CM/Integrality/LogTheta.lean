@@ -690,7 +690,7 @@ lemma translatedY_add_mem_multiSeriesRing [PrimeSevenModEight d] :
     have h_euler : D (eulerAddition a (x 0) (y 0) (x 1) (y 1) u) = 0 :=
       derivation_eulerAddition D (h_curve 0) (h_curve 1) (by rwa [mul_comm])
         (by simp [D, a, pderiv_C]) hDx₀ hDy₀ hDx₁ hDy₁
-    rw [← Derivation.sub_apply (eulerAddition ..), h_euler]
+    rw [← sub_apply (pderiv 0) (pderiv 1) (eulerAddition ..), h_euler]
     simp [pderiv_subst_linearSeries]
   · -- At `z₀ = 0` both `x₀` and `y₀` vanish.
     have h_kill {g : PowerSeries ℂ_[p]} (hg : g.constantCoeff = 0) :

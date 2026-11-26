@@ -334,13 +334,9 @@ lemma isLinear_and_pairing_eq_of_reduction :
           · ext : 1 <;> simp [CharP.cast_eq_zero])
     have h_frob {x : ThetaObject Y _} (y : T ⟶ x.groupScheme) :
         ringChar k • x.lineBundle.picClass.atPoint y = x.lineBundle.picClass.atPoint (Fr ≫ y) := by
-      have h_lin_sys : x.lineBundle.IsLinearSystem := x.isProjEmbedding.isLinearSystem
-      have h_pull : ringChar k ^ 1 • (x.lineBundle.pull y.left).picClass =
-          ((x.lineBundle.pull y.left).pull (absFrobenius 1 X)).picClass :=
-        picClass_pull_absFrobenius 1 X (h_lin_sys.pull y.left)
-      rw [pow_one] at h_pull
+      have h_pull := picClass_pull_absFrobenius 1 X (x.isProjEmbedding.isLinearSystem.pull y.left)
       -- Both sides are pull-backs of the line bundle of `x`; they match the lemma up to unfolding.
-      exact h_pull
+      rwa [pow_one] at h_pull
     suffices h_mul : ringChar k • x'.lineBundle.picClass.pairing (y ≫ f) (z ≫ f) =
         ringChar k • x.lineBundle.picClass.pairing (a • y) (a • z) by
       simpa [(ThetaObject.hasClassLaws _).1.pairing_nsmul_left, nsmul_comp, comp_nsmul] using h_mul

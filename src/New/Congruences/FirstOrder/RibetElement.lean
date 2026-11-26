@@ -74,7 +74,8 @@ variable {ℓ : ℕ} [ThePrime ℓ] {P : Parameters} {D : Data P}
 /-- A polynomial over the integers of `ℚ̄_ℓ` is defined over every large coefficient ring. -/
 lemma eventually_exists_map_eq (H : (intQpBar ℓ)[X]) : ∀ᶠ O : CoeffRing ℓ in atTop,
     ∃ H' : O[X], H'.map (algebraMap O (PadicAlgCl ℓ)) = H.map (intQpBar ℓ).subtype := by
-  filter_upwards [H.finite_range_coeff.eventually_all.2 fun a _ ↦ eventually_mem a.2] with O hO
+  filter_upwards [(Finsupp.finite_range H.coeff).eventually_all.2 fun a _ ↦ eventually_mem a.2]
+    with O hO
   rw [← mem_lifts, lifts_iff_coeff_lifts]
   exact fun k ↦ ⟨⟨H.coeff k, hO _ ⟨k, rfl⟩⟩, by simp⟩
 

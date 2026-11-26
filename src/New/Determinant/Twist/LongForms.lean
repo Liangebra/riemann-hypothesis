@@ -243,9 +243,8 @@ theorem integral_forms_long_with_completion_cost {n : ℕ} {y : Fin n → D.targ
       fun ι ↦ le_of_eq ?_
     rw [hγ_norm, Pi.pow_apply, inv_pow]
   have h_chain_ratio_height : HeightLe (D.targetDim * (D.b + D.f * D.a * D.logB ^ 4 - D.mainAmount))
-      fun ι : PrimePadicIso ↦ D.targetLattice.volume 1 / D.targetLattice.volume (θ ι) := by
-    simp only [volume_targetLattice]
-    exact heightLe_chainDeterminant_one_div h_small_ratios h_single_lift_heights
+      fun ι : PrimePadicIso ↦ D.targetLattice.volume 1 / D.targetLattice.volume (θ ι) :=
+    heightLe_chainDeterminant_one_div h_small_ratios h_single_lift_heights
   -- Compare the Gram determinants for the local twists with the untwisted determinant.
   -- The product formula gives one inequality, including the cost of the completion.
   have h_product_formula : 0 ≤ c + 2 * δ + n' * (2 * D.x₁ ^ 2 * D.b ^ 2 + D.b) +

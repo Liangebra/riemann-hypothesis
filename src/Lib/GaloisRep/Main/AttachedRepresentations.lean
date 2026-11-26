@@ -236,7 +236,7 @@ lemma GaloisRep.Attached.trace_eq [PadicIso ℓ] {G : Type} [Group G] [Topologic
     (x : H) {y : G} (hxy : j x = j' y) : (ρ x).val.trace = (σ y).val.trace := by
   -- both characteristic polynomials are the limit of `ιℓ (P w)` as the Frobenius tends to `j x`
   have h_char : (ρ x).val.charpoly = (σ y).val.charpoly :=
-    Polynomial.ext fun i ↦ tendsto_nhds_unique (hρ.tendsto_charpoly_coeff x i)
+    AddMonoidAlgebra.ext <| Finsupp.ext fun i ↦ tendsto_nhds_unique (hρ.tendsto_charpoly_coeff x i)
       (by simpa only [hxy] using hσ.tendsto_charpoly_coeff y i)
   simp [h_char, trace_eq_sum_roots_charpoly]
 

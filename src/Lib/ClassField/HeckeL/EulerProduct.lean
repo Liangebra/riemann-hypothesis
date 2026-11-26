@@ -422,7 +422,7 @@ lemma hasSum_eulerProd (χ : Ideal (𝓞 K) →* ℂ) (hχ : ∀ I : Ideal (𝓞
         -- `t` is multiplicative; `v ∣ v * I`, and a prime `w ∈ T` (so `w ≠ v`) divides `v * I`
         -- if and only if it divides `I`.
         have h_t_mul : t (v.asIdeal * I) = t v.asIdeal * t I := by
-          simp only [t, map_mul, Nat.cast_mul, natCast_mul_natCast_cpow]
+          simp only [t, map_mul, Nat.cast_mul, natCast_mul_cpow]
           ring
         have h_cons_zero : sieved (cons v T hv) (v.asIdeal * I) = 0 :=
           ite_eq_right fun h ↦ h v (mem_cons_self v T) (dvd_mul_right v.asIdeal I)

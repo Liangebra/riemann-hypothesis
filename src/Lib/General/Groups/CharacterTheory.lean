@@ -259,7 +259,7 @@ lemma IsChar.exists_classInner_eq (hχ : IsChar χ) (hf : f ∈ virtualChars S G
 omit [Finite G] in
 /-- The pull-back along a homomorphism from a finite group of an `S`-linear combination of
 characters is an `S`-linear combination of characters. -/
-lemma comp_mem_virtualChars (hf : f ∈ virtualChars S G) {H : Type*} [Group H] [Finite H]
+lemma comp_mem_virtualChars (hf : f ∈ virtualChars S G) {H : Type*} [Group H]
     (p : H →* G) : f ∘ p ∈ virtualChars S H :=
   -- precomposition with `p` is linear and maps characters to characters
   mapsTo_span (f := funLeft S ℂ p) (s := {χ | IsChar χ}) (fun _ hχ ↦ IsChar.comp hχ p) hf

@@ -416,7 +416,7 @@ lemma DescentPair.thetaLift_eq_integral [WeilData E]
 /-- Over a finite commutative ring `R`, the number of `n × r` matrices whose square block on the
 rows `ι` is invertible is `card (GL r R) · (card R) ^ ((card n − card r) · card r)`: the block is an
 element of `GL r R`, and the other rows are free. -/
-lemma card_isUnit_submatrix {R : Type} [CommRing R] [Finite R] (ι : r ↪ n) :
+lemma card_isUnit_submatrix {R : Type} [CommRing R] (ι : r ↪ n) :
     Nat.card {x : Matrix n r R // IsUnit (x.submatrix ι id)} =
       Nat.card (GL r R) * Nat.card R ^ ((card n - card r) * card r) := by
   let rows : r ⊕ {a : n // a ∉ Set.range ι} ≃ n :=

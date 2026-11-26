@@ -661,7 +661,7 @@ lemma hasShiftBound_of_torsionAction
       h_ker _ _ (by simp [a, b, sub_sub, add_right_comm, sub_mem])
     refine (mul_le_iSup_of_hasShiftBound hφ hφ h_one).trans_eq' ?_
     simp [a, b, ← map_add, T, φ_def, h_transl, h_pull.sizeAt_add,
-      valuation_eq_one_of_pow_eq_one (orderOf_pos ξ).ne', ← ξ.pow_apply]
+      valuation_eq_one_of_pow_eq_one (orderOf_pos ξ).ne', ← pow_apply ξ]
   have h_card_pos : 0 < v (Nat.card (h.MulKernel c)) := by simp [v.pos_iff]
   -- Take square roots and move the order of the kernel to the left.
   suffices h_main : φ x * v (Nat.card (h.MulKernel c)) ≤ NNReal.sqrt (D * ⨆ z, φ z * φ (z + w)) by

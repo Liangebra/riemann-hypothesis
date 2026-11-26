@@ -99,12 +99,6 @@ lemma exists_mapsTo_ratVectors : ∃ g : G E s, ∀ γ ∈ V.ratVectors, g • �
   rintro γ ⟨y, rfl⟩
   exact ⟨a *ᵥ y, by simp [hx, adeleMatrix, RingHom.map_mulVec, vecAtPoint, comp_def]⟩
 
-/-- Entry `j` of `M *ᵥ (column i of N)` is the entry `(j, i)` of `M * N`. -/
-private lemma _root_.Matrix.mulVec_col_apply_eq_mul_apply {R m n o : Type*} [Fintype n]
-    [NonUnitalNonAssocSemiring R] (M : Matrix m n R) (N : Matrix n o R) (i : o) (j : m) :
-    (M *ᵥ N.col i) j = (M * N) j i :=
-  rfl
-
 /-- The functional `θ_V` does not depend on the group element chosen in its definition: for every
 `g` in the adelic unitary group `G E s` that carries the rational vectors of the sum of lines with
 signs `s` into the rational vectors of `V`, the functional `θ_V ∘ ω(g)` is the fixed theta
@@ -130,7 +124,7 @@ lemma theta_omega_eq_of_mapsTo_ratVectors {g : G E s}
     V.mem_ratVectors_iff.mp (h_maps _ (h_exists.choose_spec _ ⟨Pi.single i 1, rfl⟩))
   have h_entry : ∀ j i : n, (V.x * (g * g₀).adeleMatrix * V.x⁻¹) i j ∈ toAdele.range := by
     simpa [Pi.apply_single fun _ ↦ toAdele (E := E), vecAtPoint, comp_def, mem_ratVectors,
-      Matrix.mulVec_mulVec, ratAdeles, Matrix.mulVec_col_apply_eq_mul_apply] using h_rat
+      Matrix.mulVec_mulVec, ratAdeles, ← Matrix.col_mul_eq_mulVec_col, Matrix.mul_assoc] using h_rat
   obtain ⟨γ, hγ⟩ : g * g₀ ∈ V.Γ := V.mem_Gamma_iff_range.mpr fun i j ↦ h_entry j i
   rw [← theta_omega_ratEmbed γ⁻¹, h_def, rep_apply_apply, rep_apply_apply]
   simp [hγ]

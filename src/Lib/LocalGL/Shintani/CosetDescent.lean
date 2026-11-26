@@ -479,7 +479,7 @@ omit [Finite k] in
 homomorphism. Then there is a function ϑ on Sˣ ⋊ Gal(k'/k) such that (a) ϑ is a character, (b)
 ϑ(s) = ∏_τ ν(α(τ) s₁), with s₁ the component of s in Sˣ, and (c) for σ with fixed field k,
 ϑ(s) = ν(γ) whenever s lies over σ and s^{ord σ} = γ. -/
-lemma exists_norm_char_semidirect {S : Type*} [Monoid S] [Finite S] (α : Gal(k'/k) →* MulAut Sˣ)
+lemma exists_norm_char_semidirect {S : Type*} [Monoid S] (α : Gal(k'/k) →* MulAut Sˣ)
     (ν : S →* ℂ) :
     ∃ ϑ : Sˣ ⋊[α] Gal(k'/k) → ℂ,
       -- (a) `ϑ` is a character

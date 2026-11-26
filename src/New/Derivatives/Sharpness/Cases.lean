@@ -301,9 +301,9 @@ lemma le_two_mul_b (D : Data P) {l : D.Φ × Unit →₀ ℕ} (hl : D.IsNearWeig
     (place : D.Φ × Unit) : l place ≤ 2 * D.b :=
   (hl.le_weight_add place.1).trans (D.weight_add_x_pow_le_two_mul_b place.1)
 
-/-- Let `p` be a prime with `D.k < p`, and let the degree `l` be near the weights. Then at each
+/-- Let `D.k < p`, and let the degree `l` be near the weights. Then at each
 place `τ` the number `⌊(l_τ - n♯)₊ / p⌋` is at most `n♯ = D.lossFactorCount = ⌈6 * D.b / D.k⌉`. -/
-lemma div_le_lossFactorCount (D : Data P) {p : ℕ} [Fact p.Prime] {l : D.Φ × Unit →₀ ℕ}
+lemma div_le_lossFactorCount (D : Data P) {p : ℕ} {l : D.Φ × Unit →₀ ℕ}
     (hl : D.IsNearWeights l) (hk : D.k < p) (place : D.Φ × Unit) :
     (l place - D.lossFactorCount) / p ≤ D.lossFactorCount := by
   have hk_pos : (0 : ℝ) < D.k := mod_cast D.k_pos

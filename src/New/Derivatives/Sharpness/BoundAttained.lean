@@ -426,7 +426,8 @@ theorem exists_rpow_neg_localPrimeSumTotal_le_norm_coeff {P : Parameters} (D : D
   have h_normVac : 0 < ‖(ιₚ scaledVac : ℂ_[p])‖ := by simp [h_scaledVac, NeZero.ne D.M, hy]
   have h_factor :
       intFactor * c₀ = scaledVac * (∏ τ : D.Φ, D.lossProduct (ν (τ, ())) : ℕ) ^ 2 := by
-    simp [h_scaledVac, intFactor, Finset.prod_pow, mul_right_comm]
+    push_cast [h_scaledVac, intFactor, Finset.prod_pow]
+    ring
   have h_normLoss : ‖(ιₚ (∏ τ : D.Φ, D.lossProduct (ν (τ, ())) : ℕ) : ℂ_[p])‖ = p ^ (-valLoss) :=
     norm_natCast_prod_eq_rpow_neg_sum fun τ ↦ D.lossProduct_ne_zero _
   have h_normFactorial : ‖(ιₚ (∏ τ : D.Φ, (ν (τ, ()))! : ℕ) : ℂ_[p])‖ = p ^ (-valFactorial) :=
