@@ -407,7 +407,8 @@ lemma volume_real_inter_degreeSlab_eq_signed_sum {v : Fin (m + 1) → Bool} (hP 
       MeasurableSet (positiveStepSet v P D 1 τ Ω) := by
     simp only [positiveStepSet, hΩ, pieriCone, mem_ofPred_eq, measurableSet_setOfPred, Set.mem_Icc]
     fun_prop
-  have h_integrated_count : ∑ τ : Fin (m + 1) → Perm (Fin k), volume.real (positiveStepSet v P D 1 τ Ω) =
+  have h_integrated_count :
+      ∑ τ : Fin (m + 1) → Perm (Fin k), volume.real (positiveStepSet v P D 1 τ Ω) =
       ∑ σ : Fin (m + 1) → Perm (Fin k),
         volume.real (positiveStepSet v P D σ 1 univ) * sign (ofFn σ).prod := by
     have h_count : ∫ ν, ∑ τ, (positiveStepSet v P D 1 τ Ω).indicator (fun _ ↦ (1 : ℝ)) ν =
@@ -416,15 +417,18 @@ lemma volume_real_inter_degreeSlab_eq_signed_sum {v : Fin (m + 1) → Bool} (hP 
       simp_rw [sum_indicator_positiveStepSet P (zero_le_one.trans hP.le) D hΩ]
     rw [integral_finsetSum, integral_finsetSum] at h_count
     · simpa [h_meas_univ, h_meas_Ω] using h_count
-    · exact fun σ _ ↦ (integrableOn_const (h_finite_volume σ 1 univ)).integrable_indicator (h_meas_univ σ)
+    · exact fun σ _ ↦
+        (integrableOn_const (h_finite_volume σ 1 univ)).integrable_indicator (h_meas_univ σ)
     · exact fun τ _ ↦ (integrableOn_const (h_finite_volume 1 τ Ω)).integrable_indicator (h_meas_Ω τ)
   -- The product of the cyclic permutations is the only permutation dependence of the Jacobian.
   -- Group by this product: every product has `k ! ^ m` representatives, instead of `k ! ^ (m+1)`
   -- unrestricted families on the left.
-  have h_grouped_count : (k.factorial : ℝ) ^ (m + 1) * ((|c| * Δ 1)⁻¹ * volume.real (Ω ∩ degreeSlab k D)) =
+  have h_grouped_count :
+      (k.factorial : ℝ) ^ (m + 1) * ((|c| * Δ 1)⁻¹ * volume.real (Ω ∩ degreeSlab k D)) =
       k.factorial ^ m * ∑ τ : Perm (Fin k),
         (|c| * Δ τ)⁻¹ * volume.real (degreeSlab k D) * sign τ := by
-    simpa [← sum_comp_prod_ofFn, h_preimage_volume, card_perm, Set.univ_inter] using h_integrated_count
+    simpa [← sum_comp_prod_ofFn, h_preimage_volume, card_perm, Set.univ_inter] using
+      h_integrated_count
   have h_common_factor : ∑ τ : Perm (Fin k), (|c| * Δ τ)⁻¹ * volume.real (degreeSlab k D) * sign τ =
       |c|⁻¹ * (∑ τ : Perm (Fin k), τ.sign / Δ τ) * volume.real (degreeSlab k D) := by
     rw [mul_sum, sum_mul]
@@ -543,7 +547,8 @@ theorem prod_mul_volume_real_inter_degreeSlab {k N : ℕ} [NeZero N] {v : ZMod N
   have h_share_formula : (∏ l : Fin k, (q ^ (l.val + 1) - 1) / (q - 1))⁻¹ = c :=
     mul_right_cancel₀ (volume_real_degreeSlab_one_pos k).ne'
       ((volume_real_pieriCone_inter_degreeSlab_one k hq).symm.trans h_one_letter_share)
-  rw [h_universal_share, ← h_share_formula, mul_inv_cancel_left₀ (prod_pos fun l _ ↦ by simp [one_lt_pow₀, hq]).ne']
+  rw [h_universal_share, ← h_share_formula,
+    mul_inv_cancel_left₀ (prod_pos fun l _ ↦ by simp [one_lt_pow₀, hq]).ne']
 
 end InterlacingCone
 
