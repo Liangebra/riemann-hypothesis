@@ -16,6 +16,13 @@ map `𝔭` from the source to the target and prove Theorems A and B: the source 
 forms `φ` whose images `s 𝔭 φ` have short lifts `Θ₁ s 𝔭 φ`, these images have small index, and the
 images of few translates span almost all of the target.
 
+For A, `New.UpperBound.Seesaw.SeesawIdentity` identifies the lift of a Poincaré image with the
+composite lift on the source; `New.UpperBound.Divisibility.LocalDivisibility` and
+`New.UpperBound.Size.ArchimedeanSize` supply its finite and infinite place bounds. The rational
+factor `invGainFactor` trades divisibility for archimedean size. For B, the near-isometry and
+second moment in `New.Spanning.SecondMoment.SpanningTheorem` give the translates; here we pass
+from all source forms to ramified source forms.
+
 Notions from other files:
 * `D.poincare` is the Poincaré map `𝒫` from source forms to the forms on `Y₀`, without the factor
   `poincareScale`, which the number `c_ss` (`D.seesawConst`, entering as its inverse in
@@ -204,23 +211,24 @@ theorem span_short_integralRamified_eq_top :
       IsChainDatum (1 : D.MFoldTwist).toTwist Ψ ∧ ∀ φ : D.ramifiedSourceForms,
         D.lowerChain .one (D.poincare (D.scaledInclusion φ)) = compositeLift .one Ψ φ :=
     D.exists_lowerChain_poincare_eq 1
-  set β : ℝ := D.mainAmount - D.m * D.totalRemainder +
-    2 * ∑ l ∈ D.smallNonsplitPrimes, D.gain l * log l + D.errorUnit with β_def
+  set chainLogBound : ℝ := D.mainAmount - D.m * D.totalRemainder +
+    2 * ∑ l ∈ D.smallNonsplitPrimes, D.gain l * log l + D.errorUnit with chainLogBound_def
   -- The values of `ι₁ z = B₁ φ`, for `z = c_ss⁻¹ 𝒫 φ`, are bounded by the sizes of `φ` and the
   -- chain.
-  have h_chain (g : Gf D.E (D.Y D.m)) :
+  have h_composite_size (g : Gf D.E (D.Y D.m)) :
       weylNormSq (σ ∘ (D.lowerChain .one (D.poincare (D.scaledInclusion φ))).val g) ≤
-        exp (D.errorUnit + β) := by
+        exp (D.errorUnit + chainLogBound) := by
     rw [h_seesaw φ]
     exact weylNormSq_compositeLift_le hΨ (h_size σ) g
   -- The passage from `z` to the target form `y = #Ḡ · e₀ s z` adds `x ^ 99`.
-  have h_target :
-      (D.Θ 1 (D.projectedPoincare s φ)).normSqAt σ ≤ exp (D.x ^ 99 + (D.errorUnit + β)) :=
-    normSqAt_goodProjTranslate_le h_chain
-  have h_error : D.x ^ 99 + 4 * D.errorUnit + 2 * D.b ≤ D.f * D.a * D.logB ^ 4 :=
+  have h_projected_size :
+      (D.Θ 1 (D.projectedPoincare s φ)).normSqAt σ ≤ exp (D.x ^ 99 + (D.errorUnit + chainLogBound)) :=
+    normSqAt_goodProjTranslate_le h_composite_size
+  have h_error_budget : D.x ^ 99 + 4 * D.errorUnit + 2 * D.b ≤ D.f * D.a * D.logB ^ 4 :=
     D.le_of_hasLogBound
-  -- The positive rational number `c_B` adds `2 log c_B`, and the gains cancel.
-  grw [D.normSqAt_normalizedPoincare, h_target, ← exp_add, exp_le_exp, β_def]
+  -- The rational normalization adds `2 log c_B` to the log squared norm, cancelling the
+  -- finite-place gains. The rounding and allowed local losses enter the error budget.
+  grw [D.normSqAt_normalizedPoincare, h_projected_size, ← exp_add, exp_le_exp, chainLogBound_def]
   linarith [D.log_invGainFactor_le]
 
 /-- The ramified source forms `D.ramifiedSourceForms` have at least half the dimension over `ℂ` of
