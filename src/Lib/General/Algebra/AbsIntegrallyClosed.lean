@@ -1,7 +1,7 @@
 module
 
 import Mathlib.Algebra.Polynomial.Degree.IsMonicOfDegree
-import TauCeti.RingTheory.IntegralClosure.AbsolutelyIntegrallyClosed
+public import TauCeti.RingTheory.IntegralClosure.AbsolutelyIntegrallyClosed
 public import Lib.Speed
 
 /-!
@@ -40,25 +40,18 @@ def frobPow {p : ℕ} {B : Type*} [Fact (Nat.Prime p)] [CommRing B] (h : (p : B)
 /-- `A` is absolutely integrally closed: every monic polynomial over `A` of positive degree has a
 root in `A`. -/
 @[stacks 0DCL "in the equivalent form of 0DCM (2)"]
-class IsAbsIntegrallyClosed (A : Type*) [CommRing A] : Prop where
-  /-- Every monic polynomial over `A` of positive degree has a root in `A`. -/
-  exists_root (P : A[X]) : Monic P → 0 < P.natDegree → ∃ x : A, P.IsRoot x
+abbrev IsAbsIntegrallyClosed (A : Type*) [CommRing A] : Prop :=
+  TauCeti.IsAbsolutelyIntegrallyClosed A
 
 variable {A B K : Type*} [CommRing A] [CommRing B] [Field K]
 
-private theorem isAbsIntegrallyClosed_iff_tauCeti :
-    IsAbsIntegrallyClosed A ↔ TauCeti.IsAbsolutelyIntegrallyClosed A :=
-  ⟨fun h ↦ ⟨h.exists_root⟩, fun h ↦ ⟨h.exists_root⟩⟩
-
-/-- An algebraically closed field is absolutely integrally closed. -/
-instance [IsAlgClosed K] : IsAbsIntegrallyClosed K :=
-  isAbsIntegrallyClosed_iff_tauCeti.mpr inferInstance
-
 namespace IsAbsIntegrallyClosed
+
+export TauCeti.IsAbsolutelyIntegrallyClosed (exists_root)
 
 /-- A field that is absolutely integrally closed is algebraically closed. -/
 lemma isAlgClosed (hK : IsAbsIntegrallyClosed K) : IsAlgClosed K :=
-  TauCeti.isAbsolutelyIntegrallyClosed_iff_isAlgClosed.mp (isAbsIntegrallyClosed_iff_tauCeti.mp hK)
+  TauCeti.isAbsolutelyIntegrallyClosed_iff_isAlgClosed.mp hK
 
 /-- If `A` is absolutely integrally closed and `f : B →+* A` is a ring map, then every monic
 polynomial over `B` of positive degree has a root in `A` along `f`. -/
@@ -93,9 +86,8 @@ lemma exists_root_of_coeffs_subset_range [hA : IsAbsIntegrallyClosed A] {f : A �
 
 /-- In an absolutely integrally closed ring, every element has an `n`-th root for `n ≠ 0`. -/
 lemma exists_pow_eq [hA : IsAbsIntegrallyClosed A] (n : ℕ) [hn : NeZero n] (a : A) :
-    ∃ x : A, x ^ n = a := by
-  let := isAbsIntegrallyClosed_iff_tauCeti.mp hA
-  exact TauCeti.IsAbsolutelyIntegrallyClosed.exists_pow_nat_eq a hn.pos
+    ∃ x : A, x ^ n = a :=
+  TauCeti.IsAbsolutelyIntegrallyClosed.exists_pow_nat_eq a hn.pos
 
 /-- In a nonzero absolutely integrally closed ring `A`, for `n > 1` and any `c`, `b` in `A`, the
 equation `x ^ n - c * x = b` has a solution `x` in `A`. -/
@@ -113,16 +105,14 @@ absolutely integrally closed. -/
 @[stacks 0DCN "first assertion"]
 lemma of_surjective [hA : IsAbsIntegrallyClosed A] {f : A →+* B} (hf : Function.Surjective f) :
     IsAbsIntegrallyClosed B :=
-  ⟨fun _ ↦ hA.exists_root_of_coeffs_subset_range fun b _ ↦ hf b⟩
+  TauCeti.IsAbsolutelyIntegrallyClosed.of_surjective f hf
 
 /-- A localization `B` of an absolutely integrally closed ring `A` at a submonoid is absolutely
 integrally closed. -/
 @[stacks 0DCN "second assertion"]
 lemma of_isLocalization [hA : IsAbsIntegrallyClosed A] (S : Submonoid A) [Algebra A B]
-    [IsLocalization S B] : IsAbsIntegrallyClosed B := by
-  let := isAbsIntegrallyClosed_iff_tauCeti.mp hA
-  exact isAbsIntegrallyClosed_iff_tauCeti.mpr
-    (TauCeti.IsAbsolutelyIntegrallyClosed.of_isLocalization S)
+    [IsLocalization S B] : IsAbsIntegrallyClosed B :=
+  TauCeti.IsAbsolutelyIntegrallyClosed.of_isLocalization S
 
 /-! ### Maps to a domain -/
 
@@ -131,7 +121,6 @@ polynomial over `A`. Every root `x` in `B` of the image of `P` is `f a` for some
 in `A`. -/
 lemma exists_root_map_eq [hA : IsAbsIntegrallyClosed A] {f : A →+* B} [IsDomain B] {x : B}
     {P : A[X]} (hP : Monic P) (hx : P.eval₂ f x = 0) : ∃ a : A, P.IsRoot a ∧ f a = x := by
-  let := isAbsIntegrallyClosed_iff_tauCeti.mp hA
   obtain ⟨s, hs⟩ := splits_iff_exists_multiset.mp (TauCeti.IsAbsolutelyIntegrallyClosed.splits hP)
   rw [hP.leadingCoeff, C_1, one_mul] at hs
   -- The product of the images of the linear factors vanishes in the domain `B`.
