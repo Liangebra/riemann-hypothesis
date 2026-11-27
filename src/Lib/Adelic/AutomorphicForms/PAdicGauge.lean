@@ -73,10 +73,6 @@ namespace New
 open NormedField Space IsUltrametricDist Matrix Function
 open NumberField (InfinitePlace)
 
-/-- The conjugate of a p-adic place of ℂ: precompose its embedding with complex conjugation. -/
-abbrev _root_.PadicPlace.conj {l : ℕ} [Fact l.Prime] (j : PadicPlace l) : PadicPlace l :=
-  ⟨j.ιₚ.comp (starRingEnd ℂ)⟩
-
 variable {E n : Type} [Field E] [CMType E] [Fintype n] [DecidableEq n]
   {κ : InfinitePlace E → ℕ → ℕ} {e : InfinitePlace E → ℤ} {p : ℕ} [Fact p.Prime]
   (g d : Gf E n) {k : Gf E n}
