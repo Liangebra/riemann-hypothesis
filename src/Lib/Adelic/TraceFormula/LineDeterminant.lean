@@ -189,11 +189,14 @@ lemma det_one_add_smul_of_isIdempotentElem {K V : Type*} [Field K] [AddCommGroup
     [Module K V] [Module.Finite K V] {e : End K V} (he : IsIdempotentElem e) (c : K) :
     (1 + c • e).det = (1 + c) ^ finrank K (range e) := by
   -- Factor e through its range and use the Weinstein–Aronszajn identity.
-  have h : e.rangeRestrict ∘ₗ (range e).subtype = (1 : End K (range e)) := by
-    ext x
-    exact he.mem_range_iff.1 x.property
-  rw [← LinearMap.subtype_comp_rangeRestrict e, ← smul_comp,
-    LinearMap.det_one_add_comp_comm, comp_smul, h, ← add_smul, det_smul, det_one, mul_one]
+  have h : e.rangeRestrict ∘ₗ (range e).subtype = (1 : End K (range e)) :=
+    LinearMap.ext fun x ↦ Subtype.ext (he.mem_range_iff.1 x.property)
+  calc
+    _ = (1 + (c • (range e).subtype) ∘ₗ e.rangeRestrict).det := by
+      rw [smul_comp, LinearMap.subtype_comp_rangeRestrict]
+    _ = _ := by
+      rw [LinearMap.det_one_add_comp_comm, comp_smul, h]
+      simpa [add_smul, det_smul] using (det_smul (1 + c) (1 : End K (range e)))
 
 end GenEigenspace
 
