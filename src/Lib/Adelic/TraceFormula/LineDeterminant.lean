@@ -98,14 +98,14 @@ lemma trace_pow_mul_eq_sum (h : Commute A T) {S : Finset ℂ}
     _ = ∑ μ ∈ S, μ ^ l * trace ℂ (A.maxGenEigenspace μ) (restrictGenEigenspace h μ) :=
       Finset.sum_congr rfl fun μ _ ↦ trace_restrictGenEigenspace_pow_mul h μ l
 
-/-- The sequences `l ↦ μ ^ l`, `μ : ℂ`, are linearly independent: two combinations of them that
+/-- The sequences `l ↦ μ ^ l`, `μ : K`, are linearly independent: two combinations of them that
 agree for all `l` have the same coefficients. -/
-lemma eq_of_sum_pow_mul_eq {S : Finset ℂ} {a a' : ℂ → ℂ}
-    (h_sum : ∀ l : ℕ, ∑ μ ∈ S, μ ^ l * a μ = ∑ μ ∈ S, μ ^ l * a' μ) {μ : ℂ} (hμ : μ ∈ S) :
+lemma eq_of_sum_pow_mul_eq {K : Type*} [Field K] {S : Finset K} {a a' : K → K}
+    (h_sum : ∀ l : ℕ, ∑ μ ∈ S, μ ^ l * a μ = ∑ μ ∈ S, μ ^ l * a' μ) {μ : K} (hμ : μ ∈ S) :
     a μ = a' μ := by
-  have h_indep : LinearIndependent ℂ fun μ : ℂ ↦ ⇑(powersHom ℂ μ) :=
-    (linearIndependent_monoidHom (Multiplicative ℕ) ℂ).comp _ (powersHom ℂ).injective
-  have h_fun : ∑ ν ∈ S, a ν • ⇑(powersHom ℂ ν) = ∑ ν ∈ S, a' ν • ⇑(powersHom ℂ ν) := by
+  have h_indep : LinearIndependent K fun μ : K ↦ ⇑(powersHom K μ) :=
+    (linearIndependent_monoidHom (Multiplicative ℕ) K).comp _ (powersHom K).injective
+  have h_fun : ∑ ν ∈ S, a ν • ⇑(powersHom K ν) = ∑ ν ∈ S, a' ν • ⇑(powersHom K ν) := by
     funext l
     simpa [mul_comm] using h_sum l.toAdd
   exact linearIndependent_iff'ₛ.1 h_indep S a a' h_fun μ hμ
@@ -184,10 +184,11 @@ lemma charpoly_eq_of_trace_pow_succ_eq (h_det : T.det ≠ 0) (h_det' : T'.det �
   exact trace_restrictGenEigenspace_eq_of_ne_zero _ _ (fun l ↦ by simp only [mul_one, h_trace]) hμ
 
 /-- For an idempotent `e`, the determinant of `1 + c e` is `(1 + c) ^ rank e`. -/
-lemma det_one_add_smul_of_isIdempotentElem {e : End ℂ B} (he : IsIdempotentElem e) (c : ℂ) :
-    (1 + c • e).det = (1 + c) ^ finrank ℂ (range e) := by
+lemma det_one_add_smul_of_isIdempotentElem {K V : Type*} [Field K] [AddCommGroup V]
+    [Module K V] [Module.Finite K V] {e : End K V} (he : IsIdempotentElem e) (c : K) :
+    (1 + c • e).det = (1 + c) ^ finrank K (range e) := by
   -- The operator is `1 + c` on the range of `e` and induces the identity on the quotient.
-  have h_range (x : B) (hx : x ∈ range e) : (1 + c • e) x = (1 + c) • x := by
+  have h_range (x : V) (hx : x ∈ range e) : (1 + c • e) x = (1 + c) • x := by
     simp [he.mem_range_iff.1 hx, add_smul]
   have h_stable (x : B) (hx : x ∈ range e) : (1 + c • e) x ∈ range e := by
     simpa only [h_range x hx] using Submodule.smul_mem _ (1 + c) hx
