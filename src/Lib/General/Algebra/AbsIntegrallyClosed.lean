@@ -59,7 +59,8 @@ lemma exists_eval₂_eq_zero [hA : IsAbsIntegrallyClosed A] (f : B →+* A) {P :
     (h_deg : 0 < P.natDegree) : ∃ x : A, P.eval₂ f x = 0 := by
   nontriviality A
   simpa [eval_map] using
-    TauCeti.IsAbsolutelyIntegrallyClosed.exists_root (P.map f) (hP.map f) (by rwa [hP.natDegree_map f])
+    TauCeti.IsAbsolutelyIntegrallyClosed.exists_root (P.map f) (hP.map f)
+      (by rwa [hP.natDegree_map f])
 
 variable (A) in
 /-- If `A` is absolutely integrally closed and `B` is integrally closed in the `B`-algebra `A`
