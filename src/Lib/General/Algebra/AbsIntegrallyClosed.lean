@@ -58,7 +58,7 @@ polynomial over `B` of positive degree has a root in `A` along `f`. -/
 lemma exists_eval₂_eq_zero [hA : IsAbsIntegrallyClosed A] (f : B →+* A) {P : B[X]} (hP : Monic P)
     (h_deg : 0 < P.natDegree) : ∃ x : A, P.eval₂ f x = 0 := by
   nontriviality A
-  simpa [eval_map] using hA.exists_root (P.map f) (hP.map f) (by rwa [hP.natDegree_map f])
+  simpa [eval_map] using TauCeti.IsAbsolutelyIntegrallyClosed.exists_root (P.map f) (hP.map f) (by rwa [hP.natDegree_map f])
 
 variable (A) in
 /-- If `A` is absolutely integrally closed and `B` is integrally closed in the `B`-algebra `A`
@@ -81,7 +81,7 @@ lemma exists_root_of_coeffs_subset_range [hA : IsAbsIntegrallyClosed A] {f : A �
   -- `P` is the image of a monic `Q` of the same degree, and `f` maps a root of `Q` to one of `P`.
   obtain ⟨Q, rfl, hQ_deg, hQ⟩ :=
     lifts_and_natDegree_eq_and_monic ((lifts_iff_coeffs_subset_range P).2 h_coeffs) hP
-  obtain ⟨x, hx⟩ := hA.exists_root Q hQ (by lia)
+  obtain ⟨x, hx⟩ := TauCeti.IsAbsolutelyIntegrallyClosed.exists_root Q hQ (by lia)
   exact ⟨f x, hx.map f⟩
 
 /-- In an absolutely integrally closed ring, every element has an `n`-th root for `n ≠ 0`. -/
@@ -98,7 +98,7 @@ lemma exists_pow_sub_mul_eq [hA : IsAbsIntegrallyClosed A] [Nontrivial A] (n : �
   have hP : P.IsMonicOfDegree n :=
     (isMonicOfDegree_X_pow A n).sub (natDegree_linear_le.trans_lt hn.out)
   have h_deg : 0 < P.natDegree := (zero_lt_one.trans hn.out).trans_eq hP.natDegree_eq.symm
-  simpa [P, ← sub_sub, sub_eq_zero] using hA.exists_root P hP.monic h_deg
+  simpa [P, ← sub_sub, sub_eq_zero] using TauCeti.IsAbsolutelyIntegrallyClosed.exists_root P hP.monic h_deg
 
 /-- If `A` is absolutely integrally closed and `f : A →+* B` is a surjective ring map, then `B` is
 absolutely integrally closed. -/
