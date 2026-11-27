@@ -193,11 +193,11 @@ lemma det_one_add_smul_of_isIdempotentElem {K V : Type*} [Field K] [AddCommGroup
     LinearMap.ext fun x ↦ Subtype.ext (he.mem_range_iff.1 x.property)
   calc
     _ = (1 + (c • (range e).subtype) ∘ₗ e.rangeRestrict).det := by
-      rw [smul_comp, LinearMap.subtype_comp_rangeRestrict]
+      rw [LinearMap.smul_comp, LinearMap.subtype_comp_rangeRestrict]
     _ = _ := by
       rw [LinearMap.det_one_add_comp_comm, comp_smul, h]
       rw [show (1 : End K (range e)) + c • 1 = (1 + c) • 1 by simp [add_smul],
-        det_smul, det_one, mul_one]
+        LinearMap.det_smul, map_one, mul_one]
 
 end GenEigenspace
 
