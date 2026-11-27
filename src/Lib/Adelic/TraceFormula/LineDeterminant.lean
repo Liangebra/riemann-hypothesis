@@ -190,7 +190,7 @@ lemma det_one_add_smul_of_isIdempotentElem {K V : Type*} [Field K] [AddCommGroup
   -- The operator is `1 + c` on the range of `e` and induces the identity on the quotient.
   have h_range (x : V) (hx : x ∈ range e) : (1 + c • e) x = (1 + c) • x := by
     simp [he.mem_range_iff.1 hx, add_smul]
-  have h_stable (x : B) (hx : x ∈ range e) : (1 + c • e) x ∈ range e := by
+  have h_stable (x : V) (hx : x ∈ range e) : (1 + c • e) x ∈ range e := by
     simpa only [h_range x hx] using Submodule.smul_mem _ (1 + c) hx
   have h_restrict : (1 + c • e).restrict h_stable = (1 + c) • 1 := by
     ext x
